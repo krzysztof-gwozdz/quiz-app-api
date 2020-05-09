@@ -22,6 +22,7 @@ namespace QuizApp
 			services.AddControllers();
 
 			services.AddTransient<IQuestionSetService, FakeQuestionSetService>();
+			services.AddTransient<IQuizService, FakeQuizService>();
 
 			services.AddSwaggerGen(c =>
 			{
