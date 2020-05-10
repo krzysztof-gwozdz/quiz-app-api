@@ -1,0 +1,1 @@
+dotnet run --configuration Release --project .\QuizApp\QuizApp.csproj
