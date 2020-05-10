@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using QuizApp.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace QuizApp
 {
@@ -37,6 +40,8 @@ namespace QuizApp
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.Use(async (context, next) => await RedirectToswagger(context, next));
+
 			app.UseSwagger();
 
 			app.UseSwaggerUI(c =>
@@ -54,6 +59,16 @@ namespace QuizApp
 			{
 				endpoints.MapControllers();
 			});
+
+
+		}
+
+		private async Task RedirectToswagger(HttpContext context, Func<Task> next)
+		{
+			var url = context.Request.Path.Value;
+			if (url == "/")
+				context.Request.Path = "/swagger";
+			await next();
 		}
 	}
 }
