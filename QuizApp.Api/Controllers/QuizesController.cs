@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QuizApp.Dtos;
-using QuizApp.Services;
+using QuizApp.Api.Dtos;
+using QuizApp.Api.Services;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
-namespace QuizApp.Controllers
+namespace QuizApp.Api.Controllers
 {
 	[ApiController]
 	[Route("quizes")]
@@ -17,25 +18,29 @@ namespace QuizApp.Controllers
 			_quizService = quizService;
 		}
 
-		[HttpGet("{id:guid}", Name = nameof(Get))]
+		[HttpGet("{id:guid}")]
+		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Quiz))]
 		public async Task<ActionResult<Quiz>> Get(Guid id)
 		{
 			return Ok(await _quizService.Get(id));
 		}
 
 		[HttpGet("{id:guid}/summary")]
+		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuizSummary))]
 		public async Task<ActionResult<QuizSummary>> GetSummary(Guid id)
 		{
 			return Ok(await _quizService.GetSummary(id));
 		}
 
 		[HttpPost("")]
+		[ProducesResponseType((int)HttpStatusCode.Created, Type = typeof(Guid))]
 		public async Task<ActionResult<Guid>> Generate(QuizParameters quizParameters)
 		{
-			return CreatedAtAction(nameof(Get), new { id = await _quizService.Generate(quizParameters) }, null);
+			return Created((await _quizService.Generate(quizParameters)).ToString(), null);
 		}
 
 		[HttpPut("")]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
 		public async Task<ActionResult> Solve(SolvedQuiz solvedQuiz)
 		{
 			await _quizService.Solve(solvedQuiz);

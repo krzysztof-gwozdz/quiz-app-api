@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuizApp.Dtos
+namespace QuizApp.Api.Dtos
 {
 	public class PlayerAnswer
 	{

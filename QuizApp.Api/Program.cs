@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace QuizApp
+namespace QuizApp.Api
 {
 	public class Program
 	{

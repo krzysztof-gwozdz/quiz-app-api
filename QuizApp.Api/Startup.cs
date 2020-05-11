@@ -5,11 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using QuizApp.Services;
+using QuizApp.Api.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace QuizApp
+namespace QuizApp.Api
 {
 	public class Startup
 	{

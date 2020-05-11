@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QuizApp.Dtos;
-using QuizApp.Services;
+using QuizApp.Api.Dtos;
+using QuizApp.Api.Services;
 
-namespace QuizApp.Controllers
+namespace QuizApp.Api.Controllers
 {
 	[ApiController]
 	[Route("question-sets")]

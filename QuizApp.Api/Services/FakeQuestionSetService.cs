@@ -1,9 +1,9 @@
-﻿using QuizApp.Dtos;
+﻿using QuizApp.Api.Dtos;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuizApp.Services
+namespace QuizApp.Api.Services
 {
 	public class FakeQuestionSetService : IQuestionSetService
 	{
