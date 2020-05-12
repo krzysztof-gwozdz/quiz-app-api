@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
 {
-	public interface IQuestionSetService
+	public interface IQuestionSetsService
 	{
-		Task<QuestionSetsDto> GetCollection();
-		Task<QuestionSetDto> Get(Guid id);
+		Task<QuestionSetDto> GetAsync(Guid id);
+		Task<QuestionSetsDto> GetCollectionAsync();
 	}
 }

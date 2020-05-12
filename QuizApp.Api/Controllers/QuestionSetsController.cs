@@ -10,9 +10,9 @@ namespace QuizApp.Api.Controllers
 	[Route("question-sets")]
 	public class QuestionSetsController : ControllerBase
 	{
-		private IQuestionSetService _questionSetService;
+		private IQuestionSetsService _questionSetService;
 
-		public QuestionSetsController(IQuestionSetService questionSetService)
+		public QuestionSetsController(IQuestionSetsService questionSetService)
 		{
 			_questionSetService = questionSetService;
 		}
@@ -20,13 +20,13 @@ namespace QuizApp.Api.Controllers
 		[HttpGet("")]
 		public async Task<ActionResult<QuestionSetsDto>> Get()
 		{
-			return Ok(await _questionSetService.GetCollection());
+			return Ok(await _questionSetService.GetCollectionAsync());
 		}
 
 		[HttpGet("{id:guid}")]
 		public async Task<ActionResult<QuestionSetDto>> Get(Guid id)
 		{
-			return Ok(await _questionSetService.Get(id));
+			return Ok(await _questionSetService.GetAsync(id));
 		}
 	}
 }

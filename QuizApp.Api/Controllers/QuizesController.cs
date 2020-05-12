@@ -11,9 +11,9 @@ namespace QuizApp.Api.Controllers
 	[Route("quizes")]
 	public class QuizesController : ControllerBase
 	{
-		private IQuizService _quizService;
+		private IQuizesService _quizService;
 
-		public QuizesController(IQuizService quizService)
+		public QuizesController(IQuizesService quizService)
 		{
 			_quizService = quizService;
 		}
@@ -22,28 +22,28 @@ namespace QuizApp.Api.Controllers
 		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuizDto))]
 		public async Task<ActionResult<QuizDto>> Get(Guid id)
 		{
-			return Ok(await _quizService.Get(id));
+			return Ok(await _quizService.GetAsync(id));
 		}
 
 		[HttpGet("{id:guid}/summary")]
 		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuizSummaryDto))]
 		public async Task<ActionResult<QuizSummaryDto>> GetSummary(Guid id)
 		{
-			return Ok(await _quizService.GetSummary(id));
+			return Ok(await _quizService.GetSummaryAsync(id));
 		}
 
 		[HttpPost("")]
 		[ProducesResponseType((int)HttpStatusCode.Created, Type = typeof(Guid))]
 		public async Task<ActionResult<Guid>> Generate(QuizParametersDto quizParameters)
 		{
-			return Created((await _quizService.Generate(quizParameters)).ToString(), null);
+			return Created((await _quizService.GenerateAsync(quizParameters)).ToString(), null);
 		}
 
 		[HttpPut("")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
 		public async Task<ActionResult> Solve(SolvedQuizDto solvedQuiz)
 		{
-			await _quizService.Solve(solvedQuiz);
+			await _quizService.SolveAsync(solvedQuiz);
 			return Ok();
 		}
 	}

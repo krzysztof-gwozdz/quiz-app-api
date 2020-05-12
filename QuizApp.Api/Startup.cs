@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using QuizApp.Application.Services;
+using QuizApp.Core.Repositories;
+using QuizApp.Infrastructure.Repositories;
 using System;
 using System.Threading.Tasks;
 
@@ -24,8 +26,11 @@ namespace QuizApp.Api
 		{
 			services.AddControllers();
 
-			services.AddTransient<IQuestionSetService, FakeQuestionSetService>();
-			services.AddTransient<IQuizService, FakeQuizService>();
+			services.AddTransient<IQuestionSetsRepository, FakeQuestionSetsRepository>();
+			services.AddTransient<IQuizesRepository, FakeQuizesRepository>();
+
+			services.AddTransient<IQuizesService, QuizesService>();
+			services.AddTransient<IQuestionSetsService, QuestionSetsService>();
 
 			services.AddSwaggerGen(c =>
 			{
