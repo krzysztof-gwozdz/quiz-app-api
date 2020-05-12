@@ -34,10 +34,12 @@ namespace QuizApp.Api
 
 			services.AddControllers();
 
+			services.AddTransient<IQuestionsRepository, CosmosQuestionsRepository>();
 			services.AddTransient<IQuestionSetsRepository, CosmosQuestionSetsRepository>();
 			services.AddTransient<IQuizesRepository, FakeQuizesRepository>();
 
 			services.AddTransient<IQuizesService, QuizesService>();
+			services.AddTransient<IQuestionsService, QuestionsService>();
 			services.AddTransient<IQuestionSetsService, QuestionSetsService>();
 
 			// Add CosmosDb. This verifies database and collections existence.

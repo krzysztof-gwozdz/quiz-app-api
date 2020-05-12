@@ -110,14 +110,14 @@ namespace QuizApp.Infrastructure.CosmosDb
 			}
 		}
 
-		protected async Task DeleteDocumentAsync(T entity)
+		protected async Task DeleteDocumentAsync(Guid id)
 		{
 			try
 			{
 				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-				await cosmosDbClient.DeleteDocumentAsync(entity.Id.ToString(), new RequestOptions
+				await cosmosDbClient.DeleteDocumentAsync(id.ToString(), new RequestOptions
 				{
-					PartitionKey = ResolvePartitionKey(entity.Id.ToString())
+					PartitionKey = ResolvePartitionKey(id.ToString())
 				});
 			}
 			catch (DocumentClientException e)
