@@ -1,5 +1,6 @@
 ﻿using QuizApp.Application.Dtos;
 using QuizApp.Application.Mappers;
+using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -24,7 +25,14 @@ namespace QuizApp.Application.Services
 		public async Task<QuestionSetDto> GetAsync(Guid id)
 		{
 			var entity = await _questionSetsRepository.GetByIdAsync(id);
-			return entity.AsDto();	
-		}		
+			return entity.AsDto();
+		}
+
+		public async Task<Guid> CreateAsync(CreateQuestionSetDto createQuestionSetDto)
+		{
+			var questionSet = QuestionSet.Create(createQuestionSetDto.Name, createQuestionSetDto.IconUrl, createQuestionSetDto.Color);
+			await _questionSetsRepository.AddAsync(questionSet);
+			return questionSet.Id;
+		}
 	}
 }

@@ -23,14 +23,19 @@ namespace QuizApp.Application.Services
 
 		public async Task<IEnumerable<QuestionSet>> GetAllAsync()
 		{
-			var entites = await base.GetAllDocumentsAsync();
+			var entites = await GetAllDocumentsAsync();
 			return entites.Select(entity => entity.FromEntity());
 		}
 
 		public async Task<QuestionSet> GetByIdAsync(Guid id)
 		{
-			var entity = await base.GetDocumentByIdAsync(id);
+			var entity = await GetDocumentByIdAsync(id);
 			return entity.FromEntity();
+		}
+
+		public async Task AddAsync(QuestionSet questionSet)
+		{
+			await AddDocumentAsync(questionSet.ToEntity());
 		}
 	}
 }

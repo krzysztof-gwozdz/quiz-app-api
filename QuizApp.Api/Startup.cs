@@ -9,7 +9,6 @@ using QuizApp.Api.Extensions;
 using QuizApp.Api.Options;
 using QuizApp.Application.Services;
 using QuizApp.Core.Repositories;
-using QuizApp.Infrastructure.Repositories;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

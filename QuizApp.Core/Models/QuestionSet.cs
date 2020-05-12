@@ -16,5 +16,15 @@ namespace QuizApp.Core.Models
 			IconUrl = iconUrl;
 			Color = color;			
 		}
+
+		private QuestionSet(string name, string iconUrl, string color) 
+			: this(Guid.NewGuid(), name, iconUrl, color)
+		{
+		}
+
+		public static QuestionSet Create(string name, string iconUrl, string color)
+		{
+			return new QuestionSet(name, iconUrl, color);
+		}
 	}
 }

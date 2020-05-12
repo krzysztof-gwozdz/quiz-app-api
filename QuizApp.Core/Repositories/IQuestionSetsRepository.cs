@@ -9,5 +9,6 @@ namespace QuizApp.Core.Repositories
 	{
 		Task<IEnumerable<QuestionSet>> GetAllAsync();
 		Task<QuestionSet> GetByIdAsync(Guid id);
+		Task AddAsync(QuestionSet questionSet);
 	}
 }

@@ -28,5 +28,11 @@ namespace QuizApp.Api.Controllers
 		{
 			return Ok(await _questionSetService.GetAsync(id));
 		}
+
+		[HttpPost("")]
+		public async Task<ActionResult> Create(CreateQuestionSetDto createQuestionSetDto)
+		{
+			return Created((await _questionSetService.CreateAsync(createQuestionSetDto)).ToString(), null);
+		}
 	}
 }

@@ -77,7 +77,6 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				entity.Id = GenerateId(entity);
 				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
 				var document = await cosmosDbClient.CreateDocumentAsync(entity);
 				return JsonConvert.DeserializeObject<T>(document.ToString());
