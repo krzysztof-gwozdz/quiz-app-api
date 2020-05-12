@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace QuizApp.Api.Dtos
+namespace QuizApp.Application.Dtos
 {
-	public class PlayerAnswer
+	public class PlayerAnswerDto
 	{
 		public Guid QuestionId { get; set; }
 		public Guid AnswerId { get; set; }

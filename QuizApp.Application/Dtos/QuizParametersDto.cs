@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace QuizApp.Api.Dtos
+namespace QuizApp.Application.Dtos
 {
-	public class QuizParameters
+	public class QuizParametersDto
 	{
 		public Guid QuestionSetId { get; set; }
 		public int QuestionCount { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QuizApp.Api.Dtos;
-using QuizApp.Api.Services;
+using QuizApp.Application.Dtos;
+using QuizApp.Application.Services;
 
 namespace QuizApp.Api.Controllers
 {
@@ -18,13 +18,13 @@ namespace QuizApp.Api.Controllers
 		}
 
 		[HttpGet("")]
-		public async Task<ActionResult<QuestionSets>> Get()
+		public async Task<ActionResult<QuestionSetsDto>> Get()
 		{
 			return Ok(await _questionSetService.GetCollection());
 		}
 
 		[HttpGet("{id:guid}")]
-		public async Task<ActionResult<QuestionSet>> Get(Guid id)
+		public async Task<ActionResult<QuestionSetDto>> Get(Guid id)
 		{
 			return Ok(await _questionSetService.Get(id));
 		}

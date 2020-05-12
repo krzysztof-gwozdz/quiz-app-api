@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace QuizApp.Api.Dtos
+namespace QuizApp.Application.Dtos
 {
-	public class QuizSummary
+	public class QuizSummaryDto
 	{
 		public Guid QuizId { get; set; }
 		public int CorrectAnswers { get; set; }
 		public int TotalQuestions { get; set; }
-		public QuestionSummary[] QuestionSummaries { get; set; }
+		public QuestionSummaryDto[] QuestionSummaries { get; set; }
 	}
 }
