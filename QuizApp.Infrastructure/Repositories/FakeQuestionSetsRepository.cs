@@ -16,7 +16,7 @@ namespace QuizApp.Infrastructure.Repositories
 				new QuestionSet(new Guid("bc6afea5-b7db-4a5f-83f7-2e1308532c68"), "Javascript", "", "#F7DF1E")
 			};
 
-		public async Task<QuestionSet> GetAsync(Guid id) =>
+		public async Task<QuestionSet> GetByIdAsync(Guid id) =>
 			new QuestionSet(id, "Javascript", "", "#F7DF1E");
 	}
 }

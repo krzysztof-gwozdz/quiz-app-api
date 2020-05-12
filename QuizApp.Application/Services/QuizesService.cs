@@ -1,6 +1,6 @@
 ﻿using QuizApp.Application.Dtos;
+using QuizApp.Application.Mappers;
 using QuizApp.Core.Repositories;
-using QuizApp.Infrastructure.Mappers;
 using System;
 using System.Threading.Tasks;
 

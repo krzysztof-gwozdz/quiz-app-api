@@ -8,6 +8,6 @@ namespace QuizApp.Core.Repositories
 	public interface IQuestionSetsRepository
 	{
 		Task<IEnumerable<QuestionSet>> GetAllAsync();
-		Task<QuestionSet> GetAsync(Guid Id);
+		Task<QuestionSet> GetByIdAsync(Guid id);
 	}
 }

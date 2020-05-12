@@ -1,10 +1,10 @@
-﻿using System;
+﻿using QuizApp.Core.Models;
+using System;
 
 namespace QuizApp.Infrastructure.Entities
 {
-	public class QuestionSetEntity
+	public class QuestionSetEntity : Entity
 	{
-		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public string IconUrl { get; set; }
 		public string Color { get; set; }

@@ -3,11 +3,11 @@ using QuizApp.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QuizApp.Infrastructure.Mappers
+namespace QuizApp.Application.Mappers
 {
 	public static class QuestionSetsMapper
 	{
-		public static QuestionSetDto AsDto(this QuestionSet model) => 
+		public static QuestionSetDto AsDto(this QuestionSet model) =>
 			new QuestionSetDto
 			{
 				Id = model.Id,
@@ -17,7 +17,7 @@ namespace QuizApp.Infrastructure.Mappers
 				// TODO TotalQuestions
 			};
 
-		public static QuestionSetsDto AsDto(this IEnumerable<QuestionSet> model) => 
+		public static QuestionSetsDto AsDto(this IEnumerable<QuestionSet> model) =>
 			new QuestionSetsDto
 			{
 				Collection = model.Select(questionSet => new QuestionSetsElementDto

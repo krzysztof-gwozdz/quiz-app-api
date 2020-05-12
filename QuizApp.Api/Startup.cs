@@ -5,10 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using QuizApp.Api.Extensions;
+using QuizApp.Api.Options;
 using QuizApp.Application.Services;
 using QuizApp.Core.Repositories;
 using QuizApp.Infrastructure.Repositories;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Api
@@ -24,13 +27,22 @@ namespace QuizApp.Api
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			var connectionStringsOptions = Configuration.GetSection("ConnectionStrings").Get<ConnectionStringsOptions>();
+			var cosmosDbOptions = Configuration.GetSection("CosmosDb").Get<CosmosDbOptions>();
+			var (serviceEndpoint, authKey) = connectionStringsOptions.ActiveConnectionStringOptions;
+			var (databaseName, collectionData) = cosmosDbOptions;
+			var collectionNames = collectionData.Select(c => c.Name).ToList();
+
 			services.AddControllers();
 
-			services.AddTransient<IQuestionSetsRepository, FakeQuestionSetsRepository>();
+			services.AddTransient<IQuestionSetsRepository, CosmosQuestionSetsRepository>();
 			services.AddTransient<IQuizesRepository, FakeQuizesRepository>();
 
 			services.AddTransient<IQuizesService, QuizesService>();
 			services.AddTransient<IQuestionSetsService, QuestionSetsService>();
+
+			// Add CosmosDb. This verifies database and collections existence.
+			services.AddCosmosDb(serviceEndpoint, authKey, databaseName, collectionNames);
 
 			services.AddSwaggerGen(c =>
 			{
