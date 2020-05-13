@@ -6,6 +6,7 @@ namespace QuizApp.Core.Repositories
 {
 	public interface IQuizesRepository
 	{
-		Task<Quiz> GetAsync(Guid id);
+		Task<Quiz> GetByIdAsync(Guid id);
+		Task AddAsync(Quiz quiz);
 	}
 }

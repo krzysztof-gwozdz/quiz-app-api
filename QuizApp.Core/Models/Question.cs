@@ -26,6 +26,11 @@ namespace QuizApp.Core.Models
 		{
 		}
 
+		public Question(Guid id)
+		{
+			Id = id;
+		}
+
 		public static Question Create(string text, ISet<Answer> answers, string correctAnswer, Guid questionSetId)
 		{
 			var correctAnswerId = answers.First(x => x.Text == correctAnswer).Id;

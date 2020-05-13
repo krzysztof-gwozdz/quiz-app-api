@@ -5,6 +5,7 @@ using QuizApp.Infrastructure.CosmosDb;
 using QuizApp.Infrastructure.Entities;
 using QuizApp.Infrastructure.Mappers;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
@@ -38,6 +39,12 @@ namespace QuizApp.Application.Services
 		public async Task<int> CountBySetIdAsync(Guid setId)
 		{
 			return await CountDocumentsAsync(x => x.QuestionSetId == setId);
+		}
+
+		public async Task<ISet<Question>> GetAllBySetIdAsync(Guid setId)
+		{
+			var entites = await GetDocumentsAsync(x => x.QuestionSetId == setId);
+			return entites.FromEntity();
 		}
 	}
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using QuizApp.Api.Extensions;
 using QuizApp.Api.Options;
+using QuizApp.Application.Factories;
 using QuizApp.Application.Services;
 using QuizApp.Core.Repositories;
 using System;
@@ -36,11 +37,13 @@ namespace QuizApp.Api
 
 			services.AddTransient<IQuestionsRepository, CosmosQuestionsRepository>();
 			services.AddTransient<IQuestionSetsRepository, CosmosQuestionSetsRepository>();
-			services.AddTransient<IQuizesRepository, FakeQuizesRepository>();
+			services.AddTransient<IQuizesRepository, CosmosQuizesRepository>();
 
 			services.AddTransient<IQuizesService, QuizesService>();
 			services.AddTransient<IQuestionsService, QuestionsService>();
 			services.AddTransient<IQuestionSetsService, QuestionSetsService>();
+
+			services.AddTransient<IQuestionsFactory, QuestionsFactory>();
 
 			// Add CosmosDb. This verifies database and collections existence.
 			services.AddCosmosDb(serviceEndpoint, authKey, databaseName, collectionNames);

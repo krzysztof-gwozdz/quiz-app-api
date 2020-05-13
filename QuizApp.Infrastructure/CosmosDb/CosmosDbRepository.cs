@@ -22,8 +22,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 			_cosmosDbClientFactory = cosmosDbClientFactory;
 		}
 
-		protected async Task<int> CountDocumentsAsync() =>
-			await CountDocumentsAsync((x) => true);
+		protected async Task<int> CountDocumentsAsync() => await CountDocumentsAsync((x) => true);
 
 		protected async Task<int> CountDocumentsAsync(Expression<Func<T, bool>> predicate)
 		{
@@ -44,24 +43,15 @@ namespace QuizApp.Infrastructure.CosmosDb
 			}
 		}
 
-		protected async Task<ISet<T>> GetAllDocumentsAsync()
+		protected async Task<ISet<T>> GetDocumentsAsync() => await GetDocumentsAsync((x) => true);
+
+		protected async Task<ISet<T>> GetDocumentsAsync(Expression<Func<T, bool>> predicate)
 		{
 			try
 			{
 				var entities = new HashSet<T>();
 				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
-				using (var queryable = _cosmosDbClientFactory.GetDocumentClient().CreateDocumentQuery<T>(documentUri).AsDocumentQuery())
-				{
-					while (queryable.HasMoreResults)
-					{
-						foreach (T enitity in await queryable.ExecuteNextAsync<T>())
-						{
-							entities.Add(enitity);
-						}
-					}
-				}
-
-				return entities;
+				return _cosmosDbClientFactory.GetDocumentClient().CreateDocumentQuery<T>(documentUri, new FeedOptions { EnableCrossPartitionQuery = true }).Where(predicate).ToHashSet();
 			}
 			catch (DocumentClientException e)
 			{

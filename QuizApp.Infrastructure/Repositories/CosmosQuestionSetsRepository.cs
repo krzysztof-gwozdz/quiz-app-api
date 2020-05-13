@@ -23,7 +23,7 @@ namespace QuizApp.Application.Services
 
 		public async Task<IEnumerable<QuestionSet>> GetAllAsync()
 		{
-			var entites = await GetAllDocumentsAsync();
+			var entites = await GetDocumentsAsync();
 			return entites.Select(entity => entity.FromEntity());
 		}
 
