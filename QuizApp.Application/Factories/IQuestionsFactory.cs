@@ -6,6 +6,6 @@ namespace QuizApp.Application.Factories
 {
 	public interface IQuestionsFactory
 	{
-		Task<Question[]> GetAsync(Guid questionSetId, int questionCount);
+		Task<Quiz.Question[]> GetAsync(Guid questionSetId, int questionCount);
 	}
 }

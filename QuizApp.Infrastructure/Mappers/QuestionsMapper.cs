@@ -13,7 +13,7 @@ namespace QuizApp.Infrastructure.Mappers
 				Id = model.Id,
 				Text = model.Text,
 				Answers = model.Answers.Select(answer =>
-					new AnswerEntity
+					new QuestionEntity.AnswerEntity
 					{
 						Id = answer.Id,
 						Text = answer.Text,
@@ -24,7 +24,7 @@ namespace QuizApp.Infrastructure.Mappers
 			};
 
 		public static Question FromEntity(this QuestionEntity entity) =>
-			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Answer(answer.Id, answer.Text)).ToHashSet(), entity.CorrectAnswerId, entity.QuestionSetId);
+			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text)).ToHashSet(), entity.CorrectAnswerId, entity.QuestionSetId);
 
 		public static ISet<Question> FromEntity(this ISet<QuestionEntity> entities) =>
 			new HashSet<Question>(entities.Select(FromEntity));

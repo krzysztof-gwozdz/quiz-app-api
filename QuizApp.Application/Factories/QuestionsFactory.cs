@@ -16,14 +16,14 @@ namespace QuizApp.Application.Factories
 			_questionsRepository = questionsRepository;
 		}
 
-		public async Task<Question[]> GetAsync(Guid questionSetId, int questionCount)
+		public async Task<Quiz.Question[]> GetAsync(Guid questionSetId, int questionCount)
 		{
 			var allQuestions = (await _questionsRepository.GetAllBySetIdAsync(questionSetId)).ToArray();
-			var questions = new List<Question>();
+			var questions = new List<Quiz.Question>();
 			var random = new Random();
 			for (int i = 0; i < questionCount; i++)
 			{
-				questions.Add(allQuestions[random.Next(allQuestions.Length)]);
+				questions.Add(new Quiz.Question(allQuestions[random.Next(allQuestions.Length)]));
 			}
 			return questions.ToArray();
 		}

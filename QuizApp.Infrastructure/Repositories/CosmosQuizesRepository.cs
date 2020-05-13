@@ -29,5 +29,10 @@ namespace QuizApp.Application.Services
 		{
 			await AddDocumentAsync(quiz.ToEntity());
 		}
+
+		public async Task Update(Quiz quiz)
+		{
+			await UpdateDocumentAsync(quiz.ToEntity());
+		}
 	}
 }

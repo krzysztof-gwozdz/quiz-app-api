@@ -11,18 +11,19 @@ namespace QuizApp.Infrastructure.Mappers
 			{
 				Id = entity.Id,
 				Questions = entity.Questions.Select(question =>
-					new QuestionEntity
+					new QuizEntity.QuestionEntity
 					{
 						Id = question.Id,
 						Text = question.Text,
 						Answers = question.Answers.Select(answer =>
-							new AnswerEntity
+							new QuizEntity.QuestionEntity.AnswerEntity
 							{
 								Id = answer.Id,
 								Text = answer.Text
 							}).ToHashSet(),
 						CorrectAnswerId = question.CorrectAnswerId,
-						QuestionSetId = question.QuestionSetId
+						QuestionSetId = question.QuestionSetId,
+						PlayerAnswerId = question.PlayerAnswerId
 					}
 				).ToHashSet()
 			};
@@ -31,15 +32,16 @@ namespace QuizApp.Infrastructure.Mappers
 			new Quiz(
 				entity.Id,
 				entity.Questions.Select(question =>
-					new Question(
+					new Quiz.Question(
 						question.Id,
 						question.Text,
 						question.Answers.Select(answer =>
-							new Answer(
+							new Quiz.Question.Answer(
 								answer.Id,
 								answer.Text)
 							).ToHashSet(),
 						question.CorrectAnswerId,
+						question.PlayerAnswerId,
 						question.QuestionSetId)
 				).ToArray()
 			);

@@ -4,6 +4,7 @@ using QuizApp.Application.Mappers;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
@@ -24,13 +25,13 @@ namespace QuizApp.Application.Services
 		public async Task<QuizDto> GetAsync(Guid id)
 		{
 			var entity = await _quizesRepository.GetByIdAsync(id);
-			return entity.AsDto();
+			return entity.AsQuizDto();
 		}
 
 		public async Task<QuizSummaryDto> GetSummaryAsync(Guid id)
 		{
-			// TODO
-			throw new NotImplementedException();
+			var entity = await _quizesRepository.GetByIdAsync(id);
+			return entity.AsQuizSummaryDto();
 		}
 
 		public async Task<Guid> GenerateAsync(QuizParametersDto quizParameters)
@@ -43,8 +44,9 @@ namespace QuizApp.Application.Services
 		
 		public async Task SolveAsync(SolvedQuizDto solvedQuiz)
 		{			
-			// TODO
-			throw new NotImplementedException();
+			var quiz = await _quizesRepository.GetByIdAsync(solvedQuiz.QuizId);
+			quiz.Resolve(solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)));
+			await _quizesRepository.Update(quiz);
 		}
 	}
 }

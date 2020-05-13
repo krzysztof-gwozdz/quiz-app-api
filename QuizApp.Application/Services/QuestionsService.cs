@@ -25,7 +25,7 @@ namespace QuizApp.Application.Services
 
 		public async Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto)
 		{
-			var answers = createQuestionDto.Answers.Select(answer => Answer.Create(answer.Text)).ToHashSet();
+			var answers = createQuestionDto.Answers.Select(answer => Question.Answer.Create(answer.Text)).ToHashSet();
 			var question = Question.Create(createQuestionDto.Text, answers, createQuestionDto.CorrectAnswer, createQuestionDto.QuestionSetId);
 			await _questionsRepository.AddAsync(question);
 			return question.Id;

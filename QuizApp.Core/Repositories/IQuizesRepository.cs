@@ -8,5 +8,6 @@ namespace QuizApp.Core.Repositories
 	{
 		Task<Quiz> GetByIdAsync(Guid id);
 		Task AddAsync(Quiz quiz);
+		Task Update(Quiz quiz);
 	}
 }

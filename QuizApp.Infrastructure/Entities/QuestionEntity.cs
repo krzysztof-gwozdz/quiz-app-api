@@ -17,11 +17,11 @@ namespace QuizApp.Infrastructure.Entities
 
 		[JsonProperty("questionSetId")]
 		public Guid QuestionSetId { get; set; }
-	}
 
-	public class AnswerEntity : Entity
-	{
-        [JsonProperty("text")]
-		public string Text { get; set; }
+		public class AnswerEntity : Entity
+		{
+			[JsonProperty("text")]
+			public string Text { get; set; }
+		}
 	}
 }
