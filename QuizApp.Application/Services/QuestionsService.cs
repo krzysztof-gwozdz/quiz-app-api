@@ -31,9 +31,9 @@ namespace QuizApp.Application.Services
 			return question.Id;
 		}
 
-		public Task RemoveAsync(Guid id)
+		public async Task RemoveAsync(Guid id)
 		{
-			throw new NotImplementedException();
+			await _questionsRepository.RemoveAsync(id);
 		}
 	}
 }
