@@ -7,14 +7,14 @@ namespace QuizApp.Application.Mappers
 {
 	public static class QuestionSetsMapper
 	{
-		public static QuestionSetDto AsDto(this QuestionSet model) =>
+		public static QuestionSetDto AsDto(this QuestionSet model, int totalQuestions) =>
 			new QuestionSetDto
 			{
 				Id = model.Id,
 				Name = model.Name,
 				IconUrl = model.IconUrl,
 				Color = model.Color,
-				// TODO TotalQuestions
+				TotalQuestions = totalQuestions,
 			};
 
 		public static QuestionSetsDto AsDto(this IEnumerable<QuestionSet> model) =>

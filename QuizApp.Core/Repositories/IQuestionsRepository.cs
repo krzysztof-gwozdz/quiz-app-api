@@ -9,5 +9,6 @@ namespace QuizApp.Core.Repositories
 		Task<Question> GetByIdAsync(Guid id);
 		Task AddAsync(Question question);
 		Task RemoveAsync(Guid id);
+		Task<int> CountBySetIdAsync(Guid setId);
 	}
 }

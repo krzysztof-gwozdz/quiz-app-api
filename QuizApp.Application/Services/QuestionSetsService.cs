@@ -10,10 +10,14 @@ namespace QuizApp.Application.Services
 	public class QuestionSetsService : IQuestionSetsService
 	{
 		private IQuestionSetsRepository _questionSetsRepository;
+		private IQuestionsRepository _questionsRepository;
 
-		public QuestionSetsService(IQuestionSetsRepository questionSetsRepository)
+		public QuestionSetsService(
+			IQuestionSetsRepository questionSetsRepository,
+			IQuestionsRepository questionsRepository)
 		{
 			_questionSetsRepository = questionSetsRepository;
+			_questionsRepository = questionsRepository;
 		}
 
 		public async Task<QuestionSetsDto> GetCollectionAsync()
@@ -25,7 +29,8 @@ namespace QuizApp.Application.Services
 		public async Task<QuestionSetDto> GetAsync(Guid id)
 		{
 			var entity = await _questionSetsRepository.GetByIdAsync(id);
-			return entity.AsDto();
+			var totalQuestions = await _questionsRepository.CountBySetIdAsync(id);
+			return entity.AsDto(totalQuestions);
 		}
 
 		public async Task<Guid> CreateAsync(CreateQuestionSetDto createQuestionSetDto)

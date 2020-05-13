@@ -34,5 +34,10 @@ namespace QuizApp.Application.Services
 		{
 			await DeleteDocumentAsync(id);
 		}
+
+		public async Task<int> CountBySetIdAsync(Guid setId)
+		{
+			return await CountDocumentsAsync(x => x.QuestionSetId == setId);
+		}
 	}
 }

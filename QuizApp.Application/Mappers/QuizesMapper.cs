@@ -22,6 +22,7 @@ namespace QuizApp.Application.Mappers
 						}
 					).ToArray(),
 					CorrectAnswerId = question.CorrectAnswerId,
+					QuestionSetId = question.QuestionSetId,
 				}
 				).ToArray(),
 		};

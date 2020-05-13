@@ -18,10 +18,11 @@ namespace QuizApp.Infrastructure.Mappers
 						Text = answer.Text,
 					}
 				).ToHashSet(), 
-				CorrectAnswerId = model.CorrectAnswerId 
+				CorrectAnswerId = model.CorrectAnswerId,
+				QuestionSetId = model.QuestionSetId
 			};
 
 		public static Question FromEntity(this QuestionEntity entity) =>
-			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Answer(answer.Id, answer.Text)).ToHashSet(), entity.CorrectAnswerId);
+			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Answer(answer.Id, answer.Text)).ToHashSet(), entity.CorrectAnswerId, entity.QuestionSetId);
 	}
 }

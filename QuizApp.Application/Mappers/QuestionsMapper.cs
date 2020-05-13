@@ -19,6 +19,7 @@ namespace QuizApp.Application.Mappers
 					}
 				).ToArray(),
 				CorrectAnswerId = model.CorrectAnswerId,
+				QuestionSetId = model.QuestionSetId,
 			};
 	}
 }

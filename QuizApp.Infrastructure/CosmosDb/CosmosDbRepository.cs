@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
@@ -18,6 +20,28 @@ namespace QuizApp.Infrastructure.CosmosDb
 		protected CosmosDbRepository(ICosmosDbClientFactory cosmosDbClientFactory)
 		{
 			_cosmosDbClientFactory = cosmosDbClientFactory;
+		}
+
+		protected async Task<int> CountDocumentsAsync() =>
+			await CountDocumentsAsync((x) => true);
+
+		protected async Task<int> CountDocumentsAsync(Expression<Func<T, bool>> predicate)
+		{
+			try
+			{
+				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
+				var count = await _cosmosDbClientFactory.GetDocumentClient().CreateDocumentQuery<T>(documentUri).Where(predicate).CountAsync();
+				return count;
+			}
+			catch (DocumentClientException e)
+			{
+				if (e.StatusCode == HttpStatusCode.NotFound)
+				{
+					throw new EntityNotFoundException();
+				}
+
+				throw;
+			}
 		}
 
 		protected async Task<ISet<T>> GetAllDocumentsAsync()
