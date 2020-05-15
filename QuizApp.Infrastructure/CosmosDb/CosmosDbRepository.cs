@@ -87,6 +87,27 @@ namespace QuizApp.Infrastructure.CosmosDb
 			}
 		}
 
+		protected async Task<bool> CheckIfDocumentExists(Guid id)
+		{
+			try
+			{
+				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
+				var document = await cosmosDbClient.ReadDocumentAsync(id.ToString(), new RequestOptions
+				{
+					PartitionKey = ResolvePartitionKey(id.ToString())
+				});
+				return true;
+			}
+			catch (DocumentClientException e)
+			{
+				if (e.StatusCode == HttpStatusCode.NotFound)
+				{
+					return false;
+				}
+				throw;
+			}
+		}
+
 		protected async Task<T> AddDocumentAsync(T entity)
 		{
 			try

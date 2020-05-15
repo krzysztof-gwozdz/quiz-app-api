@@ -39,9 +39,14 @@ namespace QuizApp.Application.Services
 			return entity.FromEntity();
 		}
 
+		public async Task<bool> ExistsAsync(Guid id)
+		{
+			return await CheckIfDocumentExists(id);
+		}
+
 		public async Task AddAsync(QuestionSet questionSet)
 		{
 			await AddDocumentAsync(questionSet.ToEntity());
-		}	
+		}
 	}
 }

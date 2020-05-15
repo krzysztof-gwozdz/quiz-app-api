@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizApp.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,8 @@ namespace QuizApp.Core.Models
 {
 	public class Question
 	{
+		private const int MinNumberOfAnswers = 2;
+
 		public Guid Id { get; }
 		public string Text { get; }
 		public ISet<Answer> Answers { get; }
@@ -28,8 +31,24 @@ namespace QuizApp.Core.Models
 
 		public static Question Create(string text, ISet<Answer> answers, string correctAnswer, Guid questionSetId)
 		{
-			var correctAnswerId = answers.First(x => x.Text == correctAnswer).Id;
-			return new Question(text, answers.ToHashSet(), correctAnswerId, questionSetId);
+			if (string.IsNullOrWhiteSpace(text))
+				throw new EmptyQuestionTextException();
+
+			if (answers.Count <= MinNumberOfAnswers)
+				throw new InvalidNumberOfAnswersInQuestionException(answers.Count);
+
+			var duplicates = answers.GroupBy(x => x.Text).SelectMany(d => d.Skip(1));
+			if (duplicates.Any())
+				throw new QuestionContainsDuplicatedAnswersException(duplicates.First().Text);
+
+			if (string.IsNullOrWhiteSpace(correctAnswer))
+				throw new EmptyCorrectAnswerException();
+
+			var correctAnswerId = answers.FirstOrDefault(x => x.Text == correctAnswer)?.Id;
+			if (correctAnswerId is null)
+				throw new CorrectAnswerIsNotOneOfAnswersException(correctAnswer);
+
+			return new Question(text, answers.ToHashSet(), correctAnswerId.Value, questionSetId);
 		}
 
 		public class Answer
@@ -50,6 +69,9 @@ namespace QuizApp.Core.Models
 
 			public static Answer Create(string text)
 			{
+				if (string.IsNullOrWhiteSpace(text))
+					throw new EmptyAnswerTextException();
+
 				return new Answer(text);
 			}
 		}

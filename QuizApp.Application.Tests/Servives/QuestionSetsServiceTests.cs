@@ -15,7 +15,7 @@ namespace QuizApp.Application.Tests.Servives
 	{
 		private readonly Mock<IQuestionSetsRepository> _questionSetsRepositoryMock;
 		private readonly Mock<IQuestionsRepository> _questionsRepositoryMock;
-		private readonly IQuestionSetsService _questionSetsService;
+		private readonly QuestionSetsService _questionSetsService;
 
 		public QuestionSetsServiceTests()
 		{
@@ -30,6 +30,7 @@ namespace QuizApp.Application.Tests.Servives
 			//arrange
 			string name = Guid.NewGuid().ToString();
 			var dto = new CreateQuestionSetDto { Name = name };
+
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
 

@@ -26,7 +26,7 @@ namespace QuizApp.Core.Models
 		public static QuestionSet Create(string name, string iconUrl, string color)
 		{
 			if (string.IsNullOrWhiteSpace(name))
-				throw new InvalidQuestionSetNameException(name);
+				throw new EmptyQuestionSetNameException();
 
 			return new QuestionSet(name, iconUrl, color);
 		}

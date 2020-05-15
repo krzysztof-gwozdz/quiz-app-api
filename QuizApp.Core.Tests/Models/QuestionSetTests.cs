@@ -41,8 +41,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSet.Create(name, iconUrl, color);
 
 			//assert
-			createQuestionSet.Should().Throw<InvalidQuestionSetNameException>()
-				.WithMessage($"Question set name is invalid: {name}");
+			createQuestionSet.Should().Throw<EmptyQuestionSetNameException>()
+				.WithMessage("Question set name can not be empty.");
 		}
 	}
 }
