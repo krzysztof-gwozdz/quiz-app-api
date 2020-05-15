@@ -1,1 +1,1 @@
-dotnet run --configuration Release --project .\QuizApp.Api\QuizApp.Api.csproj
+dotnet run --configuration Release --project .\QuizApp.Api\QuizApp.Api.csproj --urls https://localhost:44343/
