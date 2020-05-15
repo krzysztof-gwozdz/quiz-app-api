@@ -33,9 +33,15 @@ namespace QuizApp.Application.Services
 			return entity.FromEntity();
 		}
 
+		public async Task<QuestionSet> GetByNameAsync(string name)
+		{
+			var entity = (await GetDocumentsAsync(x => x.Name == name)).FirstOrDefault();
+			return entity.FromEntity();
+		}
+
 		public async Task AddAsync(QuestionSet questionSet)
 		{
 			await AddDocumentAsync(questionSet.ToEntity());
-		}
+		}	
 	}
 }

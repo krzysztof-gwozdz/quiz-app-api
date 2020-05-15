@@ -1,5 +1,6 @@
 ﻿using QuizApp.Application.Dtos;
 using QuizApp.Application.Mappers;
+using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
@@ -35,8 +36,13 @@ namespace QuizApp.Application.Services
 
 		public async Task<Guid> CreateAsync(CreateQuestionSetDto createQuestionSetDto)
 		{
+			var exitingQuestionSet = await _questionSetsRepository.GetByNameAsync(createQuestionSetDto.Name);
+			if (exitingQuestionSet is { })
+				throw new QuestionSetWithSelectedNameAlreadyExistsException(exitingQuestionSet.Name);
+
 			var questionSet = QuestionSet.Create(createQuestionSetDto.Name, createQuestionSetDto.IconUrl, createQuestionSetDto.Color);
 			await _questionSetsRepository.AddAsync(questionSet);
+
 			return questionSet.Id;
 		}
 	}

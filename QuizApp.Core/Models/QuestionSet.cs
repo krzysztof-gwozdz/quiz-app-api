@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizApp.Core.Exceptions;
+using System;
 
 namespace QuizApp.Core.Models
 {
@@ -24,6 +25,9 @@ namespace QuizApp.Core.Models
 
 		public static QuestionSet Create(string name, string iconUrl, string color)
 		{
+			if (string.IsNullOrWhiteSpace(name))
+				throw new InvalidQuestionSetNameException(name);
+
 			return new QuestionSet(name, iconUrl, color);
 		}
 	}
