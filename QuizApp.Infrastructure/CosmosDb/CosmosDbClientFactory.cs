@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 
 namespace QuizApp.Infrastructure.CosmosDb
@@ -10,9 +9,9 @@ namespace QuizApp.Infrastructure.CosmosDb
 	{
 		private readonly string _databaseName;
 		private readonly List<string> _collectionNames;
-		private readonly IDocumentClient _documentClient;
+		private readonly DocumentClient _documentClient;
 
-		public CosmosDbClientFactory(string databaseName, List<string> collectionNames, IDocumentClient documentClient)
+		public CosmosDbClientFactory(string databaseName, List<string> collectionNames, DocumentClient documentClient)
 		{
 			_databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
 			_collectionNames = collectionNames ?? throw new ArgumentNullException(nameof(collectionNames));
@@ -22,31 +21,19 @@ namespace QuizApp.Infrastructure.CosmosDb
 		public ICosmosDbClient GetClient(string collectionName)
 		{
 			if (!_collectionNames.Contains(collectionName))
-			{
 				throw new ArgumentException($"Unable to find collection: {collectionName}");
-			}
-
 			return new CosmosDbClient(_databaseName, collectionName, _documentClient);
 		}
 
-		public IDocumentClient GetDocumentClient()
-		{
-			return _documentClient;
-		}
+		public DocumentClient GetDocumentClient() => _documentClient;
 
-		public Uri GetCollectionUri(string collectionName)
-		{
-			return UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName);
-		}
+		public Uri GetCollectionUri(string collectionName) => UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName);
 
 		public async Task EnsureDbSetupAsync()
 		{
 			await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(_databaseName));
-
 			foreach (var collectionName in _collectionNames)
-			{
 				await _documentClient.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName));
-			}
 		}
 	}
 }

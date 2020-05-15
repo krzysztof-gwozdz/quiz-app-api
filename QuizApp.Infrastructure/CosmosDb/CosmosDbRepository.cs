@@ -51,7 +51,16 @@ namespace QuizApp.Infrastructure.CosmosDb
 			{
 				var entities = new HashSet<T>();
 				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
-				return _cosmosDbClientFactory.GetDocumentClient().CreateDocumentQuery<T>(documentUri, new FeedOptions { EnableCrossPartitionQuery = true }).Where(predicate).ToHashSet();
+				var client = _cosmosDbClientFactory.GetDocumentClient();
+				var documentQuery = client.CreateDocumentQuery<T>(documentUri, new FeedOptions { EnableCrossPartitionQuery = true })
+					   .Where(predicate)
+					   .AsDocumentQuery();
+
+				while (documentQuery.HasMoreResults)
+					foreach (T t in await documentQuery.ExecuteNextAsync<T>())
+						entities.Add(t);
+
+				return entities;
 			}
 			catch (DocumentClientException e)
 			{
