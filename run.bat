@@ -1,1 +1,1 @@
-dotnet run --configuration Release --project .\QuizApp\QuizApp.csproj
+dotnet run --configuration Release --project .\QuizApp.Api\QuizApp.Api.csproj
