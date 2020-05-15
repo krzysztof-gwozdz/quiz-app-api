@@ -81,11 +81,10 @@ GET {{baseUrl}}quizes/{{newQuizId}} HTTP/1.1
 @answerIdFromQuiz = {{getGenerateQuiz.response.body.questions[0].answers[0].id}}
 
 ### Get solve added quiz
-PUT {{baseUrl}}quizes HTTP/1.1
+PUT {{baseUrl}}quizes/{{newQuizId}} HTTP/1.1
 Content-Type: application/json
 
 {
-  "quizId": "{{newQuizId}}",
   "playerAnswers": [
     {
       "questionId": "{{questionIdFromQuiz}}",

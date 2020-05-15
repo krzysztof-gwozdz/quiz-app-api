@@ -39,10 +39,11 @@ namespace QuizApp.Api.Controllers
 			return Created((await _quizService.GenerateAsync(quizParameters)).ToString(), null);
 		}
 
-		[HttpPut("")]
+		[HttpPut("{id:guid}")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
-		public async Task<ActionResult> Solve(SolvedQuizDto solvedQuiz)
+		public async Task<ActionResult> Solve(Guid id, SolvedQuizDto solvedQuiz)
 		{
+			solvedQuiz.QuizId = id;
 			await _quizService.SolveAsync(solvedQuiz);
 			return Ok();
 		}
