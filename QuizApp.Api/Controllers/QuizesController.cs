@@ -11,7 +11,7 @@ namespace QuizApp.Api.Controllers
 	[Route("quizes")]
 	public class QuizesController : ControllerBase
 	{
-		private IQuizesService _quizService;
+		private readonly IQuizesService _quizService;
 
 		public QuizesController(IQuizesService quizService)
 		{

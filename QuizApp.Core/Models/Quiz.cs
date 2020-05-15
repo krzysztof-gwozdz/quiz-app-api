@@ -58,11 +58,6 @@ namespace QuizApp.Core.Models
 			{
 			}
 
-			public static Question Create(string text, ISet<Answer> answers, Guid correctAnswerId, Guid? playerAnswerId, Guid questionSetId)
-			{
-				return new Question(text, answers.ToHashSet(), correctAnswerId, playerAnswerId, questionSetId);
-			}
-
 			public void AnswerQuestion(Guid playerAnswerId)
 			{
 				PlayerAnswerId = playerAnswerId;
@@ -82,16 +77,6 @@ namespace QuizApp.Core.Models
 				public Answer(Models.Question.Answer answer)
 					: this(answer.Id, answer.Text)
 				{
-				}
-
-				private Answer(string text)
-					: this(Guid.NewGuid(), text)
-				{
-				}
-
-				public static Answer Create(string text)
-				{
-					return new Answer(text);
 				}
 			}
 		}

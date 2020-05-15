@@ -11,8 +11,8 @@ namespace QuizApp.Application.Services
 {
 	public class QuestionsService : IQuestionsService
 	{
-		private IQuestionsRepository _questionsRepository;
-		private IQuestionSetsRepository _questionSetsRepository;
+		private readonly IQuestionsRepository _questionsRepository;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
 
 		public QuestionsService(
 			IQuestionsRepository questionsRepository,

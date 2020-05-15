@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Api.Controllers
 {
-    [ApiController]
-    [Route("questions")]
-    public class QuestionsController : ControllerBase
-    {
-		private IQuestionsService _questionsService;
+	[ApiController]
+	[Route("questions")]
+	public class QuestionsController : ControllerBase
+	{
+		private readonly IQuestionsService _questionsService;
 
 		public QuestionsController(IQuestionsService questionsService)
 		{

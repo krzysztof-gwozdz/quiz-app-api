@@ -9,7 +9,7 @@ namespace QuizApp.Application.Factories
 {
 	public class QuestionsFactory : IQuestionsFactory
 	{
-		private IQuestionsRepository _questionsRepository;
+		private readonly IQuestionsRepository _questionsRepository;
 
 		public QuestionsFactory(IQuestionsRepository questionsRepository)
 		{

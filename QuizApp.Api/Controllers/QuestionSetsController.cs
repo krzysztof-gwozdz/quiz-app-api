@@ -10,7 +10,7 @@ namespace QuizApp.Api.Controllers
 	[Route("question-sets")]
 	public class QuestionSetsController : ControllerBase
 	{
-		private IQuestionSetsService _questionSetsService;
+		private readonly IQuestionSetsService _questionSetsService;
 
 		public QuestionSetsController(IQuestionSetsService questionSetsService)
 		{
