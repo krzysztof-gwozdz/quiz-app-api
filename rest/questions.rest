@@ -1,0 +1,98 @@
+@baseUrl = https://localhost:5001/
+
+
+### ~~ QUESTION SETS ~~ ###
+### Get all question sets
+GET {{baseUrl}}question-sets HTTP/1.1
+
+
+### Add question set
+# @name  addQuestionSet
+POST {{baseUrl}}question-sets HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "New Question Set 1",
+    "iconUrl": "",
+    "color": "#FFFFFF"
+}
+
+@newQuestionSetId = {{addQuestionSet.response.headers.Location}}
+
+
+### Get added question set
+GET {{baseUrl}}question-sets/{{newQuestionSetId}} HTTP/1.1
+
+### ~~ QUESTIONS ~~ ###
+### Add question
+# @name  addQuestion
+POST {{baseUrl}}questions HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Neq question text",
+  "answers": [
+    {
+      "text": "Answer text 1"
+    },
+    {
+      "text": "Answer text 2"
+    },
+    {
+      "text": "Answer text 3"
+    },
+    {
+      "text": "Answer text 4"
+    }
+  ],
+  "correctAnswer": "Answer text 1",
+  "questionSetId": "{{newQuestionSetId}}"
+}
+
+@newQuestionId = {{addQuestion.response.headers.Location}}
+
+
+### Get added question
+GET {{baseUrl}}questions/{{newQuestionId}} HTTP/1.1
+
+### Delete added question
+DELETE {{baseUrl}}questions/{{newQuestionId}} HTTP/1.1
+
+
+### ~~ QUIZES ~~ ###
+### Generate quiz
+# @name generateQuiz
+POST {{baseUrl}}quizes HTTP/1.1
+Content-Type: application/json
+
+{
+  "questionSetId": "{{newQuestionSetId}}",
+  "questionCount": 1
+}
+
+@newQuizId = {{generateQuiz.response.headers.Location}}
+
+
+### Get added quiz
+# @name getGenerateQuiz
+GET {{baseUrl}}quizes/{{newQuizId}} HTTP/1.1
+
+@questionIdFromQuiz = {{getGenerateQuiz.response.body.questions[0].id}}
+@answerIdFromQuiz = {{getGenerateQuiz.response.body.questions[0].answers[0].id}}
+
+### Get solve added quiz
+PUT {{baseUrl}}quizes HTTP/1.1
+Content-Type: application/json
+
+{
+  "quizId": "{{newQuizId}}",
+  "playerAnswers": [
+    {
+      "questionId": "{{questionIdFromQuiz}}",
+      "answerId": "{{answerIdFromQuiz}}"
+    }
+  ]
+}
+
+### Get quiz summary
+GET {{baseUrl}}quizes/{{newQuizId}}/summary HTTP/1.1
