@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Moq;
-using QuizApp.Application.Factories;
 using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
+using QuizApp.Core.Factories;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
@@ -15,13 +15,13 @@ namespace QuizApp.Application.Tests.Servives
 	public class QuizesServiceTests
 	{
 		private readonly Mock<IQuizesRepository> _quizesRepositoryMock;
-		private readonly Mock<IQuestionsFactory> _questionsFactoryMock;
+		private readonly Mock<IQuizFactory> _questionsFactoryMock;
 		private readonly QuizesService _quizesService;
 
 		public QuizesServiceTests()
 		{
 			_quizesRepositoryMock = new Mock<IQuizesRepository>();
-			_questionsFactoryMock = new Mock<IQuestionsFactory>();
+			_questionsFactoryMock = new Mock<IQuizFactory>();
 			_quizesService = new QuizesService(_quizesRepositoryMock.Object, _questionsFactoryMock.Object);
 		}
 

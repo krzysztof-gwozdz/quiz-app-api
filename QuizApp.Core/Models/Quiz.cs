@@ -17,11 +17,6 @@ namespace QuizApp.Core.Models
 			Questions = questions;
 		}
 
-		public static Quiz Create(Question[] questions)
-		{
-			return new Quiz(Guid.NewGuid(), questions);
-		}
-
 		public void Resolve(IEnumerable<PlayerAnswer> playerAnswers)
 		{
 			playerAnswers.ToList().ForEach(playerAnswer => Questions.First(x => x.Id == playerAnswer.QuestionId).AnswerQuestion(playerAnswer.AnswerId));

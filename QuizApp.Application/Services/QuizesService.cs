@@ -1,7 +1,7 @@
 ﻿using QuizApp.Application.Dtos;
-using QuizApp.Application.Factories;
 using QuizApp.Application.Mappers;
 using QuizApp.Core.Exceptions;
+using QuizApp.Core.Factories;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
@@ -13,14 +13,14 @@ namespace QuizApp.Application.Services
 	public class QuizesService : IQuizesService
 	{
 		private readonly IQuizesRepository _quizesRepository;
-		private readonly IQuestionsFactory _questionsFactory;
+		private readonly IQuizFactory _quizFactory;
 
 		public QuizesService(
 			IQuizesRepository quizesRepository,
-			IQuestionsFactory questionsFactory)
+			IQuizFactory questionsFactory)
 		{
 			_quizesRepository = quizesRepository;
-			_questionsFactory = questionsFactory;
+			_quizFactory = questionsFactory;
 		}
 
 		public async Task<QuizDto> GetAsync(Guid id)
@@ -39,8 +39,7 @@ namespace QuizApp.Application.Services
 
 		public async Task<Guid> GenerateAsync(QuizParametersDto quizParameters)
 		{
-			var questions = await _questionsFactory.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount);
-			var quiz = Quiz.Create(questions);
+			var quiz = await _quizFactory.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount);
 			await _quizesRepository.AddAsync(quiz);
 			return quiz.Id;
 		}

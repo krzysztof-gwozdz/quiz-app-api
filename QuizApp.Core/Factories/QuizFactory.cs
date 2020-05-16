@@ -1,0 +1,56 @@
+﻿using QuizApp.Core.Exceptions;
+using QuizApp.Core.Models;
+using QuizApp.Core.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace QuizApp.Core.Factories
+{
+	public class QuizFactory : IQuizFactory
+	{
+		private readonly IQuestionsRepository _questionsRepository;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
+		private readonly IRandomFactory _randomFactory;
+
+		public const int MinQuestionCount = 2;
+
+		public QuizFactory(
+			IQuestionsRepository questionsRepository,
+			IQuestionSetsRepository questionSetsRepository,
+			IRandomFactory randomFactory)
+		{
+			_questionsRepository = questionsRepository;
+			_questionSetsRepository = questionSetsRepository;
+			_randomFactory = randomFactory;
+		}
+
+		public async Task<Quiz> GetAsync(Guid questionSetId, int questionCount)
+		{
+			if (questionCount < MinQuestionCount)
+				throw new NotEnoughQuestionsException(questionCount, MinQuestionCount);
+
+			if (!await _questionSetsRepository.ExistsAsync(questionSetId))
+				throw new QuestionSetDoesNotExistException(questionSetId);
+
+			var maxQuestionCount = await _questionsRepository.CountBySetIdAsync(questionSetId);
+			if (questionCount > maxQuestionCount)
+				throw new TooManyQuestionsException(questionCount, maxQuestionCount);
+
+			var questions = await GetQuestionsAsync(questionSetId, questionCount);
+			return new Quiz(Guid.NewGuid(), questions);
+		}
+
+		private async Task<Quiz.Question[]> GetQuestionsAsync(Guid questionSetId, int questionCount)
+		{
+			var allQuestions = (await _questionsRepository.GetAllBySetIdAsync(questionSetId)).ToArray();
+			var questions = new List<Quiz.Question>();
+			for (int i = 0; i < questionCount; i++)
+			{
+				questions.Add(new Quiz.Question(allQuestions[_randomFactory.NextInt(allQuestions.Length)]));
+			}
+			return questions.ToArray();
+		}
+	}
+}
