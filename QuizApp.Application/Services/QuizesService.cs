@@ -1,6 +1,7 @@
 ﻿using QuizApp.Application.Dtos;
 using QuizApp.Application.Factories;
 using QuizApp.Application.Mappers;
+using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
@@ -24,8 +25,10 @@ namespace QuizApp.Application.Services
 
 		public async Task<QuizDto> GetAsync(Guid id)
 		{
-			var entity = await _quizesRepository.GetByIdAsync(id);
-			return entity.AsQuizDto();
+			var quiz = await _quizesRepository.GetByIdAsync(id);
+			if (quiz is null)
+				throw new QuizDoesNotExistException(id);
+			return quiz.AsQuizDto();
 		}
 
 		public async Task<QuizSummaryDto> GetSummaryAsync(Guid id)
