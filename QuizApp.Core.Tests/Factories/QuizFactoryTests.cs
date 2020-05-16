@@ -4,8 +4,9 @@ using QuizApp.Core.Exceptions;
 using QuizApp.Core.Factories;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
+using QuizApp.Core.Tests.Examples;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -31,20 +32,9 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task CreateQuizWithCorrectValues()
 		{
 			//arrange
-			Guid questionSetId = Guid.NewGuid();
+			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 3;
-			var question = new Question(
-					Guid.NewGuid(),
-					"test answer 1",
-					new[]
-						{
-							new Question.Answer(Guid.NewGuid(), "test answer 1"),
-							new Question.Answer(Guid.NewGuid(), "test answer 2"),
-						}.ToHashSet(),
-					Guid.NewGuid(),
-					Guid.NewGuid()
-					);
-			var questions = new[] { question }.ToHashSet();
+			var questions = new HashSet<Question> { QuestionExample.ValidQuestion, QuestionExample.ValidQuestion, QuestionExample.ValidQuestion };
 			_questionsRepositoryMock
 				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
 				.ReturnsAsync(questions);
@@ -70,7 +60,7 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task CreateQuizWithQuestionSetThatDoesNotExists_ThrowException()
 		{
 			//arrange
-			Guid questionSetId = Guid.NewGuid();
+			var questionSetId = QuestionSetExample.NewId;
 			_questionSetsRepositoryMock
 				.Setup(x => x.ExistsAsync(questionSetId))
 				.ReturnsAsync(false);
@@ -87,7 +77,7 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task CreateQuizWithLessThanMinimumQuestions_ThrowException()
 		{
 			//arrange
-			Guid questionSetId = Guid.NewGuid();
+			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 1;
 			_questionSetsRepositoryMock
 				.Setup(x => x.ExistsAsync(questionSetId))
@@ -105,7 +95,7 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task CreateQuizWithMoreThanMaxNumberOfQuestionsForQuestionSet_ThrowException()
 		{
 			//arrange
-			Guid questionSetId = Guid.NewGuid();
+			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 11;
 			int maxQuestionCount = 10;
 			_questionSetsRepositoryMock

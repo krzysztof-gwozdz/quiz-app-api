@@ -27,7 +27,6 @@ namespace QuizApp.Application.Mappers
 			).ToArray(),
 		};
 
-
 		public static QuizSummaryDto AsQuizSummaryDto(this Quiz model) => new QuizSummaryDto
 		{
 			QuizId = model.Id,

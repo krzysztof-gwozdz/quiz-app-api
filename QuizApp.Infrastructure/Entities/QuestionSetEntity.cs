@@ -4,13 +4,13 @@ namespace QuizApp.Infrastructure.Entities
 {
 	public class QuestionSetEntity : Entity
 	{
-        [JsonProperty("name")]
+		[JsonProperty("name")]
 		public string Name { get; set; }
 
-        [JsonProperty("iconUrl")]
+		[JsonProperty("iconUrl")]
 		public string IconUrl { get; set; }
 
-        [JsonProperty("color")]
+		[JsonProperty("color")]
 		public string Color { get; set; }
 	}
 }

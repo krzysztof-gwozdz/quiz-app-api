@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace QuizApp.Api.Controllers
 {

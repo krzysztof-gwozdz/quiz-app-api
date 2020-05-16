@@ -43,9 +43,9 @@ namespace QuizApp.Application.Services
 			await _quizesRepository.AddAsync(quiz);
 			return quiz.Id;
 		}
-		
+
 		public async Task SolveAsync(SolvedQuizDto solvedQuiz)
-		{			
+		{
 			var quiz = await _quizesRepository.GetByIdAsync(solvedQuiz.QuizId);
 			quiz.Resolve(solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)));
 			await _quizesRepository.Update(quiz);

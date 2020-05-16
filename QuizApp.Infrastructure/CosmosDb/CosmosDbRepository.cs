@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
+﻿using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Newtonsoft.Json;
 using QuizApp.Infrastructure.Entities;
 using QuizApp.Infrastructure.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb
 {
@@ -29,33 +29,34 @@ namespace QuizApp.Infrastructure.CosmosDb
 			try
 			{
 				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
-				var count = await _cosmosDbClientFactory.GetDocumentClient().CreateDocumentQuery<T>(documentUri).Where(predicate).CountAsync();
+				var client = _cosmosDbClientFactory.GetDocumentClient();
+				var documentQuery = client.CreateDocumentQuery<T>(documentUri);
+				var count = await documentQuery.Where(predicate).CountAsync();
 				return count;
 			}
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-				{
 					throw new EntityNotFoundException();
-				}
-
 				throw;
 			}
 		}
 
-		protected async Task<ISet<T>> GetDocumentsAsync() => await GetDocumentsAsync((x) => true);
+		protected async Task<ISet<T>> GetDocumentsAsync() =>
+			await GetDocumentsAsync((x) => true);
 
 		protected async Task<ISet<T>> GetDocumentsAsync(Expression<Func<T, bool>> predicate)
 		{
 			try
 			{
-				var entities = new HashSet<T>();
 				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
 				var client = _cosmosDbClientFactory.GetDocumentClient();
-				var documentQuery = client.CreateDocumentQuery<T>(documentUri, new FeedOptions { EnableCrossPartitionQuery = true })
-					   .Where(predicate)
-					   .AsDocumentQuery();
+				var documentQuery = client
+					.CreateDocumentQuery<T>(documentUri, new FeedOptions { EnableCrossPartitionQuery = true })
+					.Where(predicate)
+					.AsDocumentQuery();
 
+				var entities = new HashSet<T>();
 				while (documentQuery.HasMoreResults)
 					foreach (T t in await documentQuery.ExecuteNextAsync<T>())
 						entities.Add(t);
@@ -65,10 +66,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-				{
 					throw new EntityNotFoundException();
-				}
-
 				throw;
 			}
 		}
@@ -77,8 +75,8 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-				var document = await cosmosDbClient.ReadDocumentAsync(id.ToString(), new RequestOptions
+				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var document = await client.ReadDocumentAsync(id.ToString(), new RequestOptions
 				{
 					PartitionKey = ResolvePartitionKey(id.ToString())
 				});
@@ -88,10 +86,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-				{
 					throw new EntityNotFoundException();
-				}
-
 				throw;
 			}
 		}
@@ -100,8 +95,8 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-				var document = await cosmosDbClient.ReadDocumentAsync(id.ToString(), new RequestOptions
+				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var document = await client.ReadDocumentAsync(id.ToString(), new RequestOptions
 				{
 					PartitionKey = ResolvePartitionKey(id.ToString())
 				});
@@ -110,9 +105,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-				{
 					return false;
-				}
 				throw;
 			}
 		}
@@ -121,17 +114,14 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-				var document = await cosmosDbClient.CreateDocumentAsync(entity);
+				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var document = await client.CreateDocumentAsync(entity);
 				return JsonConvert.DeserializeObject<T>(document.ToString());
 			}
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.Conflict)
-				{
 					throw new EntityAlreadyExistsException();
-				}
-
 				throw;
 			}
 		}
@@ -140,16 +130,13 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-				await cosmosDbClient.ReplaceDocumentAsync(entity.Id.ToString(), entity);
+				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				await client.ReplaceDocumentAsync(entity.Id.ToString(), entity);
 			}
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-				{
 					throw new EntityNotFoundException();
-				}
-
 				throw;
 			}
 		}
@@ -158,8 +145,8 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-				await cosmosDbClient.DeleteDocumentAsync(id.ToString(), new RequestOptions
+				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				await client.DeleteDocumentAsync(id.ToString(), new RequestOptions
 				{
 					PartitionKey = ResolvePartitionKey(id.ToString())
 				});
@@ -167,10 +154,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-				{
 					throw new EntityNotFoundException();
-				}
-
 				throw;
 			}
 		}

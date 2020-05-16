@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
+using QuizApp.Core.Tests.Examples;
 using System;
 using Xunit;
 
@@ -8,14 +9,13 @@ namespace QuizApp.Core.Tests.Models
 {
 	public class QuestionSetTests
 	{
-		
 		[Fact]
 		public void CreateQuestionSetWithCorrectValues()
 		{
 			//arrange
-			string name = "test name";
-			string iconUrl = "test imageUrl";
-			string color = "test color";
+			var name = QuestionSetExample.ValidName;
+			var iconUrl = QuestionSetExample.ValidIconUrl;
+			var color = QuestionSetExample.ValidColor;
 
 			//act
 			var questionSet = QuestionSet.Create(name, iconUrl, color);
@@ -34,8 +34,8 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionSetWithEmptyName_ThrowException(string name)
 		{
 			//arrange
-			string iconUrl = "test imageUrl";
-			string color = "test color";
+			var iconUrl = QuestionSetExample.ValidIconUrl;
+			var color = QuestionSetExample.ValidColor;
 
 			//act
 			Action createQuestionSet = () => QuestionSet.Create(name, iconUrl, color);

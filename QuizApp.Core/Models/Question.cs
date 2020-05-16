@@ -34,7 +34,7 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(text))
 				throw new EmptyQuestionTextException();
 
-			if (answers.Count <= MinNumberOfAnswers)
+			if (answers.Count < MinNumberOfAnswers)
 				throw new InvalidNumberOfAnswersInQuestionException(answers.Count);
 
 			var duplicates = answers.GroupBy(x => x.Text).SelectMany(d => d.Skip(1));

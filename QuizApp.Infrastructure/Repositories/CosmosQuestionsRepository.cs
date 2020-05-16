@@ -21,13 +21,13 @@ namespace QuizApp.Application.Services
 		public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey(entityId);
 
 		public async Task<Question> GetByIdAsync(Guid id) =>
-			(await GetDocumentByIdAsync(id)).FromEntity();
+			(await GetDocumentByIdAsync(id)).ToModel();
 
 		public async Task<bool> ExistsAsync(Guid id) =>
 			await CheckIfDocumentExists(id);
 
 		public async Task<ISet<Question>> GetAllBySetIdAsync(Guid setId) =>
-			(await GetDocumentsAsync(x => x.QuestionSetId == setId)).FromEntity();
+			(await GetDocumentsAsync(x => x.QuestionSetId == setId)).ToModel();
 
 		public async Task<int> CountBySetIdAsync(Guid setId) =>
 			await CountDocumentsAsync(x => x.QuestionSetId == setId);

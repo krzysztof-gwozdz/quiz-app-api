@@ -15,10 +15,10 @@ namespace QuizApp.Core.Models
 			Id = id;
 			Name = name;
 			IconUrl = iconUrl;
-			Color = color;			
+			Color = color;
 		}
 
-		private QuestionSet(string name, string iconUrl, string color) 
+		private QuestionSet(string name, string iconUrl, string color)
 			: this(Guid.NewGuid(), name, iconUrl, color)
 		{
 		}

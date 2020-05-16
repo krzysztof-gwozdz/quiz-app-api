@@ -28,7 +28,7 @@ namespace QuizApp.Infrastructure.Mappers
 				).ToHashSet()
 			};
 
-		public static Quiz FromEntity(this QuizEntity entity) =>
+		public static Quiz ToModel(this QuizEntity entity) =>
 			new Quiz(
 				entity.Id,
 				entity.Questions.Select(question =>

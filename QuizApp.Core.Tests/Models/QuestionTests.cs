@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
+using QuizApp.Core.Tests.Examples;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -14,25 +14,19 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithCorrectValues()
 		{
 			//arrange
-			string text = "test text";
-			var answers = new Question.Answer[]
-			{
-				new Question.Answer(Guid.NewGuid(), "test answer 1"),
-				new Question.Answer(Guid.NewGuid(), "test answer 2"),
-				new Question.Answer(Guid.NewGuid(), "test answer 3"),
-				new Question.Answer(Guid.NewGuid(), "test answer 4"),
-			};
-			string correctAnswer = answers[0].Text;
-			Guid questionSetId = Guid.NewGuid();
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.ValidAnswers;
+			var correctAnswer = answers.First().Text;
+			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			var question = Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
+			var question = Question.Create(text, answers, correctAnswer, questionSetId);
 
 			//assert
 			question.Id.Should().NotBeEmpty();
 			question.Text.Should().Be(text);
 			question.Answers.Should().BeEquivalentTo(answers);
-			question.CorrectAnswerId.Should().Be(answers[0].Id);
+			question.CorrectAnswerId.Should().Be(answers.First().Id);
 			question.QuestionSetId.Should().Be(questionSetId);
 		}
 
@@ -43,18 +37,12 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithEmptyText_ThrowException(string text)
 		{
 			//arrange
-			var answers = new Question.Answer[]
-			{
-				new Question.Answer(Guid.NewGuid(), "test answer 1"),
-				new Question.Answer(Guid.NewGuid(), "test answer 2"),
-				new Question.Answer(Guid.NewGuid(), "test answer 3"),
-				new Question.Answer(Guid.NewGuid(), "test answer 4"),
-			};
-			string correctAnswer = answers[0].Text;
-			Guid questionSetId = Guid.NewGuid();
+			var answers = QuestionExample.ValidAnswers;
+			var correctAnswer = answers.First().Text;
+			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<EmptyQuestionTextException>()
@@ -67,12 +55,10 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithLessThan2Answers_ThrowException(int numberOfAnswers)
 		{
 			//arrange
-			string text = "test text";
-			var answers = new List<Question.Answer>();
-			for (int i = 0; i < numberOfAnswers; i++)
-				answers.Add(new Question.Answer(Guid.NewGuid(), Guid.NewGuid().ToString()));
-			string correctAnswer = Guid.NewGuid().ToString();
-			Guid questionSetId = Guid.NewGuid();
+			var text = QuestionExample.ValidText;
+			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidAnswer);
+			var correctAnswer = Guid.NewGuid().ToString();
+			var questionSetId = QuestionSetExample.NewId;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
@@ -86,24 +72,24 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithDuplicatedAnswwers_ThrowException()
 		{
 			//arrange
-			string text = "test text";
-			string duplicatedAnswer = "test answer 2";
-			var answers = new Question.Answer[]
+			var text = QuestionExample.ValidText;
+			var duplicatedAnswerText = Guid.NewGuid().ToString();
+			var answers = new[]
 			{
-				new Question.Answer(Guid.NewGuid(), "test answer 1"),
-				new Question.Answer(Guid.NewGuid(), duplicatedAnswer),
-				new Question.Answer(Guid.NewGuid(), duplicatedAnswer),
-				new Question.Answer(Guid.NewGuid(), "test answer 4"),
-			};
-			string correctAnswer = answers[0].Text;
-			Guid questionSetId = Guid.NewGuid();
+				QuestionExample.Answer.ValidAnswer,
+				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText),
+				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText),
+				QuestionExample.Answer.ValidAnswer,
+			}.ToHashSet();
+			var correctAnswer = answers.First().Text;
+			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<QuestionContainsDuplicatedAnswersException>()
-				.WithMessage($"Question contains duplicated answers: {duplicatedAnswer}.");
+				.WithMessage($"Question contains duplicated answers: {duplicatedAnswerText}.");
 		}
 
 		[Theory]
@@ -113,18 +99,12 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithEmptyCorrectAnswer_ThrowException(string correctAnswer)
 		{
 			//arrange
-			string text = "test text";
-			var answers = new Question.Answer[]
-			{
-				new Question.Answer(Guid.NewGuid(), "test answer 1"),
-				new Question.Answer(Guid.NewGuid(), "test answer 2"),
-				new Question.Answer(Guid.NewGuid(), "test answer 3"),
-				new Question.Answer(Guid.NewGuid(), "test answer 4"),
-			};
-			Guid questionSetId = Guid.NewGuid();
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.ValidAnswers;
+			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<EmptyCorrectAnswerException>()
@@ -135,19 +115,13 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithAnswerThatIsNotOneOfAnswers_ThrowException()
 		{
 			//arrange
-			string text = "test text";
-			var answers = new Question.Answer[]
-			{
-				new Question.Answer(Guid.NewGuid(), "test answer 1"),
-				new Question.Answer(Guid.NewGuid(), "test answer 2"),
-				new Question.Answer(Guid.NewGuid(), "test answer 3"),
-				new Question.Answer(Guid.NewGuid(), "test answer 4"),
-			};
-			string correctAnswer = Guid.NewGuid().ToString();
-			Guid questionSetId = Guid.NewGuid();
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.ValidAnswers;
+			var correctAnswer = QuestionExample.Answer.ValidText;
+			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<CorrectAnswerIsNotOneOfAnswersException>()
@@ -160,7 +134,7 @@ namespace QuizApp.Core.Tests.Models
 			public void CreateAnswerWithCorrectText()
 			{
 				//arrange
-				string text = "test text";
+				var text = QuestionExample.Answer.ValidText;
 
 				//act
 				var answer = Question.Answer.Create(text);

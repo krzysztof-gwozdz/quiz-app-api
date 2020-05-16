@@ -6,13 +6,13 @@ namespace QuizApp.Infrastructure.Entities
 {
 	public class QuestionEntity : Entity
 	{
-        [JsonProperty("text")]
+		[JsonProperty("text")]
 		public string Text { get; set; }
 
-        [JsonProperty("answers")]
+		[JsonProperty("answers")]
 		public ISet<AnswerEntity> Answers { get; set; }
 
-        [JsonProperty("correctAnswerId")]
+		[JsonProperty("correctAnswerId")]
 		public Guid CorrectAnswerId { get; set; }
 
 		[JsonProperty("questionSetId")]

@@ -23,10 +23,10 @@ namespace QuizApp.Infrastructure.Mappers
 				QuestionSetId = model.QuestionSetId
 			};
 
-		public static Question FromEntity(this QuestionEntity entity) =>
+		public static Question ToModel(this QuestionEntity entity) =>
 			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text)).ToHashSet(), entity.CorrectAnswerId, entity.QuestionSetId);
 
-		public static ISet<Question> FromEntity(this ISet<QuestionEntity> entities) =>
-			new HashSet<Question>(entities.Select(FromEntity));
+		public static ISet<Question> ToModel(this ISet<QuestionEntity> entities) =>
+			new HashSet<Question>(entities.Select(ToModel));
 	}
 }

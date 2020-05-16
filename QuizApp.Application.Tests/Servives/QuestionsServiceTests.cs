@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using Moq;
-using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
+using QuizApp.Application.Tests.Examples;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
+using QuizApp.Core.Tests.Examples;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task GetQuestionThatExists_Question()
 		{
 			//arrange
-			var questionId = Guid.NewGuid();
+			var questionId = QuestionExample.NewId;
 			_questionsRepositoryMock
 				.Setup(x => x.GetByIdAsync(questionId))
 				.ReturnsAsync(new Question(questionId, "", new HashSet<Question.Answer>(), Guid.NewGuid(), Guid.NewGuid()));
@@ -45,7 +46,7 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task GetQuestionThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var questionId = Guid.NewGuid();
+			var questionId = QuestionExample.NewId;
 			_questionsRepositoryMock
 				.Setup(x => x.GetByIdAsync(questionId))
 				.ReturnsAsync((Question)null);
@@ -62,21 +63,10 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task CreateQuestionCorrectValues()
 		{
 			//arrange
-			var questionSetId = Guid.NewGuid();
+			var dto = CreateQuestionDtoExample.ValidDto;
 			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
+				.Setup(x => x.ExistsAsync(dto.QuestionSetId))
 				.ReturnsAsync(true);
-
-			string text = "test text";
-			var answers = new CreateAnswerDto[]
-			{
-				new CreateAnswerDto{ Text = "test answer 1" },
-				new CreateAnswerDto{ Text = "test answer 2" },
-				new CreateAnswerDto{ Text = "test answer 3" },
-				new CreateAnswerDto{ Text = "test answer 4" },
-			};
-			string correctAnswer = answers[0].Text;
-			var dto = new CreateQuestionDto { Text = text, Answers = answers, CorrectAnswer = correctAnswer, QuestionSetId = questionSetId };
 
 			//act 
 			var questionId = await _questionsService.CreateAsync(dto);
@@ -89,35 +79,24 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task CreateQuestionWithQuestionSetIdThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var questionSetId = Guid.NewGuid();
+			var dto = CreateQuestionDtoExample.ValidDto;
 			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
+				.Setup(x => x.ExistsAsync(dto.QuestionSetId))
 				.ReturnsAsync(false);
-
-			string text = "test text";
-			var answers = new CreateAnswerDto[]
-			{
-				new CreateAnswerDto{ Text = "test answer 1" },
-				new CreateAnswerDto{ Text = "test answer 2" },
-				new CreateAnswerDto{ Text = "test answer 3" },
-				new CreateAnswerDto{ Text = "test answer 4" },
-			};
-			string correctAnswer = answers[0].Text;
-			var dto = new CreateQuestionDto { Text = text, Answers = answers, CorrectAnswer = correctAnswer, QuestionSetId = questionSetId };
 
 			//act 
 			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(dto);
 
 			//assert
 			await createQuestion.Should().ThrowAsync<QuestionSetDoesNotExistException>()
-				.WithMessage($"Question set: {questionSetId} does not exist.");
+				.WithMessage($"Question set: {dto.QuestionSetId} does not exist.");
 		}
 
 		[Fact]
 		public async Task RemoveQuestionThatExists_Removed()
 		{
 			//arrange
-			var questionId = Guid.NewGuid();
+			var questionId = QuestionExample.NewId;
 			_questionsRepositoryMock
 				.Setup(x => x.ExistsAsync(questionId))
 				.ReturnsAsync(true);
@@ -133,7 +112,7 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task RemoveQuestionThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var questionId = Guid.NewGuid();
+			var questionId = QuestionExample.NewId;
 			_questionsRepositoryMock
 				.Setup(x => x.ExistsAsync(questionId))
 				.ReturnsAsync(false);

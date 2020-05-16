@@ -6,7 +6,7 @@ namespace QuizApp.Infrastructure.Entities
 {
 	public class QuizEntity : Entity
 	{
-        [JsonProperty("questions")]
+		[JsonProperty("questions")]
 		public ISet<QuestionEntity> Questions { get; set; }
 
 		public class QuestionEntity : Entity

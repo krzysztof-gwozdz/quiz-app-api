@@ -5,6 +5,7 @@ using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
+using QuizApp.Core.Tests.Examples;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -28,12 +29,7 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task GetQuestionSets_QuestionSets()
 		{
 			//arrange
-			var questionsSetsCollection = new[]
-				{
-					new QuestionSet(Guid.NewGuid(), "test name", "", ""),
-					new QuestionSet(Guid.NewGuid(), "test name", "", ""),
-					new QuestionSet(Guid.NewGuid(), "test name", "", "")
-				};
+			var questionsSetsCollection = new[] { QuestionSetExample.ValidQuestionSet, QuestionSetExample.ValidQuestionSet, QuestionSetExample.ValidQuestionSet };
 			_questionSetsRepositoryMock
 				.Setup(x => x.GetAllAsync())
 				.ReturnsAsync(questionsSetsCollection);
@@ -49,23 +45,23 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task GetQuestionSetThatExists_Question()
 		{
 			//arrange
-			var questionSetId = Guid.NewGuid();
+			var existingQuestionSet = QuestionSetExample.ValidQuestionSet;
 			_questionSetsRepositoryMock
-				.Setup(x => x.GetByIdAsync(questionSetId))
-				.ReturnsAsync(new QuestionSet(questionSetId, "test name", "", ""));
+				.Setup(x => x.GetByIdAsync(existingQuestionSet.Id))
+				.ReturnsAsync(existingQuestionSet);
 
 			//act 
-			var questionSet = await _questionSetsService.GetAsync(questionSetId);
+			var questionSet = await _questionSetsService.GetAsync(existingQuestionSet.Id);
 
 			//assert
-			questionSet.Id.Should().Be(questionSetId);
+			questionSet.Id.Should().Be(existingQuestionSet.Id);
 		}
 
 		[Fact]
 		public async Task GetQuestionSetThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var questionSetId = Guid.NewGuid();
+			var questionSetId = QuestionSetExample.NewId;
 			_questionSetsRepositoryMock
 				.Setup(x => x.GetByIdAsync(questionSetId))
 				.ReturnsAsync((QuestionSet)null);
@@ -82,7 +78,7 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task CreateQuestionSetWithUniqueName()
 		{
 			//arrange
-			string name = Guid.NewGuid().ToString();
+			var name = QuestionSetExample.ValidName;
 			var dto = new CreateQuestionSetDto { Name = name };
 
 			//act 
@@ -96,10 +92,10 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task CreateQuestionSetWithNameOfAnotherQuestionSet_ThrowException()
 		{
 			//arrange
-			string name = Guid.NewGuid().ToString();
+			var name = QuestionSetExample.ValidName;
 			_questionSetsRepositoryMock
 				.Setup(x => x.GetByNameAsync(name))
-				.ReturnsAsync(new QuestionSet(Guid.NewGuid(), name, "", ""));
+				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidIconUrl, QuestionSetExample.ValidColor));
 			var dto = new CreateQuestionSetDto { Name = name };
 
 			//act 

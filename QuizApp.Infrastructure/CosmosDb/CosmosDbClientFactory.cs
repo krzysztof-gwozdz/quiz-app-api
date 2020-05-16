@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Azure.Documents.Client;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents.Client;
 
 namespace QuizApp.Infrastructure.CosmosDb
 {
@@ -25,9 +25,11 @@ namespace QuizApp.Infrastructure.CosmosDb
 			return new CosmosDbClient(_databaseName, collectionName, _documentClient);
 		}
 
-		public DocumentClient GetDocumentClient() => _documentClient;
+		public DocumentClient GetDocumentClient() =>
+			_documentClient;
 
-		public Uri GetCollectionUri(string collectionName) => UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName);
+		public Uri GetCollectionUri(string collectionName) =>
+			UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName);
 
 		public async Task EnsureDbSetupAsync()
 		{

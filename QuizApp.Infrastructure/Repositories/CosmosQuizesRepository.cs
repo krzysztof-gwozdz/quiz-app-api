@@ -19,20 +19,13 @@ namespace QuizApp.Application.Services
 		public override Guid GenerateId(QuizEntity entity) => Guid.NewGuid();
 		public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey(entityId);
 
-		public async Task<Quiz> GetByIdAsync(Guid id)
-		{
-			var entity = await GetDocumentByIdAsync(id);
-			return entity.FromEntity();
-		}
+		public async Task<Quiz> GetByIdAsync(Guid id) =>
+			(await GetDocumentByIdAsync(id)).ToModel();
 
-		public async Task AddAsync(Quiz quiz)
-		{
+		public async Task AddAsync(Quiz quiz) =>
 			await AddDocumentAsync(quiz.ToEntity());
-		}
 
-		public async Task Update(Quiz quiz)
-		{
+		public async Task Update(Quiz quiz) =>
 			await UpdateDocumentAsync(quiz.ToEntity());
-		}
 	}
 }
