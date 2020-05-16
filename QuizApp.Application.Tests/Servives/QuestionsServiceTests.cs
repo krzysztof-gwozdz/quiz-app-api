@@ -46,6 +46,9 @@ namespace QuizApp.Application.Tests.Servives
 		{
 			//arrange
 			var questionId = Guid.NewGuid();
+			_questionsRepositoryMock
+				.Setup(x => x.GetByIdAsync(questionId))
+				.ReturnsAsync((Question)null);
 
 			//act 
 			Func<Task> getQuestion = async () => await _questionsService.GetAsync(questionId);

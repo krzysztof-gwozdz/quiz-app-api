@@ -23,15 +23,18 @@ namespace QuizApp.Application.Services
 
 		public async Task<QuestionSetsDto> GetCollectionAsync()
 		{
-			var entities = await _questionSetsRepository.GetAllAsync();
-			return entities.AsDto();
+			var questionSets = await _questionSetsRepository.GetAllAsync();
+			return questionSets.AsDto();
 		}
 
 		public async Task<QuestionSetDto> GetAsync(Guid id)
 		{
-			var entity = await _questionSetsRepository.GetByIdAsync(id);
+			var questionSet = await _questionSetsRepository.GetByIdAsync(id);
+			if (questionSet is null)
+				throw new QuestionSetDoesNotExistException(id);
+
 			var totalQuestions = await _questionsRepository.CountBySetIdAsync(id);
-			return entity.AsDto(totalQuestions);
+			return questionSet.AsDto(totalQuestions);
 		}
 
 		public async Task<Guid> CreateAsync(CreateQuestionSetDto createQuestionSetDto)

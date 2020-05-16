@@ -25,6 +25,60 @@ namespace QuizApp.Application.Tests.Servives
 		}
 
 		[Fact]
+		public async Task GetQuestionSets_QuestionSets()
+		{
+			//arrange
+			var questionsSetsCollection = new[]
+				{
+					new QuestionSet(Guid.NewGuid(), "test name", "", ""),
+					new QuestionSet(Guid.NewGuid(), "test name", "", ""),
+					new QuestionSet(Guid.NewGuid(), "test name", "", "")
+				};
+			_questionSetsRepositoryMock
+				.Setup(x => x.GetAllAsync())
+				.ReturnsAsync(questionsSetsCollection);
+
+			//act 
+			var questionSets = await _questionSetsService.GetCollectionAsync();
+
+			//assert
+			questionSets.Collection.Should().HaveCount(questionsSetsCollection.Length);
+		}
+
+		[Fact]
+		public async Task GetQuestionSetThatExists_Question()
+		{
+			//arrange
+			var questionSetId = Guid.NewGuid();
+			_questionSetsRepositoryMock
+				.Setup(x => x.GetByIdAsync(questionSetId))
+				.ReturnsAsync(new QuestionSet(questionSetId, "test name", "", ""));
+
+			//act 
+			var questionSet = await _questionSetsService.GetAsync(questionSetId);
+
+			//assert
+			questionSet.Id.Should().Be(questionSetId);
+		}
+
+		[Fact]
+		public async Task GetQuestionSetThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var questionSetId = Guid.NewGuid();
+			_questionSetsRepositoryMock
+				.Setup(x => x.GetByIdAsync(questionSetId))
+				.ReturnsAsync((QuestionSet)null);
+
+			//act 
+			Func<Task> getQuestionSet = async () => await _questionSetsService.GetAsync(questionSetId);
+
+			//assert
+			await getQuestionSet.Should().ThrowAsync<QuestionSetDoesNotExistException>()
+				.WithMessage($"Question set: {questionSetId} does not exist.");
+		}
+
+		[Fact]
 		public async Task CreateQuestionSetWithUniqueName()
 		{
 			//arrange
