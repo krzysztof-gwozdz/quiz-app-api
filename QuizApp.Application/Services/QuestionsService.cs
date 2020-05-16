@@ -24,14 +24,18 @@ namespace QuizApp.Application.Services
 
 		public async Task<QuestionDto> GetAsync(Guid id)
 		{
-			var entity = await _questionsRepository.GetByIdAsync(id);
-			return entity.AsDto();
+			var question = await _questionsRepository.GetByIdAsync(id);
+
+			if (question is null)
+				throw new QuestionDoesNotExistException(id);
+
+			return question.AsDto();
 		}
 
 		public async Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto)
 		{
 			if (!await _questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId))
-				throw new SelectedQuestionSetDoesNotExistException(createQuestionDto.QuestionSetId);
+				throw new QuestionSetDoesNotExistException(createQuestionDto.QuestionSetId);
 
 			var answers = createQuestionDto.Answers.Select(answer => Question.Answer.Create(answer.Text)).ToHashSet();
 			var question = Question.Create(createQuestionDto.Text, answers, createQuestionDto.CorrectAnswer, createQuestionDto.QuestionSetId);
@@ -41,6 +45,9 @@ namespace QuizApp.Application.Services
 
 		public async Task RemoveAsync(Guid id)
 		{
+			if (!await _questionsRepository.ExistsAsync(id))
+				throw new QuestionDoesNotExistException(id);
+
 			await _questionsRepository.RemoveAsync(id);
 		}
 	}

@@ -20,31 +20,22 @@ namespace QuizApp.Application.Services
 		public override Guid GenerateId(QuestionEntity entity) => Guid.NewGuid();
 		public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey(entityId);
 
-		public async Task<Question> GetByIdAsync(Guid id)
-		{
-			var entity = await GetDocumentByIdAsync(id);
-			return entity.FromEntity();
-		}
+		public async Task<Question> GetByIdAsync(Guid id) =>
+			(await GetDocumentByIdAsync(id)).FromEntity();
 
-		public async Task AddAsync(Question question)
-		{
+		public async Task<bool> ExistsAsync(Guid id) =>
+			await CheckIfDocumentExists(id);
+
+		public async Task<ISet<Question>> GetAllBySetIdAsync(Guid setId) =>
+			(await GetDocumentsAsync(x => x.QuestionSetId == setId)).FromEntity();
+
+		public async Task<int> CountBySetIdAsync(Guid setId) =>
+			await CountDocumentsAsync(x => x.QuestionSetId == setId);
+
+		public async Task AddAsync(Question question) =>
 			await AddDocumentAsync(question.ToEntity());
-		}
 
 		public async Task RemoveAsync(Guid id)
-		{
-			await DeleteDocumentAsync(id);
-		}
-
-		public async Task<int> CountBySetIdAsync(Guid setId)
-		{
-			return await CountDocumentsAsync(x => x.QuestionSetId == setId);
-		}
-
-		public async Task<ISet<Question>> GetAllBySetIdAsync(Guid setId)
-		{
-			var entites = await GetDocumentsAsync(x => x.QuestionSetId == setId);
-			return entites.FromEntity();
-		}
+			=> await DeleteDocumentAsync(id);
 	}
 }
