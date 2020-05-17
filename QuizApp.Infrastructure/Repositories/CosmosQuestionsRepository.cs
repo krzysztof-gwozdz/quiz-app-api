@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.Documents;
-using QuizApp.Core.Models;
+﻿using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Infrastructure.CosmosDb;
 using QuizApp.Infrastructure.Entities;
@@ -10,15 +9,12 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
 {
+	[CosmosDbRepository("Questions", "/id")]
 	public class CosmosQuestionsRepository : CosmosDbRepository<QuestionEntity>, IQuestionsRepository
 	{
 		public CosmosQuestionsRepository(ICosmosDbClientFactory factory) : base(factory)
 		{
 		}
-
-		public override string CollectionName { get; } = "Questions";
-		public override Guid GenerateId(QuestionEntity entity) => Guid.NewGuid();
-		public override PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey(entityId);
 
 		public async Task<Question> GetByIdAsync(Guid id) =>
 			(await GetDocumentByIdAsync(id)).ToModel();

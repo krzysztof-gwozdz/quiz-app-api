@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using QuizApp.Api.Extensions;
-using QuizApp.Api.Options;
 using QuizApp.Application.Extensions;
+using QuizApp.Infrastructure.Extensions;
+using QuizApp.Infrastructure.Options;
 using System;
 using System.Threading.Tasks;
 

@@ -2,7 +2,7 @@
 using QuizApp.Core.Repositories;
 using System;
 
-namespace QuizApp.Api.Extensions
+namespace QuizApp.Infrastructure.Extensions
 {
 	public static class RepositoriesExtensions
 	{

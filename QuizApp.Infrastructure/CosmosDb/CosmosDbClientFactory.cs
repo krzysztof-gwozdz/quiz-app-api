@@ -1,6 +1,7 @@
-﻿using Microsoft.Azure.Documents.Client;
+﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Documents.Client;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb
@@ -8,34 +9,33 @@ namespace QuizApp.Infrastructure.CosmosDb
 	public class CosmosDbClientFactory : ICosmosDbClientFactory
 	{
 		private readonly string _databaseName;
-		private readonly List<string> _collectionNames;
-		private readonly DocumentClient _documentClient;
+		private readonly ContainerProperties[] _containerProperties;
+		private readonly CosmosClient _cosmosClient;
+		public DocumentClient DocumentClient { get; }
 
-		public CosmosDbClientFactory(string databaseName, List<string> collectionNames, DocumentClient documentClient)
+		public CosmosDbClientFactory(string databaseName, ContainerProperties[] containerProperties, CosmosClient cosmosClient, DocumentClient documentClient)
 		{
 			_databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
-			_collectionNames = collectionNames ?? throw new ArgumentNullException(nameof(collectionNames));
-			_documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
+			_containerProperties = containerProperties ?? throw new ArgumentNullException(nameof(containerProperties));
+			_cosmosClient = cosmosClient ?? throw new ArgumentNullException(nameof(cosmosClient));
+			DocumentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
 		}
 
-		public ICosmosDbClient GetClient(string collectionName)
+		public ICosmosDbClient GetClient(string containerId)
 		{
-			if (!_collectionNames.Contains(collectionName))
-				throw new ArgumentException($"Unable to find collection: {collectionName}");
-			return new CosmosDbClient(_databaseName, collectionName, _documentClient);
+			if (!_containerProperties.Any(x => x.Id == containerId))
+				throw new ArgumentException($"Unable to find container: {containerId}");
+			return new CosmosDbClient(_databaseName, containerId, DocumentClient);
 		}
 
-		public DocumentClient GetDocumentClient() =>
-			_documentClient;
-
-		public Uri GetCollectionUri(string collectionName) =>
-			UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName);
+		public Uri GetCollectionUri(string containerId) =>
+			UriFactory.CreateDocumentCollectionUri(_databaseName, containerId);
 
 		public async Task EnsureDbSetupAsync()
 		{
-			await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(_databaseName));
-			foreach (var collectionName in _collectionNames)
-				await _documentClient.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(_databaseName, collectionName));
+			var databaseResponse = (await _cosmosClient.CreateDatabaseIfNotExistsAsync(_databaseName)).Database;
+			foreach (var containerProperties in _containerProperties)
+				await databaseResponse.CreateContainerIfNotExistsAsync(containerProperties);
 		}
 	}
 }

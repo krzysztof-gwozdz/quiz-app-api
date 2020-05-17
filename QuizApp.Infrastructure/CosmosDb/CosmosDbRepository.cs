@@ -9,13 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb
 {
-	public abstract class CosmosDbRepository<T> : IDocumentCollectionContext<T> where T : Entity
+	public abstract class CosmosDbRepository<T> : ICosmosDbRepository<T> where T : Entity
 	{
 		private readonly ICosmosDbClientFactory _cosmosDbClientFactory;
+
+		public string CollectionId => GetType().GetCustomAttribute<CosmosDbRepositoryAttribute>().ContainerProperties.Id;
+		public virtual Guid GenerateId(T entity) => Guid.NewGuid();
+		public virtual PartitionKey ResolvePartitionKey(string entityId) => new PartitionKey(entityId);
 
 		protected CosmosDbRepository(ICosmosDbClientFactory cosmosDbClientFactory)
 		{
@@ -28,8 +33,8 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
-				var client = _cosmosDbClientFactory.GetDocumentClient();
+				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionId);
+				var client = _cosmosDbClientFactory.DocumentClient;
 				var documentQuery = client.CreateDocumentQuery<T>(documentUri);
 				var count = await documentQuery.Where(predicate).CountAsync();
 				return count;
@@ -49,8 +54,8 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionName);
-				var client = _cosmosDbClientFactory.GetDocumentClient();
+				var documentUri = _cosmosDbClientFactory.GetCollectionUri(CollectionId);
+				var client = _cosmosDbClientFactory.DocumentClient;
 				var documentQuery = client
 					.CreateDocumentQuery<T>(documentUri, new FeedOptions { EnableCrossPartitionQuery = true })
 					.Where(predicate)
@@ -75,7 +80,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var client = _cosmosDbClientFactory.GetClient(CollectionId);
 				var document = await client.ReadDocumentAsync(id.ToString(), new RequestOptions
 				{
 					PartitionKey = ResolvePartitionKey(id.ToString())
@@ -95,7 +100,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var client = _cosmosDbClientFactory.GetClient(CollectionId);
 				var document = await client.ReadDocumentAsync(id.ToString(), new RequestOptions
 				{
 					PartitionKey = ResolvePartitionKey(id.ToString())
@@ -114,7 +119,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var client = _cosmosDbClientFactory.GetClient(CollectionId);
 				var document = await client.CreateDocumentAsync(entity);
 				return JsonConvert.DeserializeObject<T>(document.ToString());
 			}
@@ -130,7 +135,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var client = _cosmosDbClientFactory.GetClient(CollectionId);
 				await client.ReplaceDocumentAsync(entity.Id.ToString(), entity);
 			}
 			catch (DocumentClientException e)
@@ -145,7 +150,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 		{
 			try
 			{
-				var client = _cosmosDbClientFactory.GetClient(CollectionName);
+				var client = _cosmosDbClientFactory.GetClient(CollectionId);
 				await client.DeleteDocumentAsync(id.ToString(), new RequestOptions
 				{
 					PartitionKey = ResolvePartitionKey(id.ToString())
@@ -158,9 +163,5 @@ namespace QuizApp.Infrastructure.CosmosDb
 				throw;
 			}
 		}
-
-		public abstract string CollectionName { get; }
-		public virtual Guid GenerateId(T entity) => Guid.NewGuid();
-		public virtual PartitionKey ResolvePartitionKey(string entityId) => null;
 	}
 }

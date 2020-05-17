@@ -5,8 +5,8 @@ namespace QuizApp.Infrastructure.CosmosDb
 {
     public interface ICosmosDbClientFactory
     {
+        DocumentClient DocumentClient { get; }
         ICosmosDbClient GetClient(string collectionName);
-        DocumentClient GetDocumentClient();
         Uri GetCollectionUri(string collectionName);
     }
 }
