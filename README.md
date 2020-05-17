@@ -5,18 +5,20 @@
 2. Download and install [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator-release-notes) [optional] 
 3. Set configuration in `QuizApp.Api/application.json`:    
     ```javascript
-    "ConnectionStrings": {
-        "Mode": "<Azure or Emulator>",
+    "CosmosDb": {
+        "Mode": "Emulator",
         "Azure": {
-            "ServiceEndpoint": "<YOUR SERVICE ENDPOINT URI>"
+          "ServiceEndpoint": "<YOUR SERVICE ENDPOINT URI>",
+          "AuthKey": "<YOUR AUTHORIZATION KEY>"
         },
         "Emulator": {
-            "ServiceEndpoint": "https://localhost:8081",
-            "AuthKey": "<YOUR AUTH KEY>"
-        }
+          "ServiceEndpoint": "<YOUR SERVICE ENDPOINT URI>",
+          "AuthKey": "<YOUR AUTHORIZATION KEY>"
+        },
+        "DatabaseName": "<DATABASE NAME>"   
     },
     ```
 4. Run project using:
     - [Visual Studio](https://visualstudio.microsoft.com/)
-    - ~~[Visual Studio Code](https://code.visualstudio.com/)~~ *[TODO: add configuration]*
-    - run script `run.bat` in main directory
+    - [Visual Studio Code](https://code.visualstudio.com/)
+    - run script `run.bat` from root directory
