@@ -1,4 +1,4 @@
-﻿namespace QuizApp.Infrastructure.Options
+﻿namespace QuizApp.Infrastructure.CosmosDb
 {
 	public class CosmosDbOptions
 	{

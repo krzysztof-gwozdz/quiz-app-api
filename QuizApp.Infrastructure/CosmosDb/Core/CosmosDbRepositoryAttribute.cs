@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
 using System;
 
-namespace QuizApp.Infrastructure.CosmosDb
+namespace QuizApp.Infrastructure.CosmosDb.Core
 {
 	public class CosmosDbRepositoryAttribute : Attribute
 	{

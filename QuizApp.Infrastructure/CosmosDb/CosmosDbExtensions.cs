@@ -3,13 +3,12 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using QuizApp.Infrastructure.CosmosDb;
-using QuizApp.Infrastructure.Options;
+using QuizApp.Infrastructure.CosmosDb.Core;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace QuizApp.Infrastructure.Extensions
+namespace QuizApp.Infrastructure.CosmosDb
 {
 	public static class CosmosDbExtensions
 	{

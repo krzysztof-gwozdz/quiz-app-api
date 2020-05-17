@@ -1,12 +1,12 @@
 ﻿using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
-using QuizApp.Infrastructure.CosmosDb;
+using QuizApp.Infrastructure.CosmosDb.Core;
 using QuizApp.Infrastructure.Entities;
 using QuizApp.Infrastructure.Mappers;
 using System;
 using System.Threading.Tasks;
 
-namespace QuizApp.Application.Services
+namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("Quizes", "/id")]
 	public class CosmosQuizesRepository : CosmosDbRepository<QuizEntity>, IQuizesRepository

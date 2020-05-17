@@ -2,7 +2,7 @@
 using QuizApp.Infrastructure.Entities;
 using System;
 
-namespace QuizApp.Infrastructure.CosmosDb
+namespace QuizApp.Infrastructure.CosmosDb.Core
 {
 	public interface ICosmosDbRepository<in T> where T : Entity
 	{

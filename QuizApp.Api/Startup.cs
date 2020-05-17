@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using QuizApp.Application.Extensions;
+using QuizApp.Infrastructure.CosmosDb;
 using QuizApp.Infrastructure.Extensions;
-using QuizApp.Infrastructure.Options;
 using System;
 using System.Threading.Tasks;
 

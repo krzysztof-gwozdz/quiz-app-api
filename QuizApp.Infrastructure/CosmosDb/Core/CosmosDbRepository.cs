@@ -12,7 +12,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace QuizApp.Infrastructure.CosmosDb
+namespace QuizApp.Infrastructure.CosmosDb.Core
 {
 	public abstract class CosmosDbRepository<T> : ICosmosDbRepository<T> where T : Entity
 	{

@@ -1,6 +1,6 @@
 ﻿using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
-using QuizApp.Infrastructure.CosmosDb;
+using QuizApp.Infrastructure.CosmosDb.Core;
 using QuizApp.Infrastructure.Entities;
 using QuizApp.Infrastructure.Mappers;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuizApp.Application.Services
+namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("QuestionSets", "/id")]
 	public class CosmosQuestionSetsRepository : CosmosDbRepository<QuestionSetEntity>, IQuestionSetsRepository

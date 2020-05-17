@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Documents.Client;
 using System;
 
-namespace QuizApp.Infrastructure.CosmosDb
+namespace QuizApp.Infrastructure.CosmosDb.Core
 {
     public interface ICosmosDbClientFactory
     {

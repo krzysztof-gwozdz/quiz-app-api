@@ -3,7 +3,7 @@ using Microsoft.Azure.Documents.Client;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace QuizApp.Infrastructure.CosmosDb
+namespace QuizApp.Infrastructure.CosmosDb.Core
 {
 	public interface ICosmosDbClient
 	{
