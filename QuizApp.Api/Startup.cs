@@ -11,7 +11,6 @@ using QuizApp.Application.Services;
 using QuizApp.Core.Factories;
 using QuizApp.Core.Repositories;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Api
@@ -27,12 +26,6 @@ namespace QuizApp.Api
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var connectionStringsOptions = Configuration.GetSection("ConnectionStrings").Get<ConnectionStringsOptions>();
-			var cosmosDbOptions = Configuration.GetSection("CosmosDb").Get<CosmosDbOptions>();
-			var (serviceEndpoint, authKey) = connectionStringsOptions.ActiveConnectionStringOptions;
-			var (databaseName, collectionData) = cosmosDbOptions;
-			var collectionNames = collectionData.Select(c => c.Name).ToList();
-
 			services.AddControllers();
 
 			services.AddTransient<IQuestionsRepository, CosmosQuestionsRepository>();
@@ -44,9 +37,10 @@ namespace QuizApp.Api
 			services.AddTransient<IQuestionSetsService, QuestionSetsService>();
 
 			services.AddTransient<IQuizFactory, QuizFactory>();
+			services.AddSingleton<IRandomFactory, RandomFactory>();
 
 			// Add CosmosDb. This verifies database and collections existence.
-			services.AddCosmosDb(serviceEndpoint, authKey, databaseName, collectionNames);
+			services.AddCosmosDb(Configuration.GetSection("CosmosDb").Get<CosmosDbOptions>());
 
 			services.AddSwaggerGen(c =>
 			{

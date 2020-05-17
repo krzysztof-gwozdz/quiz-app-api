@@ -2,18 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using QuizApp.Api.Options;
 using QuizApp.Infrastructure.CosmosDb;
-using System;
-using System.Collections.Generic;
 
 namespace QuizApp.Api.Extensions
 {
 	public static class ServiceCollectionCosmosDbExtensions
 	{
-		public static IServiceCollection AddCosmosDb(this IServiceCollection services, Uri serviceEndpoint,
-			string authKey, string databaseName, List<string> collectionNames)
+		public static IServiceCollection AddCosmosDb(this IServiceCollection services, CosmosDbOptions options)
 		{
-			var documentClient = new DocumentClient(serviceEndpoint, authKey, new JsonSerializerSettings
+			var documentClient = new DocumentClient(options.ConnectionString.ServiceEndpoint, options.ConnectionString.AuthKey, new JsonSerializerSettings
 			{
 				NullValueHandling = NullValueHandling.Ignore,
 				DefaultValueHandling = DefaultValueHandling.Ignore,
@@ -21,7 +19,7 @@ namespace QuizApp.Api.Extensions
 			});
 			documentClient.OpenAsync().Wait();
 
-			var cosmosDbClientFactory = new CosmosDbClientFactory(databaseName, collectionNames, documentClient);
+			var cosmosDbClientFactory = new CosmosDbClientFactory(options.DatabaseName, options.CollectionNames, documentClient);
 			cosmosDbClientFactory.EnsureDbSetupAsync().Wait();
 
 			services.AddSingleton<ICosmosDbClientFactory>(cosmosDbClientFactory);

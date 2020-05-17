@@ -1,17 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QuizApp.Api.Options
 {
 	public class CosmosDbOptions
 	{
+		public ConnectionStringMode Mode { get; set; }
+		public ConnectionString Azure { get; set; }
+		public ConnectionString Emulator { get; set; }
 		public string DatabaseName { get; set; }
-		public List<CollectionInfo> CollectionNames { get; set; }
+		public List<CollectionInfo> Collections { get; set; }
 
-		public void Deconstruct(out string databaseName, out List<CollectionInfo> collectionNames)
-		{
-			databaseName = DatabaseName;
-			collectionNames = CollectionNames;
-		}
+		public ConnectionString ConnectionString =>
+			Mode == ConnectionStringMode.Azure ? Azure : Emulator;
+		public List<string> CollectionNames =>
+			Collections?.Select(x => x.Name).ToList();
+	}
+
+	public enum ConnectionStringMode
+	{
+		Azure,
+		Emulator
+	}
+
+	public class ConnectionString
+	{
+		public Uri ServiceEndpoint { get; set; }
+		public string AuthKey { get; set; }
 	}
 
 	public class CollectionInfo
