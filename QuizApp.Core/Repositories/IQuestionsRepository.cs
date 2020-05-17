@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Core.Repositories
 {
-	public interface IQuestionsRepository
+	public interface IQuestionsRepository : IRepository
 	{
 		Task<Question> GetByIdAsync(Guid id);
 		Task<bool> ExistsAsync(Guid id);

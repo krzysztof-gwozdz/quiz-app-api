@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
 {
-	public interface IQuizesService
+	public interface IQuizesService : IService
 	{
 		Task<QuizDto> GetAsync(Guid id);
 		Task<QuizSummaryDto> GetSummaryAsync(Guid id);

@@ -7,9 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using QuizApp.Api.Extensions;
 using QuizApp.Api.Options;
-using QuizApp.Application.Services;
-using QuizApp.Core.Factories;
-using QuizApp.Core.Repositories;
+using QuizApp.Application.Extensions;
 using System;
 using System.Threading.Tasks;
 
@@ -27,21 +25,10 @@ namespace QuizApp.Api
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-
-			services.AddTransient<IQuestionsRepository, CosmosQuestionsRepository>();
-			services.AddTransient<IQuestionSetsRepository, CosmosQuestionSetsRepository>();
-			services.AddTransient<IQuizesRepository, CosmosQuizesRepository>();
-
-			services.AddTransient<IQuizesService, QuizesService>();
-			services.AddTransient<IQuestionsService, QuestionsService>();
-			services.AddTransient<IQuestionSetsService, QuestionSetsService>();
-
-			services.AddTransient<IQuizFactory, QuizFactory>();
-			services.AddSingleton<IRandomFactory, RandomFactory>();
-
-			// Add CosmosDb. This verifies database and collections existence.
+			services.AddRepositories();
+			services.AddServices();
+			services.AddFactories();
 			services.AddCosmosDb(Configuration.GetSection("CosmosDb").Get<CosmosDbOptions>());
-
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Quiz App API", Version = "v1" });
@@ -74,8 +61,6 @@ namespace QuizApp.Api
 			{
 				endpoints.MapControllers();
 			});
-
-
 		}
 
 		private async Task RedirectToswagger(HttpContext context, Func<Task> next)

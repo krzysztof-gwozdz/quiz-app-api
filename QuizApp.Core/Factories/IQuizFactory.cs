@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Core.Factories
 {
-	public interface IQuizFactory
+	public interface IQuizFactory : IFactory
 	{
 		Task<Quiz> GetAsync(Guid questionSetId, int questionCount);
 	}

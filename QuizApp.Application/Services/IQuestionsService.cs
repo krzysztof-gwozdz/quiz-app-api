@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
 {
-	public interface IQuestionsService
+	public interface IQuestionsService : IService
 	{
 		Task<QuestionDto> GetAsync(Guid id);
 		Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto);
