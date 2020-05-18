@@ -10,7 +10,7 @@ namespace QuizApp.Core.Tests.Models
 	public class QuestionSetTests
 	{
 		[Fact]
-		public void CreateQuestionSetWithCorrectValues()
+		public void CreateQuestionSetWithCorrectValues_QuestionSetCreated()
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;

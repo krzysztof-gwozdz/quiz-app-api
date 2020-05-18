@@ -75,7 +75,7 @@ namespace QuizApp.Application.Tests.Servives
 		}
 
 		[Fact]
-		public async Task CreateQuestionSetWithUniqueName()
+		public async Task CreateQuestionSetWithUniqueName_QuestionSetCreated()
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;

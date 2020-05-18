@@ -2,13 +2,10 @@
 using Moq;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Factories;
-using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using QuizApp.Core.Tests.Mocks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -35,7 +32,7 @@ namespace QuizApp.Core.Tests.Factories
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 3;
-			var questions = new HashSet<Question> { QuestionExample.ValidQuestion, QuestionExample.ValidQuestion, QuestionExample.ValidQuestion };
+			var questions = QuestionExample.GetQuestions(3);
 			_questionsRepositoryMock
 				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
 				.ReturnsAsync(questions);
@@ -120,7 +117,7 @@ namespace QuizApp.Core.Tests.Factories
 			var questionSetId = QuestionSetExample.NewId;
 			var questionCount = 3;
 
-			var questions = Enumerable.Range(1, 5).Select(x => QuestionExample.ValidQuestion).ToHashSet();
+			var questions = QuestionExample.GetQuestions(5);
 			_questionsRepositoryMock
 				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
 				.ReturnsAsync(questions);

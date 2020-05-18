@@ -11,11 +11,11 @@ namespace QuizApp.Core.Tests.Models
 	public class QuestionTests
 	{
 		[Fact]
-		public void CreateQuestionWithCorrectValues()
+		public void CreateQuestionWithCorrectValues_QuestionCreated()
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = QuestionExample.ValidAnswers;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var correctAnswer = answers.First().Text;
 			var questionSetId = QuestionSetExample.NewId;
 
@@ -37,7 +37,7 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionWithEmptyText_ThrowException(string text)
 		{
 			//arrange
-			var answers = QuestionExample.ValidAnswers;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var correctAnswer = answers.First().Text;
 			var questionSetId = QuestionSetExample.NewId;
 
@@ -100,7 +100,7 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = QuestionExample.ValidAnswers;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
@@ -116,7 +116,7 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = QuestionExample.ValidAnswers;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var correctAnswer = QuestionExample.Answer.ValidText;
 			var questionSetId = QuestionSetExample.NewId;
 
@@ -131,7 +131,7 @@ namespace QuizApp.Core.Tests.Models
 		public class AnswerTests
 		{
 			[Fact]
-			public void CreateAnswerWithCorrectText()
+			public void CreateAnswerWithCorrectText_AnswerCreated()
 			{
 				//arrange
 				var text = QuestionExample.Answer.ValidText;

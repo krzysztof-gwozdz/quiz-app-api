@@ -60,7 +60,7 @@ namespace QuizApp.Application.Tests.Servives
 		}
 
 		[Fact]
-		public async Task CreateQuestionCorrectValues()
+		public async Task CreateQuestionCorrectValues_QuestionCreated()
 		{
 			//arrange
 			var dto = CreateQuestionDtoExample.ValidDto;
@@ -93,7 +93,7 @@ namespace QuizApp.Application.Tests.Servives
 		}
 
 		[Fact]
-		public async Task RemoveQuestionThatExists_Removed()
+		public async Task RemoveQuestionThatExists_QuestionRemoved()
 		{
 			//arrange
 			var questionId = QuestionExample.NewId;
