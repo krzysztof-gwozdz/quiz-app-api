@@ -44,11 +44,13 @@ namespace QuizApp.Core.Factories
 
 		private async Task<Quiz.Question[]> GetQuestionsAsync(Guid questionSetId, int questionCount)
 		{
-			var allQuestions = (await _questionsRepository.GetAllBySetIdAsync(questionSetId)).ToArray();
+			var allQuestions = (await _questionsRepository.GetAllBySetIdAsync(questionSetId)).ToList();
 			var questions = new List<Quiz.Question>();
 			for (int i = 0; i < questionCount; i++)
 			{
-				questions.Add(new Quiz.Question(allQuestions[_randomFactory.NextInt(allQuestions.Length)]));
+				int index = _randomFactory.NextInt(allQuestions.Count);
+				questions.Add(new Quiz.Question(allQuestions[index]));
+				allQuestions.RemoveAt(index);
 			}
 			return questions.ToArray();
 		}

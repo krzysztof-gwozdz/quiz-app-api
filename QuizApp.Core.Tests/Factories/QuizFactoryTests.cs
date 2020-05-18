@@ -5,11 +5,12 @@ using QuizApp.Core.Factories;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
+using QuizApp.Core.Tests.Mocks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-
 
 namespace QuizApp.Core.Tests.Factories
 {
@@ -18,7 +19,7 @@ namespace QuizApp.Core.Tests.Factories
 		private readonly Mock<IQuestionsRepository> _questionsRepositoryMock;
 		private readonly Mock<IQuestionSetsRepository> _questionSetsRepositoryMock;
 		private readonly Mock<IRandomFactory> _randomFactory;
-		private readonly QuizFactory _quizFactory;
+		private QuizFactory _quizFactory;
 
 		public QuizFactoryTests()
 		{
@@ -29,7 +30,7 @@ namespace QuizApp.Core.Tests.Factories
 		}
 
 		[Fact]
-		public async Task CreateQuizWithCorrectValues()
+		public async Task GetQuizWithCorrectValues_QuizCreated()
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
@@ -57,7 +58,7 @@ namespace QuizApp.Core.Tests.Factories
 		}
 
 		[Fact]
-		public async Task CreateQuizWithQuestionSetThatDoesNotExists_ThrowException()
+		public async Task GetQuizWithQuestionSetThatDoesNotExists_ThrowException()
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
@@ -74,7 +75,7 @@ namespace QuizApp.Core.Tests.Factories
 		}
 
 		[Fact]
-		public async Task CreateQuizWithLessThanMinimumQuestions_ThrowException()
+		public async Task GetQuizWithLessThanMinimumQuestions_ThrowException()
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
@@ -92,7 +93,7 @@ namespace QuizApp.Core.Tests.Factories
 		}
 
 		[Fact]
-		public async Task CreateQuizWithMoreThanMaxNumberOfQuestionsForQuestionSet_ThrowException()
+		public async Task GetQuizWithMoreThanMaxNumberOfQuestionsForQuestionSet_ThrowException()
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
@@ -111,6 +112,34 @@ namespace QuizApp.Core.Tests.Factories
 			//assert
 			await getQuiz.Should().ThrowAsync<TooManyQuestionsException>()
 				.WithMessage($"Too many questions: {questionCount}. Max question count for this question set: {maxQuestionCount}.");
+		}
+
+		[Fact]
+		public async Task GetQuizWithCorrectValues_QuestionsAreUnique()
+		{
+			var questionSetId = QuestionSetExample.NewId;
+			var questionCount = 3;
+
+			var questions = Enumerable.Range(1, 5).Select(x => QuestionExample.ValidQuestion).ToHashSet();
+			_questionsRepositoryMock
+				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
+				.ReturnsAsync(questions);
+			_questionSetsRepositoryMock
+				.Setup(x => x.ExistsAsync(questionSetId))
+				.ReturnsAsync(true);
+			_questionsRepositoryMock
+				.Setup(x => x.CountBySetIdAsync(questionSetId))
+				.ReturnsAsync(questionCount + 1);
+
+			var randomFactory = new MockRandomFactory(new int[] { 0, 1, 1, 0, 2 });
+			_quizFactory = new QuizFactory(_questionsRepositoryMock.Object, _questionSetsRepositoryMock.Object, randomFactory);
+
+			//act
+			var quiz = await _quizFactory.GetAsync(questionSetId, questionCount);
+
+			//assert
+			quiz.Id.Should().NotBeEmpty();
+			quiz.Questions.Should().OnlyHaveUniqueItems(x => x.Id);
 		}
 	}
 }
