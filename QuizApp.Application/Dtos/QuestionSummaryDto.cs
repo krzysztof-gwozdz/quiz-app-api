@@ -9,6 +9,7 @@ namespace QuizApp.Application.Dtos
 		public AnswerDto[] Answers { get; set; }
 		public Guid CorrectAnswerId { get; set; }
 		public Guid? PlayerAnswerId { get; set; }
-		public bool IsCorrect { get; set; }
+		public bool IsAnswered { get; set; }
+		public bool? IsCorrect { get; set; }
 	}
 }

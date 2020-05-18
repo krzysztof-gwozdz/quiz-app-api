@@ -46,6 +46,7 @@ namespace QuizApp.Application.Mappers
 					).ToArray(),
 					CorrectAnswerId = question.CorrectAnswerId,
 					PlayerAnswerId = question.PlayerAnswerId,
+					IsAnswered = question.IsAnswered,
 					IsCorrect = question.IsCorrect
 				}
 			).ToArray(),

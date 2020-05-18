@@ -43,7 +43,7 @@ namespace QuizApp.Infrastructure.Mappers
 						question.CorrectAnswerId,
 						question.PlayerAnswerId,
 						question.QuestionSetId)
-				).ToArray()
+				).ToHashSet()
 			);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizApp.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,19 +8,29 @@ namespace QuizApp.Core.Models
 	public class Quiz
 	{
 		public Guid Id { get; }
-		public Question[] Questions { get; }
-		public int CorrectAnswers => Questions?.Count(question => question.IsCorrect) ?? 0;
+		public HashSet<Question> Questions { get; }
+		public int CorrectAnswers => Questions?.Count(question => question.IsCorrect == true) ?? 0;
 		public int TotalQuestions => Questions?.Count() ?? 0;
 
-		public Quiz(Guid id, Question[] questions)
+		public Quiz(Guid id, HashSet<Question> questions)
 		{
 			Id = id;
 			Questions = questions;
 		}
 
-		public void Resolve(IEnumerable<PlayerAnswer> playerAnswers)
+		public void Solve(HashSet<PlayerAnswer> playerAnswers)
 		{
-			playerAnswers.ToList().ForEach(playerAnswer => Questions.First(x => x.Id == playerAnswer.QuestionId).AnswerQuestion(playerAnswer.AnswerId));
+			foreach (var playerAnswer in playerAnswers)
+			{
+				var question = Questions.FirstOrDefault(x => x.Id == playerAnswer.QuestionId);
+				if (question is null)
+					throw new QuestionIsNotAPartOfQuizException(playerAnswer.QuestionId, Id);
+
+				if (!question.Answers.Any(x => x.Id == playerAnswer.AnswerId))
+					throw new AnswerIsNotFromQuestionException(playerAnswer.AnswerId, playerAnswer.QuestionId);
+
+				question.AnswerQuestion(playerAnswer.AnswerId);
+			}
 		}
 
 		public class Question
@@ -28,10 +39,11 @@ namespace QuizApp.Core.Models
 			public string Text { get; }
 			public ISet<Answer> Answers { get; }
 			public Guid CorrectAnswerId { get; }
-			public Guid? PlayerAnswerId { get; private set; }
 			public Guid QuestionSetId { get; }
+			public Guid? PlayerAnswerId { get; private set; }
 
-			public bool IsCorrect => CorrectAnswerId == PlayerAnswerId;
+			public bool IsAnswered => PlayerAnswerId.HasValue;
+			public bool? IsCorrect => IsAnswered ? CorrectAnswerId == PlayerAnswerId : (bool?)null;
 
 			public Question(Guid id, string text, ISet<Answer> answers, Guid correctAnswerId, Guid? playerAnswerId, Guid questionSetId)
 			{
@@ -41,11 +53,6 @@ namespace QuizApp.Core.Models
 				CorrectAnswerId = correctAnswerId;
 				PlayerAnswerId = playerAnswerId;
 				QuestionSetId = questionSetId;
-			}
-
-			public Question(string text, ISet<Answer> answers, Guid correctAnswerId, Guid? playerAnswerId, Guid questionSetId)
-				: this(Guid.NewGuid(), text, answers, correctAnswerId, playerAnswerId, questionSetId)
-			{
 			}
 
 			public Question(Models.Question question)

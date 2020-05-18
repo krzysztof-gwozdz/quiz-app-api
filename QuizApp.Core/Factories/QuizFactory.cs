@@ -42,7 +42,7 @@ namespace QuizApp.Core.Factories
 			return new Quiz(Guid.NewGuid(), questions);
 		}
 
-		private async Task<Quiz.Question[]> GetQuestionsAsync(Guid questionSetId, int questionCount)
+		private async Task<HashSet<Quiz.Question>> GetQuestionsAsync(Guid questionSetId, int questionCount)
 		{
 			var allQuestions = (await _questionsRepository.GetAllBySetIdAsync(questionSetId)).ToList();
 			var questions = new List<Quiz.Question>();
@@ -52,7 +52,7 @@ namespace QuizApp.Core.Factories
 				questions.Add(new Quiz.Question(allQuestions[index]));
 				allQuestions.RemoveAt(index);
 			}
-			return questions.ToArray();
+			return questions.ToHashSet();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
+using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Factories;
@@ -29,7 +30,7 @@ namespace QuizApp.Application.Tests.Servives
 		public async Task GetQuizThatExists_Quiz()
 		{
 			//arrange
-			var existingQuiz = QuizExample.ValidQuiz;
+			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
 			_quizesRepositoryMock
 				.Setup(x => x.GetByIdAsync(existingQuiz.Id))
 				.ReturnsAsync(existingQuiz);
@@ -39,7 +40,7 @@ namespace QuizApp.Application.Tests.Servives
 
 			//assert
 			quiz.Id.Should().Be(existingQuiz.Id);
-			quiz.Questions.Should().HaveCount(existingQuiz.Questions.Length);
+			quiz.Questions.Should().HaveCount(existingQuiz.Questions.Count);
 		}
 
 		[Fact]
@@ -56,6 +57,81 @@ namespace QuizApp.Application.Tests.Servives
 
 			//assert
 			await getQuiz.Should().ThrowAsync<QuizDoesNotExistException>()
+				.WithMessage($"Quiz: {quizId} does not exist.");
+		}
+
+		[Fact]
+		public async Task GenerateQuiz_NewQuizId()
+		{
+			//arrange
+			var quizParameters = new QuizParametersDto
+			{
+				QuestionSetId = QuestionSetExample.NewId,
+				QuestionCount = 4
+			};
+			_questionsFactoryMock
+				.Setup(x => x.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount))
+				.ReturnsAsync(QuizExample.GetValidQuiz(4, 4));
+
+			//act 
+			var quizId = await _quizesService.GenerateAsync(quizParameters);
+
+			//assert
+			quizId.Should().NotBeEmpty();
+		}
+
+		[Fact]
+		public async Task SolveQuizThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var solveQuizDto = new SolvedQuizDto
+			{
+				QuizId = QuizExample.NewId,
+				PlayerAnswers = new[] { new PlayerAnswerDto { QuestionId = QuizExample.PlayerAnswer.NewQuestionId, AnswerId = QuizExample.PlayerAnswer.NewAnswerId } }
+			};
+			_quizesRepositoryMock
+				.Setup(x => x.GetByIdAsync(solveQuizDto.QuizId))
+				.ReturnsAsync((Quiz)null);
+
+			//act 
+			Func<Task> getQuiz = async () => await _quizesService.SolveAsync(solveQuizDto);
+
+			//assert
+			await getQuiz.Should().ThrowAsync<QuizDoesNotExistException>()
+				.WithMessage($"Quiz: {solveQuizDto.QuizId} does not exist.");
+		}
+
+		[Fact]
+		public async Task GetQuizSummaryThatExists_Quiz()
+		{
+			//arrange
+			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
+			_quizesRepositoryMock
+				.Setup(x => x.GetByIdAsync(existingQuiz.Id))
+				.ReturnsAsync(existingQuiz);
+
+			//act 
+			var quizSummary = await _quizesService.GetSummaryAsync(existingQuiz.Id);
+
+			//assert
+			quizSummary.QuizId.Should().Be(existingQuiz.Id);
+			quizSummary.QuestionSummaries.Should().HaveCount(existingQuiz.Questions.Count);
+		}
+
+		[Fact]
+		public async Task GetQuizSummaryThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var quizId = QuizExample.NewId;
+			_quizesRepositoryMock
+				.Setup(x => x.GetByIdAsync(quizId))
+				.ReturnsAsync((Quiz)null);
+
+			//act 
+			Func<Task> getQuizSummary = async () => await _quizesService.GetSummaryAsync(quizId);
+
+			//assert
+			await getQuizSummary.Should().ThrowAsync<QuizDoesNotExistException>()
 				.WithMessage($"Quiz: {quizId} does not exist.");
 		}
 	}

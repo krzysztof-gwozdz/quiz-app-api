@@ -31,8 +31,8 @@ namespace QuizApp.Core.Tests.Factories
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
-			int questionCount = 3;
-			var questions = QuestionExample.GetQuestions(3);
+			int questionCount = 4;
+			var questions = QuestionExample.GetValidQuestions(4, 4);
 			_questionsRepositoryMock
 				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
 				.ReturnsAsync(questions);
@@ -117,7 +117,7 @@ namespace QuizApp.Core.Tests.Factories
 			var questionSetId = QuestionSetExample.NewId;
 			var questionCount = 3;
 
-			var questions = QuestionExample.GetQuestions(5);
+			var questions = QuestionExample.GetValidQuestions(5, 4);
 			_questionsRepositoryMock
 				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
 				.ReturnsAsync(questions);

@@ -33,8 +33,10 @@ namespace QuizApp.Application.Services
 
 		public async Task<QuizSummaryDto> GetSummaryAsync(Guid id)
 		{
-			var entity = await _quizesRepository.GetByIdAsync(id);
-			return entity.AsQuizSummaryDto();
+			var quiz = await _quizesRepository.GetByIdAsync(id);
+			if (quiz is null)
+				throw new QuizDoesNotExistException(id);
+			return quiz.AsQuizSummaryDto();
 		}
 
 		public async Task<Guid> GenerateAsync(QuizParametersDto quizParameters)
@@ -47,7 +49,10 @@ namespace QuizApp.Application.Services
 		public async Task SolveAsync(SolvedQuizDto solvedQuiz)
 		{
 			var quiz = await _quizesRepository.GetByIdAsync(solvedQuiz.QuizId);
-			quiz.Resolve(solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)));
+			if (quiz is null)
+				throw new QuizDoesNotExistException(solvedQuiz.QuizId);
+			var playerAnswers = solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)).ToHashSet();
+			quiz.Solve(playerAnswers);
 			await _quizesRepository.Update(quiz);
 		}
 	}

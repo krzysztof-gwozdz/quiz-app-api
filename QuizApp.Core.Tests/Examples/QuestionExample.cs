@@ -13,25 +13,25 @@ namespace QuizApp.Core.Tests.Examples
 		public static string ValidText =>
 			Guid.NewGuid().ToString();
 
-		public static Question ValidQuestion
+		public static Question GetValidQuestion(int answerCount)
 		{
-			get
-			{
-				var answers = Answer.GetValidAnswers(4);
-				return new Question(NewId, ValidText, answers, answers.First().Id, QuestionSetExample.NewId);
-			}
+			var answers = Answer.GetValidAnswers(answerCount);
+			return new Question(NewId, ValidText, answers, answers.First().Id, QuestionSetExample.NewId);
 		}
 
-		public static HashSet<Question> GetQuestions(int count) =>
-			Enumerable.Range(0, count).Select(x => ValidQuestion).ToHashSet();
+		public static HashSet<Question> GetValidQuestions(int questionCount, int answerCount) =>
+			Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();
 
 		public static class Answer
 		{
+			public static Guid NewId =>
+				Guid.NewGuid();
+
 			public static string ValidText =>
 				Guid.NewGuid().ToString();
 
 			public static Question.Answer ValidAnswer =>
-				new Question.Answer(Guid.NewGuid(), Guid.NewGuid().ToString());
+				new Question.Answer(NewId, ValidText);
 
 			public static HashSet<Question.Answer> GetValidAnswers(int count) =>
 				Enumerable.Range(0, count).Select(x => ValidAnswer).ToHashSet();
