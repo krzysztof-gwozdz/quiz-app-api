@@ -13,7 +13,7 @@ namespace QuizApp.Application.Mappers
 				Id = model.Id,
 				Name = model.Name,
 				IconUrl = model.IconUrl,
-				Color = model.Color,
+				Color = model.Color.Value,
 				TotalQuestions = totalQuestions,
 			};
 
@@ -25,7 +25,7 @@ namespace QuizApp.Application.Mappers
 					Id = questionSet.Id,
 					Name = questionSet.Name,
 					IconUrl = questionSet.IconUrl,
-					Color = questionSet.Color,
+					Color = questionSet.Color.Value,
 				}).ToArray()
 			};
 	}

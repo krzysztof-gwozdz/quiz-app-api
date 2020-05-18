@@ -14,8 +14,8 @@ namespace QuizApp.Core.Tests.Examples
 		public static string ValidIconUrl =>
 			Guid.NewGuid().ToString();
 
-		public static string ValidColor =>
-			Guid.NewGuid().ToString();
+		public static Color ValidColor =>
+			Color.Create("#FFFFFF");
 
 		public static QuestionSet ValidQuestionSet =>
 			new QuestionSet(NewId, ValidName, ValidIconUrl, ValidColor);

@@ -6,9 +6,9 @@ namespace QuizApp.Infrastructure.Mappers
 	public static class QuestionSetsMapper
 	{
 		public static QuestionSetEntity ToEntity(this QuestionSet model) =>
-			new QuestionSetEntity { Id = model.Id, Name = model.Name, IconUrl = model.IconUrl, Color = model.Color };
+			new QuestionSetEntity { Id = model.Id, Name = model.Name, IconUrl = model.IconUrl, Color = model.Color.Value };
 
 		public static QuestionSet ToModel(this QuestionSetEntity entity) =>
-			new QuestionSet(entity.Id, entity.Name, entity.IconUrl, entity.Color);
+			new QuestionSet(entity.Id, entity.Name, entity.IconUrl, new Color(entity.Color));
 	}
 }

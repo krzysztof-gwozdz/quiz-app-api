@@ -8,9 +8,9 @@ namespace QuizApp.Core.Models
 		public Guid Id { get; }
 		public string Name { get; }
 		public string IconUrl { get; }
-		public string Color { get; }
+		public Color Color { get; }
 
-		public QuestionSet(Guid id, string name, string iconUrl, string color)
+		public QuestionSet(Guid id, string name, string iconUrl, Color color)
 		{
 			Id = id;
 			Name = name;
@@ -18,12 +18,12 @@ namespace QuizApp.Core.Models
 			Color = color;
 		}
 
-		private QuestionSet(string name, string iconUrl, string color)
+		private QuestionSet(string name, string iconUrl, Color color)
 			: this(Guid.NewGuid(), name, iconUrl, color)
 		{
 		}
 
-		public static QuestionSet Create(string name, string iconUrl, string color)
+		public static QuestionSet Create(string name, string iconUrl, Color color)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyQuestionSetNameException();

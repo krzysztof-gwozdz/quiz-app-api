@@ -43,7 +43,7 @@ namespace QuizApp.Application.Services
 			if (exitingQuestionSet is { })
 				throw new QuestionSetWithSelectedNameAlreadyExistsException(exitingQuestionSet.Name);
 
-			var questionSet = QuestionSet.Create(createQuestionSetDto.Name, createQuestionSetDto.IconUrl, createQuestionSetDto.Color);
+			var questionSet = QuestionSet.Create(createQuestionSetDto.Name, createQuestionSetDto.IconUrl, Color.Create(createQuestionSetDto.Color));
 			await _questionSetsRepository.AddAsync(questionSet);
 
 			return questionSet.Id;

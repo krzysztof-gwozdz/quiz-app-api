@@ -79,7 +79,7 @@ namespace QuizApp.Application.Tests.Servives
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
-			var dto = new CreateQuestionSetDto { Name = name };
+			var dto = new CreateQuestionSetDto { Name = name, Color = "#FFF" };
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
