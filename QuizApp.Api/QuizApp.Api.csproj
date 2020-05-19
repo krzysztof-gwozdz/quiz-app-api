@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuizApp.Infrastructure\QuizApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\QuizApp.Shared\QuizApp.Shared.csproj" />
   </ItemGroup>
 
 

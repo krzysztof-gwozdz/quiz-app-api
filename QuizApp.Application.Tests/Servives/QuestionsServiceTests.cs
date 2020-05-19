@@ -55,8 +55,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> getQuestion = async () => await _questionsService.GetAsync(questionId);
 
 			//assert
-			await getQuestion.Should().ThrowAsync<QuestionDoesNotExistException>()
-				.WithMessage($"Question: {questionId} does not exist.");
+			await getQuestion.Should().ThrowAsync<QuestionNotFoundException>()
+				.WithMessage($"Question: {questionId} not found.");
 		}
 
 		[Fact]
@@ -88,8 +88,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(dto);
 
 			//assert
-			await createQuestion.Should().ThrowAsync<QuestionSetDoesNotExistException>()
-				.WithMessage($"Question set: {dto.QuestionSetId} does not exist.");
+			await createQuestion.Should().ThrowAsync<QuestionSetNotFoundException>()
+				.WithMessage($"Question set: {dto.QuestionSetId} not found.");
 		}
 
 		[Fact]
@@ -121,8 +121,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> removeQuestion = async () => await _questionsService.RemoveAsync(questionId);
 
 			//assert
-			await removeQuestion.Should().ThrowAsync<QuestionDoesNotExistException>()
-				.WithMessage($"Question: {questionId} does not exist.");
+			await removeQuestion.Should().ThrowAsync<QuestionNotFoundException>()
+				.WithMessage($"Question: {questionId} not found.");
 		}
 	}
 }

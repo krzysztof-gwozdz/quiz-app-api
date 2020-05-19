@@ -16,7 +16,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 		}
 
 		public async Task<Quiz> GetByIdAsync(Guid id) =>
-			(await GetDocumentByIdAsync(id)).ToModel();
+			(await GetDocumentByIdAsync(id))?.ToModel();
 
 		public async Task AddAsync(Quiz quiz) =>
 			await AddDocumentAsync(quiz.ToEntity());

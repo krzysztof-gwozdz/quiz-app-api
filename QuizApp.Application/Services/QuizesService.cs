@@ -27,7 +27,7 @@ namespace QuizApp.Application.Services
 		{
 			var quiz = await _quizesRepository.GetByIdAsync(id);
 			if (quiz is null)
-				throw new QuizDoesNotExistException(id);
+				throw new QuizNotFoundException(id);
 			return quiz.AsQuizDto();
 		}
 
@@ -35,7 +35,7 @@ namespace QuizApp.Application.Services
 		{
 			var quiz = await _quizesRepository.GetByIdAsync(id);
 			if (quiz is null)
-				throw new QuizDoesNotExistException(id);
+				throw new QuizNotFoundException(id);
 			return quiz.AsQuizSummaryDto();
 		}
 
@@ -50,7 +50,7 @@ namespace QuizApp.Application.Services
 		{
 			var quiz = await _quizesRepository.GetByIdAsync(solvedQuiz.QuizId);
 			if (quiz is null)
-				throw new QuizDoesNotExistException(solvedQuiz.QuizId);
+				throw new QuizNotFoundException(solvedQuiz.QuizId);
 			var playerAnswers = solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)).ToHashSet();
 			quiz.Solve(playerAnswers);
 			await _quizesRepository.Update(quiz);

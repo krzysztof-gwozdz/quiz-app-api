@@ -56,8 +56,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> getQuiz = async () => await _quizesService.GetAsync(quizId);
 
 			//assert
-			await getQuiz.Should().ThrowAsync<QuizDoesNotExistException>()
-				.WithMessage($"Quiz: {quizId} does not exist.");
+			await getQuiz.Should().ThrowAsync<QuizNotFoundException>()
+				.WithMessage($"Quiz: {quizId} not found.");
 		}
 
 		[Fact]
@@ -97,8 +97,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> getQuiz = async () => await _quizesService.SolveAsync(solveQuizDto);
 
 			//assert
-			await getQuiz.Should().ThrowAsync<QuizDoesNotExistException>()
-				.WithMessage($"Quiz: {solveQuizDto.QuizId} does not exist.");
+			await getQuiz.Should().ThrowAsync<QuizNotFoundException>()
+				.WithMessage($"Quiz: {solveQuizDto.QuizId} not found.");
 		}
 
 		[Fact]
@@ -131,8 +131,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> getQuizSummary = async () => await _quizesService.GetSummaryAsync(quizId);
 
 			//assert
-			await getQuizSummary.Should().ThrowAsync<QuizDoesNotExistException>()
-				.WithMessage($"Quiz: {quizId} does not exist.");
+			await getQuizSummary.Should().ThrowAsync<QuizNotFoundException>()
+				.WithMessage($"Quiz: {quizId} not found.");
 		}
 	}
 }

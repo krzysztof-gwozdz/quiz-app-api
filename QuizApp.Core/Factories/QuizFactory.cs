@@ -32,7 +32,7 @@ namespace QuizApp.Core.Factories
 				throw new NotEnoughQuestionsException(questionCount, MinQuestionCount);
 
 			if (!await _questionSetsRepository.ExistsAsync(questionSetId))
-				throw new QuestionSetDoesNotExistException(questionSetId);
+				throw new QuestionSetNotFoundException(questionSetId);
 
 			var maxQuestionCount = await _questionsRepository.CountBySetIdAsync(questionSetId);
 			if (questionCount > maxQuestionCount)

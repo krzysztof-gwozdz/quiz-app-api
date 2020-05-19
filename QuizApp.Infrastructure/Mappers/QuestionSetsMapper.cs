@@ -1,5 +1,7 @@
 ﻿using QuizApp.Core.Models;
 using QuizApp.Infrastructure.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QuizApp.Infrastructure.Mappers
 {
@@ -10,5 +12,8 @@ namespace QuizApp.Infrastructure.Mappers
 
 		public static QuestionSet ToModel(this QuestionSetEntity entity) =>
 			new QuestionSet(entity.Id, entity.Name, entity.IconUrl, new Color(entity.Color));
+
+		public static ISet<QuestionSet> ToModel(this ISet<QuestionSetEntity> entities) =>
+			new HashSet<QuestionSet>(entities.Select(ToModel));
 	}
 }

@@ -70,8 +70,8 @@ namespace QuizApp.Application.Tests.Servives
 			Func<Task> getQuestionSet = async () => await _questionSetsService.GetAsync(questionSetId);
 
 			//assert
-			await getQuestionSet.Should().ThrowAsync<QuestionSetDoesNotExistException>()
-				.WithMessage($"Question set: {questionSetId} does not exist.");
+			await getQuestionSet.Should().ThrowAsync<QuestionSetNotFoundException>()
+				.WithMessage($"Question set: {questionSetId} not found.");
 		}
 
 		[Fact]

@@ -31,7 +31,7 @@ namespace QuizApp.Application.Services
 		{
 			var questionSet = await _questionSetsRepository.GetByIdAsync(id);
 			if (questionSet is null)
-				throw new QuestionSetDoesNotExistException(id);
+				throw new QuestionSetNotFoundException(id);
 
 			var totalQuestions = await _questionsRepository.CountBySetIdAsync(id);
 			return questionSet.AsDto(totalQuestions);

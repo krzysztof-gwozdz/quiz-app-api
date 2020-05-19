@@ -67,7 +67,7 @@ Content-Type: application/json
 
 {
   "questionSetId": "{{newQuestionSetId}}",
-  "questionCount": 1
+  "questionCount": 2
 }
 
 @newQuizId = {{generateQuiz.response.headers.Location}}

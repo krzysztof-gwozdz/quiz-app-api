@@ -3,7 +3,6 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Newtonsoft.Json;
 using QuizApp.Infrastructure.Entities;
-using QuizApp.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +41,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-					throw new EntityNotFoundException();
+					return 0;
 				throw;
 			}
 		}
@@ -71,7 +70,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-					throw new EntityNotFoundException();
+					return null;
 				throw;
 			}
 		}
@@ -91,7 +90,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-					throw new EntityNotFoundException();
+					return null;
 				throw;
 			}
 		}
@@ -123,10 +122,8 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 				var document = await client.CreateDocumentAsync(entity);
 				return JsonConvert.DeserializeObject<T>(document.ToString());
 			}
-			catch (DocumentClientException e)
+			catch
 			{
-				if (e.StatusCode == HttpStatusCode.Conflict)
-					throw new EntityAlreadyExistsException();
 				throw;
 			}
 		}
@@ -138,10 +135,8 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 				var client = _cosmosDbClientFactory.GetClient(CollectionId);
 				await client.ReplaceDocumentAsync(entity.Id.ToString(), entity);
 			}
-			catch (DocumentClientException e)
+			catch
 			{
-				if (e.StatusCode == HttpStatusCode.NotFound)
-					throw new EntityNotFoundException();
 				throw;
 			}
 		}
@@ -159,7 +154,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 			catch (DocumentClientException e)
 			{
 				if (e.StatusCode == HttpStatusCode.NotFound)
-					throw new EntityNotFoundException();
+					return;
 				throw;
 			}
 		}

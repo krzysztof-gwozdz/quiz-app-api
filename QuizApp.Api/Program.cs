@@ -20,6 +20,7 @@ namespace QuizApp.Api
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
 				.ConfigureServices(services => services
+					.AddErrorHandling()
 					.AddSwaggerWithConfig()
 					.AddApi()
 					.AddRepositories()
@@ -28,6 +29,7 @@ namespace QuizApp.Api
 					.AddCosmosDb()
 				)
 				.Configure(app => app
+					.UseErrorHandling()
 					.UseSwaggerWithConfig()
 					.UseApi()
 				);

@@ -67,8 +67,8 @@ namespace QuizApp.Core.Tests.Factories
 			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, 2);
 
 			//assert
-			await getQuiz.Should().ThrowAsync<QuestionSetDoesNotExistException>()
-				.WithMessage($"Question set: {questionSetId} does not exist.");
+			await getQuiz.Should().ThrowAsync<QuestionSetNotFoundException>()
+				.WithMessage($"Question set: {questionSetId} not found.");
 		}
 
 		[Fact]
