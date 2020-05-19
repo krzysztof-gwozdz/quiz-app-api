@@ -12,7 +12,7 @@ POST {{baseUrl}}question-sets HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "New Question Set 1",
+    "name": "New Question Set [{{$guid}}]",
     "iconUrl": "",
     "color": "#FFFFFF"
 }
@@ -30,7 +30,7 @@ POST {{baseUrl}}questions HTTP/1.1
 Content-Type: application/json
 
 {
-  "text": "Neq question text",
+  "text": "New question text [{{$guid}}]",
   "answers": [
     {
       "text": "Answer text 1"
