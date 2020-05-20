@@ -1,5 +1,7 @@
 # Quiz App
----
+
+### Status
+![GitHub](https://github.com/krzysztof-gwozdz/QuizApp.Backend/workflows/GitHub/badge.svg)
 ### How to Run
 1. Download and install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1) 
 2. Download and install [Azure Cosmos Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator-release-notes) [optional] 
