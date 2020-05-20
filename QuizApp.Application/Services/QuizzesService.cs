@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
 {
-	public class QuizesService : IQuizesService
+	public class QuizzesService : IQuizzesService
 	{
-		private readonly IQuizesRepository _quizesRepository;
+		private readonly IQuizzesRepository _quizzesRepository;
 		private readonly IQuizFactory _quizFactory;
 
-		public QuizesService(
-			IQuizesRepository quizesRepository,
+		public QuizzesService(
+			IQuizzesRepository quizzesRepository,
 			IQuizFactory questionsFactory)
 		{
-			_quizesRepository = quizesRepository;
+			_quizzesRepository = quizzesRepository;
 			_quizFactory = questionsFactory;
 		}
 
 		public async Task<QuizDto> GetAsync(Guid id)
 		{
-			var quiz = await _quizesRepository.GetByIdAsync(id);
+			var quiz = await _quizzesRepository.GetByIdAsync(id);
 			if (quiz is null)
 				throw new QuizNotFoundException(id);
 			return quiz.AsQuizDto();
@@ -33,7 +33,7 @@ namespace QuizApp.Application.Services
 
 		public async Task<QuizSummaryDto> GetSummaryAsync(Guid id)
 		{
-			var quiz = await _quizesRepository.GetByIdAsync(id);
+			var quiz = await _quizzesRepository.GetByIdAsync(id);
 			if (quiz is null)
 				throw new QuizNotFoundException(id);
 			return quiz.AsQuizSummaryDto();
@@ -42,18 +42,18 @@ namespace QuizApp.Application.Services
 		public async Task<Guid> GenerateAsync(QuizParametersDto quizParameters)
 		{
 			var quiz = await _quizFactory.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount);
-			await _quizesRepository.AddAsync(quiz);
+			await _quizzesRepository.AddAsync(quiz);
 			return quiz.Id;
 		}
 
 		public async Task SolveAsync(SolvedQuizDto solvedQuiz)
 		{
-			var quiz = await _quizesRepository.GetByIdAsync(solvedQuiz.QuizId);
+			var quiz = await _quizzesRepository.GetByIdAsync(solvedQuiz.QuizId);
 			if (quiz is null)
 				throw new QuizNotFoundException(solvedQuiz.QuizId);
 			var playerAnswers = solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)).ToHashSet();
 			quiz.Solve(playerAnswers);
-			await _quizesRepository.Update(quiz);
+			await _quizzesRepository.Update(quiz);
 		}
 	}
 }

@@ -69,7 +69,7 @@ namespace QuizApp.Core.Tests.Models
 		}
 
 		[Fact]
-		public void CreateQuestionWithDuplicatedAnswwers_ThrowException()
+		public void CreateQuestionWithDuplicatedAnswers_ThrowException()
 		{
 			//arrange
 			var text = QuestionExample.ValidText;

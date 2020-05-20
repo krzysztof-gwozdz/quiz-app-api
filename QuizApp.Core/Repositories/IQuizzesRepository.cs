@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Core.Repositories
 {
-	public interface IQuizesRepository : IRepository
+	public interface IQuizzesRepository : IRepository
 	{
 		Task<Quiz> GetByIdAsync(Guid id);
 		Task AddAsync(Quiz quiz);

@@ -7,9 +7,9 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 	{
 		public ContainerProperties ContainerProperties { get; }
 
-		public CosmosDbRepositoryAttribute(string conainerid, string partitionKeyPath)
+		public CosmosDbRepositoryAttribute(string containerId, string partitionKeyPath)
 		{
-			ContainerProperties = new ContainerProperties(conainerid, partitionKeyPath);
+			ContainerProperties = new ContainerProperties(containerId, partitionKeyPath);
 		}
 	}
 }

@@ -10,7 +10,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace QuizApp.Application.Tests.Servives
+namespace QuizApp.Application.Tests.Services
 {
 	public class QuestionSetsServiceTests
 	{

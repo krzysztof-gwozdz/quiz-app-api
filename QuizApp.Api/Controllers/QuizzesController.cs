@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace QuizApp.Api.Controllers
 {
 	[ApiController]
-	[Route("quizes")]
-	public class QuizesController : ControllerBase
+	[Route("quizzes")]
+	public class QuizzesController : ControllerBase
 	{
-		private readonly IQuizesService _quizService;
+		private readonly IQuizzesService _quizService;
 
-		public QuizesController(IQuizesService quizService)
+		public QuizzesController(IQuizzesService quizService)
 		{
 			_quizService = quizService;
 		}

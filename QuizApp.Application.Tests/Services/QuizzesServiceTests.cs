@@ -11,19 +11,19 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace QuizApp.Application.Tests.Servives
+namespace QuizApp.Application.Tests.Services
 {
-	public class QuizesServiceTests
+	public class QuizzesServiceTests
 	{
-		private readonly Mock<IQuizesRepository> _quizesRepositoryMock;
+		private readonly Mock<IQuizzesRepository> _quizzesRepositoryMock;
 		private readonly Mock<IQuizFactory> _questionsFactoryMock;
-		private readonly QuizesService _quizesService;
+		private readonly QuizzesService _quizzesService;
 
-		public QuizesServiceTests()
+		public QuizzesServiceTests()
 		{
-			_quizesRepositoryMock = new Mock<IQuizesRepository>();
+			_quizzesRepositoryMock = new Mock<IQuizzesRepository>();
 			_questionsFactoryMock = new Mock<IQuizFactory>();
-			_quizesService = new QuizesService(_quizesRepositoryMock.Object, _questionsFactoryMock.Object);
+			_quizzesService = new QuizzesService(_quizzesRepositoryMock.Object, _questionsFactoryMock.Object);
 		}
 
 		[Fact]
@@ -31,12 +31,12 @@ namespace QuizApp.Application.Tests.Servives
 		{
 			//arrange
 			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
-			_quizesRepositoryMock
+			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(existingQuiz.Id))
 				.ReturnsAsync(existingQuiz);
 
 			//act 
-			var quiz = await _quizesService.GetAsync(existingQuiz.Id);
+			var quiz = await _quizzesService.GetAsync(existingQuiz.Id);
 
 			//assert
 			quiz.Id.Should().Be(existingQuiz.Id);
@@ -48,12 +48,12 @@ namespace QuizApp.Application.Tests.Servives
 		{
 			//arrange
 			var quizId = QuizExample.NewId;
-			_quizesRepositoryMock
+			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(quizId))
 				.ReturnsAsync((Quiz)null);
 
 			//act 
-			Func<Task> getQuiz = async () => await _quizesService.GetAsync(quizId);
+			Func<Task> getQuiz = async () => await _quizzesService.GetAsync(quizId);
 
 			//assert
 			await getQuiz.Should().ThrowAsync<QuizNotFoundException>()
@@ -74,7 +74,7 @@ namespace QuizApp.Application.Tests.Servives
 				.ReturnsAsync(QuizExample.GetValidQuiz(4, 4));
 
 			//act 
-			var quizId = await _quizesService.GenerateAsync(quizParameters);
+			var quizId = await _quizzesService.GenerateAsync(quizParameters);
 
 			//assert
 			quizId.Should().NotBeEmpty();
@@ -89,12 +89,12 @@ namespace QuizApp.Application.Tests.Servives
 				QuizId = QuizExample.NewId,
 				PlayerAnswers = new[] { new PlayerAnswerDto { QuestionId = QuizExample.PlayerAnswer.NewQuestionId, AnswerId = QuizExample.PlayerAnswer.NewAnswerId } }
 			};
-			_quizesRepositoryMock
+			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(solveQuizDto.QuizId))
 				.ReturnsAsync((Quiz)null);
 
 			//act 
-			Func<Task> getQuiz = async () => await _quizesService.SolveAsync(solveQuizDto);
+			Func<Task> getQuiz = async () => await _quizzesService.SolveAsync(solveQuizDto);
 
 			//assert
 			await getQuiz.Should().ThrowAsync<QuizNotFoundException>()
@@ -106,12 +106,12 @@ namespace QuizApp.Application.Tests.Servives
 		{
 			//arrange
 			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
-			_quizesRepositoryMock
+			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(existingQuiz.Id))
 				.ReturnsAsync(existingQuiz);
 
 			//act 
-			var quizSummary = await _quizesService.GetSummaryAsync(existingQuiz.Id);
+			var quizSummary = await _quizzesService.GetSummaryAsync(existingQuiz.Id);
 
 			//assert
 			quizSummary.QuizId.Should().Be(existingQuiz.Id);
@@ -123,12 +123,12 @@ namespace QuizApp.Application.Tests.Servives
 		{
 			//arrange
 			var quizId = QuizExample.NewId;
-			_quizesRepositoryMock
+			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(quizId))
 				.ReturnsAsync((Quiz)null);
 
 			//act 
-			Func<Task> getQuizSummary = async () => await _quizesService.GetSummaryAsync(quizId);
+			Func<Task> getQuizSummary = async () => await _quizzesService.GetSummaryAsync(quizId);
 
 			//assert
 			await getQuizSummary.Should().ThrowAsync<QuizNotFoundException>()

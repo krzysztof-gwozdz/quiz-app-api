@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
-	[CosmosDbRepository("Quizes", "/id")]
-	public class CosmosQuizesRepository : CosmosDbRepository<QuizEntity>, IQuizesRepository
+	[CosmosDbRepository("Quizzes", "/id")]
+	public class CosmosQuizzesRepository : CosmosDbRepository<QuizEntity>, IQuizzesRepository
 	{
-		public CosmosQuizesRepository(ICosmosDbClientFactory factory) : base(factory)
+		public CosmosQuizzesRepository(ICosmosDbClientFactory factory) : base(factory)
 		{
 		}
 

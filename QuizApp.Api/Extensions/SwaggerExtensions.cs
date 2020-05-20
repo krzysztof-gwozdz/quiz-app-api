@@ -26,12 +26,12 @@ namespace QuizApp.Api.Extensions
 			{
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quiz App API V1");
 			});
-			app.Use(async (context, next) => await RedirectToswagger(context, next));
+			app.Use(async (context, next) => await RedirectToSwagger(context, next));
 
 			return app;
 		}
 
-		private static async Task RedirectToswagger(HttpContext context, Func<Task> next)
+		private static async Task RedirectToSwagger(HttpContext context, Func<Task> next)
 		{
 			var url = context.Request.Path.Value;
 			if (url == "/")

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace QuizApp.Application.Mappers
 {
-	public static class QuizesMapper
+	public static class QuizzesMapper
 	{
 		public static QuizDto AsQuizDto(this Quiz model) => new QuizDto
 		{

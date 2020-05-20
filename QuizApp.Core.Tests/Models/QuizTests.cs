@@ -59,15 +59,15 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var quiz = QuizExample.GetValidQuiz(4, 4);
-			var incorrecQuestionId = QuizExample.Question.NewId;
-			var playerAnswers = new HashSet<Quiz.PlayerAnswer> { Quiz.PlayerAnswer.Create(incorrecQuestionId, quiz.Questions.First().CorrectAnswerId) };
+			var incorrectQuestionId = QuizExample.Question.NewId;
+			var playerAnswers = new HashSet<Quiz.PlayerAnswer> { Quiz.PlayerAnswer.Create(incorrectQuestionId, quiz.Questions.First().CorrectAnswerId) };
 
 			//act
 			Action solveQuiz = () => quiz.Solve(playerAnswers);
 
 			//assert
 			solveQuiz.Should().Throw<QuestionIsNotAPartOfQuizException>()
-				.WithMessage($"Question: {incorrecQuestionId} is not a part of quiz: {quiz.Id}.");
+				.WithMessage($"Question: {incorrectQuestionId} is not a part of quiz: {quiz.Id}.");
 		}
 
 		[Fact]
