@@ -15,7 +15,7 @@ namespace QuizApp.Api.ErrorHandling
 				AppException ex => new ExceptionResponse(ex.Code, ex.Message, HttpStatusCode.BadRequest),
 				InfrastructureException ex => new ExceptionResponse(ex.Code, ex.Message, HttpStatusCode.InternalServerError),
 
-				NotImplementedException ex => new ExceptionResponse("error", exception.Message, HttpStatusCode.NotImplemented),
+				NotImplementedException ex => new ExceptionResponse("error", ex.Message, HttpStatusCode.NotImplemented),
 				_ => new ExceptionResponse("error", exception.Message, HttpStatusCode.InternalServerError)
 			};
 	}

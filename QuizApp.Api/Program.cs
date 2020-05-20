@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using QuizApp.Api.Extensions;
 using QuizApp.Application.Extensions;
 using QuizApp.Infrastructure.CosmosDb;
@@ -17,7 +15,7 @@ namespace QuizApp.Api
 				.Build()
 				.RunAsync();
 
-		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+		private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
 				.ConfigureServices(services => services
 					.AddErrorHandling()

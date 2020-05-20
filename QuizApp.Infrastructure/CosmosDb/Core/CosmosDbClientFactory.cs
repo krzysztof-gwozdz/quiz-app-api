@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Documents.Client;
-using QuizApp.Shared.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

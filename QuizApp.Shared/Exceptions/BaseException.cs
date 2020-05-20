@@ -6,7 +6,7 @@ namespace QuizApp.Shared.Exceptions
 	{
 		public abstract string Code { get; }
 
-		public BaseException(string message) : base(message)
+		protected BaseException(string message) : base(message)
 		{
 		}
 	}

@@ -1,4 +1,6 @@
-﻿namespace QuizApp.Shared.Exceptions
+﻿using QuizApp.Shared.Exceptions;
+
+namespace QuizApp.Infrastructure.CosmosDb.Core
 {
 	public class UnableToFindContainerException : InfrastructureException
 	{

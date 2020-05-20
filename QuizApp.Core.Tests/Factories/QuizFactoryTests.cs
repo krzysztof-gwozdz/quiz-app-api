@@ -128,7 +128,7 @@ namespace QuizApp.Core.Tests.Factories
 				.Setup(x => x.CountBySetIdAsync(questionSetId))
 				.ReturnsAsync(questionCount + 1);
 
-			var randomFactory = new MockRandomFactory(new int[] { 0, 1, 1, 0, 2 });
+			var randomFactory = new MockRandomFactory(new[] { 0, 1, 1, 0, 2 });
 			_quizFactory = new QuizFactory(_questionsRepositoryMock.Object, _questionSetsRepositoryMock.Object, randomFactory);
 
 			//act

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
-using QuizApp.Shared.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,15 +19,15 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 		}
 
 		public async Task<Document> ReadDocumentAsync(string documentId, RequestOptions options = null, CancellationToken cancellationToken = default) =>
-			await _documentClient.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId.ToString()), options, cancellationToken);
+			await _documentClient.ReadDocumentAsync(UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId), options, cancellationToken);
 
 		public async Task<Document> CreateDocumentAsync(object document, RequestOptions options = null, bool disableAutomaticIdGeneration = false, CancellationToken cancellationToken = default) =>
 			await _documentClient.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(_databaseName, _collectionName), document, options, disableAutomaticIdGeneration, cancellationToken);
 
 		public async Task<Document> ReplaceDocumentAsync(string documentId, object document, RequestOptions options = null, CancellationToken cancellationToken = default) =>
-			await _documentClient.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId.ToString()), document, options, cancellationToken);
+			await _documentClient.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId), document, options, cancellationToken);
 
 		public async Task<Document> DeleteDocumentAsync(string documentId, RequestOptions options = null, CancellationToken cancellationToken = default) =>
-			await _documentClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId.ToString()), options, cancellationToken);
+			await _documentClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId), options, cancellationToken);
 	}
 }

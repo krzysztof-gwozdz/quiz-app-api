@@ -2,7 +2,7 @@
 {
 	public abstract class AppException : BaseException
 	{
-		public AppException(string message) : base(message)
+		protected AppException(string message) : base(message)
 		{
 		}
 	}
