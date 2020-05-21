@@ -33,7 +33,7 @@ namespace QuizApp.Application.Tests.Services
 			var questionId = QuestionExample.NewId;
 			_questionsRepositoryMock
 				.Setup(x => x.GetByIdAsync(questionId))
-				.ReturnsAsync(new Question(questionId, "", new HashSet<Question.Answer>(), Guid.NewGuid(), Guid.NewGuid()));
+				.ReturnsAsync(new Question(questionId, "", new HashSet<Question.Answer>(), Guid.NewGuid()));
 
 			//act 
 			var question = await _questionsService.GetAsync(questionId);

@@ -38,25 +38,24 @@ namespace QuizApp.Core.Models
 			public Guid Id { get; }
 			public string Text { get; }
 			public ISet<Answer> Answers { get; }
-			public Guid CorrectAnswerId { get; }
 			public Guid QuestionSetId { get; }
 			public Guid? PlayerAnswerId { get; private set; }
 
 			public bool IsAnswered => PlayerAnswerId.HasValue;
+			public Guid CorrectAnswerId => Answers.Single(answer => answer.IsCorrect).Id;
 			public bool? IsCorrect => IsAnswered ? CorrectAnswerId == PlayerAnswerId : (bool?)null;
 
-			public Question(Guid id, string text, ISet<Answer> answers, Guid correctAnswerId, Guid? playerAnswerId, Guid questionSetId)
+			public Question(Guid id, string text, ISet<Answer> answers, Guid? playerAnswerId, Guid questionSetId)
 			{
 				Id = id;
 				Text = text;
 				Answers = answers;
-				CorrectAnswerId = correctAnswerId;
 				PlayerAnswerId = playerAnswerId;
 				QuestionSetId = questionSetId;
 			}
 
 			public Question(Models.Question question)
-				: this(question.Id, question.Text, question.Answers.Select(answer => new Answer(answer)).ToHashSet(), question.CorrectAnswerId, null, question.QuestionSetId)
+				: this(question.Id, question.Text, question.Answers.Select(answer => new Answer(answer)).ToHashSet(), null, question.QuestionSetId)
 			{
 			}
 
@@ -69,15 +68,17 @@ namespace QuizApp.Core.Models
 			{
 				public Guid Id { get; }
 				public string Text { get; }
+				public bool IsCorrect { get; }
 
-				public Answer(Guid id, string text)
+				public Answer(Guid id, string text, bool isCorrect)
 				{
 					Id = id;
 					Text = text;
+					IsCorrect = isCorrect;
 				}
 
 				public Answer(Models.Question.Answer answer)
-					: this(answer.Id, answer.Text)
+					: this(answer.Id, answer.Text, answer.IsCorrect)
 				{
 				}
 			}

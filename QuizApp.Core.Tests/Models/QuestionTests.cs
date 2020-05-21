@@ -16,17 +16,15 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var correctAnswer = answers.First().Text;
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			var question = Question.Create(text, answers, correctAnswer, questionSetId);
+			var question = Question.Create(text, answers, questionSetId);
 
 			//assert
 			question.Id.Should().NotBeEmpty();
 			question.Text.Should().Be(text);
 			question.Answers.Should().BeEquivalentTo(answers);
-			question.CorrectAnswerId.Should().Be(answers.First().Id);
 			question.QuestionSetId.Should().Be(questionSetId);
 		}
 
@@ -38,11 +36,10 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var correctAnswer = answers.First().Text;
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<EmptyQuestionTextException>()
@@ -52,16 +49,15 @@ namespace QuizApp.Core.Tests.Models
 		[Theory]
 		[InlineData(0)]
 		[InlineData(1)]
-		public void CreateQuestionWithLessThan2Answers_ThrowException(int numberOfAnswers)
+		public void CreateQuestionWithLessThanMinNumberOfAnswers_ThrowException(int numberOfAnswers)
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidAnswer);
-			var correctAnswer = Guid.NewGuid().ToString();
+			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
@@ -76,72 +72,81 @@ namespace QuizApp.Core.Tests.Models
 			var duplicatedAnswerText = Guid.NewGuid().ToString();
 			var answers = new[]
 			{
-				QuestionExample.Answer.ValidAnswer,
-				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText),
-				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText),
-				QuestionExample.Answer.ValidAnswer,
+				QuestionExample.Answer.ValidCorrectAnswer,
+				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText, false),
+				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText, false),
+				QuestionExample.Answer.ValidInCorrectAnswer,
 			}.ToHashSet();
-			var correctAnswer = answers.First().Text;
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
 			createQuestion.Should().Throw<QuestionContainsDuplicatedAnswersException>()
 				.WithMessage($"Question contains duplicated answers: {duplicatedAnswerText}.");
 		}
 
-		[Theory]
-		[InlineData(null)]
-		[InlineData("")]
-		[InlineData(" ")]
-		public void CreateQuestionWithEmptyCorrectAnswer_ThrowException(string correctAnswer)
+		[Fact]
+		public void CreateQuestionWithoutCorrectAnswers_ThrowException()
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var answers = new[]
+			{
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer
+			}.ToHashSet();
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<EmptyCorrectAnswerException>()
-				.WithMessage("Correct answer can not be empty.");
+			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
+				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 0");
 		}
 
 		[Fact]
-		public void CreateQuestionWithAnswerThatIsNotOneOfAnswers_ThrowException()
+		public void CreateQuestionWithMoreThanOneCorrectAnswer_ThrowException()
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var correctAnswer = QuestionExample.Answer.ValidText;
+			var answers = new[]
+			{
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidCorrectAnswer,
+				QuestionExample.Answer.ValidCorrectAnswer
+			}.ToHashSet();
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, correctAnswer, questionSetId);
+			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<CorrectAnswerIsNotOneOfAnswersException>()
-				.WithMessage($"Correct answer: {correctAnswer} is not one of answers.");
+			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
+				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 2");
 		}
 
 		public class AnswerTests
 		{
 			[Fact]
-			public void CreateAnswerWithCorrectText_AnswerCreated()
+			public void CreateAnswerWithCorrectValues_AnswerCreated()
 			{
 				//arrange
 				var text = QuestionExample.Answer.ValidText;
+				var isCorrect = true;
 
 				//act
-				var answer = Question.Answer.Create(text);
+				var answer = Question.Answer.Create(text, isCorrect);
 
 				//assert
 				answer.Id.Should().NotBeEmpty();
 				answer.Text.Should().Be(text);
+				answer.IsCorrect.Should().BeTrue();
 			}
 
 			[Theory]
@@ -151,9 +156,10 @@ namespace QuizApp.Core.Tests.Models
 			public void CreateAnswerWithEmptyText_ThrowException(string text)
 			{
 				//arrange
+				var isCorrect = true;
 
 				//act
-				Action createAnswer = () => Question.Answer.Create(text);
+				Action createAnswer = () => Question.Answer.Create(text, isCorrect);
 
 				//assert
 				createAnswer.Should().Throw<EmptyAnswerTextException>()

@@ -15,10 +15,10 @@ namespace QuizApp.Application.Mappers
 					new AnswerDto
 					{
 						Id = answer.Id,
-						Text = answer.Text
+						Text = answer.Text,
+						IsCorrect = answer.IsCorrect
 					}
 				).ToArray(),
-				CorrectAnswerId = model.CorrectAnswerId,
 				QuestionSetId = model.QuestionSetId,
 			};
 	}

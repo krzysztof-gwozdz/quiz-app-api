@@ -30,6 +30,9 @@ namespace QuizApp.Infrastructure.Entities
 			{
 				[JsonProperty("text")]
 				public string Text { get; set; }
+
+				[JsonProperty("isCorrect")]
+				public bool IsCorrect { get; set; }
 			}
 		}
 	}

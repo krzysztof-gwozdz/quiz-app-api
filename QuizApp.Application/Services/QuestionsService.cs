@@ -37,8 +37,8 @@ namespace QuizApp.Application.Services
 			if (!await _questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId))
 				throw new QuestionSetNotFoundException(createQuestionDto.QuestionSetId);
 
-			var answers = createQuestionDto.Answers.Select(answer => Question.Answer.Create(answer.Text)).ToHashSet();
-			var question = Question.Create(createQuestionDto.Text, answers, createQuestionDto.CorrectAnswer, createQuestionDto.QuestionSetId);
+			var answers = createQuestionDto.Answers.Select(answer => Question.Answer.Create(answer.Text, answer.IsCorrect)).ToHashSet();
+			var question = Question.Create(createQuestionDto.Text, answers, createQuestionDto.QuestionSetId);
 			await _questionsRepository.AddAsync(question);
 			return question.Id;
 		}

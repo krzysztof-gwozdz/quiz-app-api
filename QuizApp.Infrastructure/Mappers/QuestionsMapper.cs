@@ -17,14 +17,14 @@ namespace QuizApp.Infrastructure.Mappers
 					{
 						Id = answer.Id,
 						Text = answer.Text,
+						IsCorrect = answer.IsCorrect,
 					}
 				).ToHashSet(),
-				CorrectAnswerId = model.CorrectAnswerId,
 				QuestionSetId = model.QuestionSetId
 			};
 
 		public static Question ToModel(this QuestionEntity entity) =>
-			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text)).ToHashSet(), entity.CorrectAnswerId, entity.QuestionSetId);
+			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text, answer.IsCorrect)).ToHashSet(), entity.QuestionSetId);
 
 		public static ISet<Question> ToModel(this ISet<QuestionEntity> entities) =>
 			new HashSet<Question>(entities.Select(ToModel));

@@ -25,11 +25,8 @@ namespace QuizApp.Core.Tests.Examples
 			public static string ValidText =>
 				Guid.NewGuid().ToString();
 
-			public static Quiz.Question GetValidQuestion(int answerCount)
-			{
-				var answers = Answer.GetValidAnswers(answerCount);
-				return new Quiz.Question(NewId, ValidText, answers, answers.First().Id, null, QuestionSetExample.NewId);
-			}
+			public static Quiz.Question GetValidQuestion(int answerCount) =>
+				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), null, QuestionSetExample.NewId);
 
 			public static HashSet<Quiz.Question> GetValidQuestions(int questionCount, int answerCount) =>
 				Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();
@@ -42,11 +39,18 @@ namespace QuizApp.Core.Tests.Examples
 				public static string ValidText =>
 					Guid.NewGuid().ToString();
 
-				public static Quiz.Question.Answer ValidAnswer =>
-					new Quiz.Question.Answer(NewId, ValidText);
+				public static bool ValidIsCorrect =>
+					false;
 
-				public static HashSet<Quiz.Question.Answer> GetValidAnswers(int answerCount) =>
-					Enumerable.Range(0, answerCount).Select(x => ValidAnswer).ToHashSet();
+				public static Quiz.Question.Answer ValidAnswer =>
+					new Quiz.Question.Answer(NewId, ValidText, ValidIsCorrect);
+
+				public static HashSet<Quiz.Question.Answer> GetValidAnswers(int answerCount)
+				{
+					var answers = Enumerable.Range(1, answerCount).Select(x => ValidAnswer).ToHashSet();
+					answers.Add(new Quiz.Question.Answer(NewId, ValidText, true));
+					return answers;
+				}
 			}
 		}
 

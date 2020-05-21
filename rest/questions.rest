@@ -33,19 +33,22 @@ Content-Type: application/json
   "text": "New question text [{{$guid}}]",
   "answers": [
     {
-      "text": "Answer text 1"
+      "text": "Answer text 1",
+      "isCorrect": true
     },
     {
-      "text": "Answer text 2"
+      "text": "Answer text 2",
+      "isCorrect": false
     },
     {
-      "text": "Answer text 3"
+      "text": "Answer text 3",
+      "isCorrect": false
     },
     {
-      "text": "Answer text 4"
+      "text": "Answer text 4",
+      "isCorrect": false
     }
   ],
-  "correctAnswer": "Answer text 1",
   "questionSetId": "{{newQuestionSetId}}"
 }
 

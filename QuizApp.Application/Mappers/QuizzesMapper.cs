@@ -19,9 +19,9 @@ namespace QuizApp.Application.Mappers
 						{
 							Id = answer.Id,
 							Text = answer.Text,
+							IsCorrect = answer.IsCorrect
 						}
 					).ToArray(),
-					CorrectAnswerId = question.CorrectAnswerId,
 					QuestionSetId = question.QuestionSetId,
 				}
 			).ToArray(),
@@ -42,9 +42,9 @@ namespace QuizApp.Application.Mappers
 						{
 							Id = answer.Id,
 							Text = answer.Text,
+							IsCorrect = answer.IsCorrect
 						}
 					).ToArray(),
-					CorrectAnswerId = question.CorrectAnswerId,
 					PlayerAnswerId = question.PlayerAnswerId,
 					IsAnswered = question.IsAnswered,
 					IsCorrect = question.IsCorrect

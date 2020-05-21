@@ -19,7 +19,8 @@ namespace QuizApp.Infrastructure.Mappers
 							new QuizEntity.QuestionEntity.AnswerEntity
 							{
 								Id = answer.Id,
-								Text = answer.Text
+								Text = answer.Text,
+								IsCorrect = answer.IsCorrect,
 							}).ToHashSet(),
 						CorrectAnswerId = question.CorrectAnswerId,
 						QuestionSetId = question.QuestionSetId,
@@ -38,9 +39,9 @@ namespace QuizApp.Infrastructure.Mappers
 						question.Answers.Select(answer =>
 							new Quiz.Question.Answer(
 								answer.Id,
-								answer.Text)
+								answer.Text,
+								answer.IsCorrect)
 							).ToHashSet(),
-						question.CorrectAnswerId,
 						question.PlayerAnswerId,
 						question.QuestionSetId)
 				).ToHashSet()
