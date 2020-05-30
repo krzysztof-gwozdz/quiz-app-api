@@ -1,20 +1,26 @@
 [
   {
-    "id": "csharpa2-4cc1-4cb2-a1d3-1434dc2be63d",
     "name": "C#",
     "iconUrl": "",
-    "color": "#A176DB"
+    "color": "#A176DB",
+    "id": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
   },
   {
-    "id": "html593e-6cd7-43d7-9eff-dd139a85d5c6",
-    "name": "HTML",
+    "name": "Web",
     "iconUrl": "",
-    "color": "#E44D26"
+    "color": "#E44D26",
+    "id": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
   },
   {
-    "id": "js6afea5-b7db-4a5f-83f7-2e1308532c68",
     "name": "Javascript",
     "iconUrl": "",
-    "color": "#F7DF1E"
+    "color": "#F7DF1E",
+    "id": "cccccccc-b7db-4a5f-83f7-2e1308532c68"
+  },
+  {
+    "name": "Test Set",
+    "iconUrl": "",
+    "color": "#444444",
+    "id": "dddddddd-25e6-4142-bb07-22e3bc1e4595"
   }
 ]

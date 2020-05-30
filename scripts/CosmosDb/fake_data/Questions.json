@@ -1,0 +1,397 @@
+[
+  {
+    "text": "Which of the following is the default access specifier of a class member variable?",
+    "answers": [
+      {
+        "text": "Private",
+        "isCorrect": true,
+        "id": "12b6a343-125e-4553-94d3-92bd3bf16daa"
+      },
+      {
+        "text": "Public",
+        "isCorrect": false,
+        "id": "09628537-9278-47b1-99f9-f9f4e697d842"
+      },
+      {
+        "text": "Protected",
+        "isCorrect": false,
+        "id": "e1bb66cc-abe6-4b4f-a893-2f74f693e066"
+      },
+      {
+        "text": "Internal",
+        "isCorrect": false,
+        "id": "47516662-6f13-4bca-9890-dbd7d9e6b13e"
+      }
+    ],
+    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
+    "id": "aa1aaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
+  },
+  {
+    "text": "C# is developed by:",
+    "answers": [
+      {
+        "text": "Microsoft",
+        "isCorrect": true,
+        "id": "cb0bbf79-a002-4fc1-83a9-64ae0c5450b8"
+      },
+      {
+        "text": "IBM",
+        "isCorrect": false,
+        "id": "ce448d0e-5fb3-4712-a6b9-fc5a3e14fc23"
+      },
+      {
+        "text": "Google",
+        "isCorrect": false,
+        "id": "d2abd1e4-3196-46e5-bdc1-545a73f30674"
+      },
+      {
+        "text": "Windows",
+        "isCorrect": false,
+        "id": "25b7c671-21d9-4fad-9842-f5fabf977881"
+      }
+    ],
+    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
+    "id": "aa2aaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
+  },
+  {
+    "text": "Choose an example code line in C# that displays \"Hello World!\" text.",
+    "answers": [
+      {
+        "text": "Console.WriteLine(\"Hello, World!\");",
+        "isCorrect": true,
+        "id": "fde8a2c2-0dae-44e4-ad12-6d1429295195"
+      },
+      {
+        "text": "System.out.println(\"Hello, World\");",
+        "isCorrect": false,
+        "id": "a1d1095c-a8a3-4096-807f-8df7e4c58a8d"
+      },
+      {
+        "text": "cout << \"Hello, World!\";",
+        "isCorrect": false,
+        "id": "55525332-777a-4f3b-9006-ee9e4133e168"
+      },
+      {
+        "text": "print('Hello, World!');",
+        "isCorrect": false,
+        "id": "15b9d568-b857-4964-8e89-d2c77aa5cb41"
+      }
+    ],
+    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
+    "id": "aa3aaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
+  },
+  {
+    "text": "How you can identify HTTP status code class/category?",
+    "answers": [
+      {
+        "text": "By its first digit.",
+        "isCorrect": true,
+        "id": "e86c423d-51bc-4c8f-baef-fb656ba13386"
+      },
+      {
+        "text": "By its first two digits.",
+        "isCorrect": false,
+        "id": "49169775-4262-45be-b20b-b4de94c93da7"
+      },
+      {
+        "text": "By its last digit.",
+        "isCorrect": false,
+        "id": "40668322-7089-413d-906a-9ac040e4794f"
+      },
+      {
+        "text": "By its last two digits.",
+        "isCorrect": false,
+        "id": "2f9278a0-e0c9-4b3e-9843-5dca8d08d727"
+      }
+    ],
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "id": "bb1bbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+  },
+  {
+    "text": "What is a 500 HTTP status code?",
+    "answers": [
+      {
+        "text": "Internal Server Error",
+        "isCorrect": true,
+        "id": "e3759d62-c40d-4114-bee0-a6902a23efe6"
+      },
+      {
+        "text": "Bad Gateway",
+        "isCorrect": false,
+        "id": "4e980c59-5215-4dff-9a99-5bc552b910bc"
+      },
+      {
+        "text": "Bad Request",
+        "isCorrect": false,
+        "id": "d5e96320-caa1-4199-9365-c1d3adbdf0e7"
+      },
+      {
+        "text": "Not Implemented",
+        "isCorrect": false,
+        "id": "b94636b4-27dc-4b35-945f-309ff540aa33"
+      }
+    ],
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "id": "bb2bbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+  },
+  {
+    "text": "What is a 400 HTTP status code?",
+    "answers": [
+      {
+        "text": "Bad Request",
+        "isCorrect": true,
+        "id": "cf9ee0a0-9c36-481f-8be4-ec2194f86bc1"
+      },
+      {
+        "text": "Bad Gateway",
+        "isCorrect": false,
+        "id": "f01ea95d-95e5-4ef0-8d9d-f2a87ce396ec"
+      },
+      {
+        "text": "Conflict",
+        "isCorrect": false,
+        "id": "4d4bc513-4dff-4965-8756-6e5ad0bebece"
+      },
+      {
+        "text": "Not Found",
+        "isCorrect": false,
+        "id": "75dfdb3d-0043-4beb-be46-305fe4e5efeb"
+      }
+    ],
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "id": "bb3bbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+  },
+  {
+    "text": "What is a 401 HTTP status code?",
+    "answers": [
+      {
+        "text": "Unauthorized",
+        "isCorrect": true,
+        "id": "a01fe022-abcb-46d3-b59d-1ea8fe2168bb"
+      },
+      {
+        "text": "Bad Request",
+        "isCorrect": false,
+        "id": "6e6d971e-5c10-45bd-8b04-7563578c2af5"
+      },
+      {
+        "text": "Unavailable For Legal Reasons",
+        "isCorrect": false,
+        "id": "fe344643-ee87-453d-b96e-5abe7174c9f5"
+      },
+      {
+        "text": "Request Header Fields Too Large",
+        "isCorrect": false,
+        "id": "7d580c2e-91d6-41df-8b15-aa35ad7fa557"
+      }
+    ],
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "id": "bb4bbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+  },
+  {
+    "text": "What is a 404 HTTP status code?",
+    "answers": [
+      {
+        "text": "Not Found",
+        "isCorrect": true,
+        "id": "07e0f47c-617a-45df-a416-e9a94dd7032c"
+      },
+      {
+        "text": "Forbidden",
+        "isCorrect": false,
+        "id": "cd56410c-b6d9-4788-b708-7620f6fd8174"
+      },
+      {
+        "text": "Payment Required",
+        "isCorrect": false,
+        "id": "fc413ac4-b29c-4e36-88ad-51caceabe49f"
+      },
+      {
+        "text": "Unauthorized",
+        "isCorrect": false,
+        "id": "0cf9d2bc-69e0-4ba4-afa5-1f93d4937dd7"
+      }
+    ],
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "id": "bb5bbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+  },
+  {
+    "text": "What is the HTML tag under which one can write the JavaScript code?",
+    "answers": [
+      {
+        "text": "<script>",
+        "isCorrect": true,
+        "id": "f38e933d-58ae-4e86-a79d-e67f6cca9da8"
+      },
+      {
+        "text": "<javascript>",
+        "isCorrect": false,
+        "id": "f08c1515-66f2-48d1-8fb9-1fcb89e8809c"
+      },
+      {
+        "text": "<scripted>",
+        "isCorrect": false,
+        "id": "a2bd46aa-f092-44ff-83b5-3e3a9d62cbee"
+      },
+      {
+        "text": "<js>",
+        "isCorrect": false,
+        "id": "44e62502-75b1-4c85-a971-f5a5768a6836"
+      }
+    ],
+    "questionSetId": "cccccccc-b7db-4a5f-83f7-2e1308532c68",
+    "id": "cc1ccccc-b7db-4a5f-83f7-2e1308532c68"
+  },
+  {
+    "text": "How can you add a comment in a JavaScript?",
+    "answers": [
+      {
+        "text": "//This is a comment",
+        "isCorrect": true,
+        "id": "42ee60aa-e10a-42b1-9f97-17148269f44f"
+      },
+      {
+        "text": "<!--This is a comment-->",
+        "isCorrect": false,
+        "id": "57af86cc-ff6f-4f0f-83a3-e08f5f7493b5"
+      },
+      {
+        "text": "--This is a comment",
+        "isCorrect": false,
+        "id": "a72f2e0a-1da3-4e77-8e32-037c4b449c0a"
+      },
+      {
+        "text": "!!This is a comment",
+        "isCorrect": false,
+        "id": "db1f1dbe-670e-4020-9e9f-ba34696d8680"
+      }
+    ],
+    "questionSetId": "cccccccc-b7db-4a5f-83f7-2e1308532c68",
+    "id": "cc2ccccc-b7db-4a5f-83f7-2e1308532c68"
+  },
+  {
+    "text": "Only 2 answers",
+    "answers": [
+      {
+        "text": "First",
+        "isCorrect": true,
+        "id": "e7bc4cba-d028-488b-b204-eaea9c2060b3"
+      },
+      {
+        "text": "Second",
+        "isCorrect": false,
+        "id": "44fac8e1-efa4-4316-ac9a-677fecf92486"
+      }
+    ],
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "id": "dd1ddddd-25e6-4142-bb07-22e3bc1e4595"
+  },
+  {
+    "text": "Only 3 answers",
+    "answers": [
+      {
+        "text": "First",
+        "isCorrect": true,
+        "id": "40a0e0f1-84cc-418c-985f-79c573dcc992"
+      },
+      {
+        "text": "Second",
+        "isCorrect": false,
+        "id": "08c43d75-e18b-4840-a0ad-bc2240520ea6"
+      },
+      {
+        "text": "Third",
+        "isCorrect": false,
+        "id": "1c3aec67-8d28-43d8-8038-74e029373344"
+      }
+    ],
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "id": "dd2ddddd-25e6-4142-bb07-22e3bc1e4595"
+  },
+  {
+    "text": "5 answers",
+    "answers": [
+      {
+        "text": "First",
+        "isCorrect": true,
+        "id": "ca1bda61-a413-4c9d-9599-ee42402ed842"
+      },
+      {
+        "text": "Second",
+        "isCorrect": false,
+        "id": "ce824e78-565e-4904-8d94-82f2fd385957"
+      },
+      {
+        "text": "Third",
+        "isCorrect": false,
+        "id": "096982c4-b6db-43c7-83b7-5e1db2b5ee96"
+      },
+      {
+        "text": "Fourth",
+        "isCorrect": false,
+        "id": "5d319678-f79f-4d0e-aeee-99b86a23a615"
+      },
+      {
+        "text": "Fifth",
+        "isCorrect": false,
+        "id": "ab502cde-7315-45d8-ae3d-9e49737b762c"
+      }
+    ],
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "id": "dd3ddddd-25e6-4142-bb07-22e3bc1e4595"
+  },
+  {
+    "text": "Very long question about something really interesting and important to know. What do you think about that? I need more text here.",
+    "answers": [
+      {
+        "text": "First",
+        "isCorrect": true,
+        "id": "2de640d4-0acf-4847-b094-dfd90c2a42bb"
+      },
+      {
+        "text": "Second",
+        "isCorrect": false,
+        "id": "5b18e677-73af-4d38-8c8c-b5375f55dcf2"
+      },
+      {
+        "text": "Third",
+        "isCorrect": false,
+        "id": "e37cb7e1-199b-4e75-9061-5bd2142f72c6"
+      },
+      {
+        "text": "Fourth",
+        "isCorrect": false,
+        "id": "2b5a99e3-4994-40df-ad80-3025fecab38d"
+      }
+    ],
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "id": "dd4ddddd-25e6-4142-bb07-22e3bc1e4595"
+  },
+  {
+    "text": "Long question about something really interesting and important to know. Combined with long answers.",
+    "answers": [
+      {
+        "text": "This is a first answer to this really complicated question.",
+        "isCorrect": true,
+        "id": "cccdc21d-4043-405f-8744-228477977793"
+      },
+      {
+        "text": "The second answer to this really complicated question is even longer than previous one.",
+        "isCorrect": false,
+        "id": "5f828998-0f7f-4c44-a04e-d2f960ddfa6f"
+      },
+      {
+        "text": "This one is short.",
+        "isCorrect": false,
+        "id": "f6457eca-62ac-4443-a5b3-f5378e07028d"
+      },
+      {
+        "text": "This one contains realy long world: 1234567890134567890.",
+        "isCorrect": false,
+        "id": "9051933c-d8bd-4a73-adc7-c834082a509a"
+      }
+    ],
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "id": "dd5ddddd-25e6-4142-bb07-22e3bc1e4595"
+  }
+]
