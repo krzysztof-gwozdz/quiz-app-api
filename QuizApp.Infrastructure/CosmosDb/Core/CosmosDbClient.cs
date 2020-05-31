@@ -2,6 +2,7 @@
 using Microsoft.Azure.Documents.Client;
 using System.Threading;
 using System.Threading.Tasks;
+using QuizApp.Infrastructure.CosmosDb.Exceptions;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
@@ -13,9 +14,9 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 
 		public CosmosDbClient(string databaseName, string collectionName, IDocumentClient documentClient)
 		{
-			_databaseName = databaseName ?? throw new UnableToFindContainerException(nameof(databaseName));
-			_collectionName = collectionName ?? throw new UnableToFindContainerException(nameof(collectionName));
-			_documentClient = documentClient ?? throw new UnableToFindContainerException(nameof(documentClient));
+			_databaseName = databaseName ?? throw new CosmosDbConfigurationException(nameof(databaseName));
+			_collectionName = collectionName ?? throw new CosmosDbConfigurationException(nameof(collectionName));
+			_documentClient = documentClient ?? throw new CosmosDbConfigurationException(nameof(documentClient));
 		}
 
 		public async Task<Document> ReadDocumentAsync(string documentId, RequestOptions options = null, CancellationToken cancellationToken = default) =>
