@@ -1,10 +1,10 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Documents.Client;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using QuizApp.Infrastructure.CosmosDb.Core;
+using QuizApp.Shared;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +15,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 	{
 		public static IServiceCollection AddCosmosDb(this IServiceCollection services)
 		{
-			var options = GetOptions<CosmosDbOptions>(services, "CosmosDb");
+			var options = services.GetOptions<CosmosDbOptions>("CosmosDb");
 
 			var cosmosClient = GetCosmosClient(options);
 			var documentClient = GetDocumentClient(options);
@@ -51,13 +51,6 @@ namespace QuizApp.Infrastructure.CosmosDb
 			);
 			var containerProperties = repositories.Select(type => type.GetCustomAttribute<CosmosDbRepositoryAttribute>().ContainerProperties);
 			return containerProperties.ToArray();
-		}
-
-		private static T GetOptions<T>(this IServiceCollection services, string settingsSectionName)
-		{
-			using var serviceProvider = services.BuildServiceProvider();
-			var configuration = serviceProvider.GetService<IConfiguration>();
-			return configuration.GetSection(settingsSectionName).Get<T>();
 		}
 	}
 }
