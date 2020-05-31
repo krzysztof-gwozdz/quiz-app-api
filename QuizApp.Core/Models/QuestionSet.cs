@@ -7,28 +7,31 @@ namespace QuizApp.Core.Models
 	{
 		public Guid Id { get; }
 		public string Name { get; }
-		public string IconUrl { get; }
+		public Guid IconId { get; }
 		public Color Color { get; }
 
-		public QuestionSet(Guid id, string name, string iconUrl, Color color)
+		public QuestionSet(Guid id, string name, Guid iconId, Color color)
 		{
 			Id = id;
 			Name = name;
-			IconUrl = iconUrl;
+			IconId = iconId;
 			Color = color;
 		}
 
-		private QuestionSet(string name, string iconUrl, Color color)
-			: this(Guid.NewGuid(), name, iconUrl, color)
+		private QuestionSet(string name, Guid iconId, Color color)
+			: this(Guid.NewGuid(), name, iconId, color)
 		{
 		}
 
-		public static QuestionSet Create(string name, string iconUrl, Color color)
+		public static QuestionSet Create(string name, Guid iconId, Color color)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyQuestionSetNameException();
 
-			return new QuestionSet(name, iconUrl, color);
+			if (Guid.Empty == iconId)
+				throw new EmptyQuestionSetIconException();
+
+			return new QuestionSet(name, iconId, color);
 		}
 	}
 }

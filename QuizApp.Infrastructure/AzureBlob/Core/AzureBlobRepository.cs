@@ -27,6 +27,12 @@ namespace QuizApp.Infrastructure.AzureBlob.Core
 			return blob.Value.Content;
 		}
 
+		protected async Task<bool> CheckIfBlobExists(string fileName)
+		{
+			var blobClient = GetBlobClient(fileName);
+			return await blobClient.ExistsAsync();
+		}
+
 		protected async Task AddBlobAsync(string fileName, Stream stream)
 		{
 			var blobClient = GetBlobClient(fileName);

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace QuizApp.Infrastructure.Entities
 {
@@ -7,8 +8,8 @@ namespace QuizApp.Infrastructure.Entities
 		[JsonProperty("name")]
 		public string Name { get; set; }
 
-		[JsonProperty("iconUrl")]
-		public string IconUrl { get; set; }
+		[JsonProperty("iconId")]
+		public Guid IconId { get; set; }
 
 		[JsonProperty("color")]
 		public string Color { get; set; }

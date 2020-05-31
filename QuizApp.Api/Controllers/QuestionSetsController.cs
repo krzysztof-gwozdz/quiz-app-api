@@ -2,6 +2,7 @@
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace QuizApp.Api.Controllers
@@ -29,8 +30,15 @@ namespace QuizApp.Api.Controllers
 			return Ok(await _questionSetsService.GetAsync(id));
 		}
 
+		[HttpGet("{id:guid}/icon")]
+		public async Task<ActionResult> GetIcon(Guid id)
+		{
+			var icon = await _questionSetsService.GetIconAsync(id);
+			return File(icon, MediaTypeNames.Image.Jpeg);
+		}
+
 		[HttpPost("")]
-		public async Task<ActionResult> Create(CreateQuestionSetDto createQuestionSetDto)
+		public async Task<ActionResult> Create([FromForm] CreateQuestionSetDto createQuestionSetDto)
 		{
 			return Created((await _questionSetsService.CreateAsync(createQuestionSetDto)).ToString(), null);
 		}

@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
+using QuizApp.Infrastructure.AzureBlob.Exceptions;
 using System.Linq;
 using System.Threading.Tasks;
-using QuizApp.Infrastructure.AzureBlob.Exceptions;
 
 namespace QuizApp.Infrastructure.AzureBlob.Core
 {

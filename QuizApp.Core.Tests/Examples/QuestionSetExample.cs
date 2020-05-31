@@ -11,13 +11,13 @@ namespace QuizApp.Core.Tests.Examples
 		public static string ValidName =>
 			Guid.NewGuid().ToString();
 
-		public static string ValidIconUrl =>
-			Guid.NewGuid().ToString();
+		public static Guid ValidIconId =>
+			Guid.NewGuid();
 
 		public static Color ValidColor =>
 			Color.Create("#FFFFFF");
 
 		public static QuestionSet ValidQuestionSet =>
-			new QuestionSet(NewId, ValidName, ValidIconUrl, ValidColor);
+			new QuestionSet(NewId, ValidName, ValidIconId, ValidColor);
 	}
 }

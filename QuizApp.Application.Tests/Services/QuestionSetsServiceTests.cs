@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
@@ -16,13 +17,18 @@ namespace QuizApp.Application.Tests.Services
 	{
 		private readonly Mock<IQuestionSetsRepository> _questionSetsRepositoryMock;
 		private readonly Mock<IQuestionsRepository> _questionsRepositoryMock;
+		private readonly Mock<IQuestionSetIconsRepository> _questionSetIconsRepositoryMock;
 		private readonly QuestionSetsService _questionSetsService;
 
 		public QuestionSetsServiceTests()
 		{
 			_questionSetsRepositoryMock = new Mock<IQuestionSetsRepository>();
 			_questionsRepositoryMock = new Mock<IQuestionsRepository>();
-			_questionSetsService = new QuestionSetsService(_questionSetsRepositoryMock.Object, _questionsRepositoryMock.Object);
+			_questionSetIconsRepositoryMock = new Mock<IQuestionSetIconsRepository>();
+			_questionSetsService = new QuestionSetsService(
+				_questionSetsRepositoryMock.Object,
+				_questionsRepositoryMock.Object,
+				_questionSetIconsRepositoryMock.Object);
 		}
 
 		[Fact]
@@ -79,7 +85,11 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
-			var dto = new CreateQuestionSetDto { Name = name, Color = "#FFF" };
+			var iconMock = new Mock<IFormFile>();
+			iconMock.Setup(x => x.OpenReadStream()).Returns(QuestionSetIconExample.ValidData);
+			iconMock.Setup(x => x.Length).Returns(QuestionSetIconExample.ValidData.Length);
+			iconMock.Setup(x => x.ContentType).Returns(QuestionSetIconExample.ValidContentType);
+			var dto = new CreateQuestionSetDto { Name = name, Icon = iconMock.Object, Color = "#FFF" };
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
@@ -95,7 +105,7 @@ namespace QuizApp.Application.Tests.Services
 			var name = QuestionSetExample.ValidName;
 			_questionSetsRepositoryMock
 				.Setup(x => x.GetByNameAsync(name))
-				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidIconUrl, QuestionSetExample.ValidColor));
+				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidIconId, QuestionSetExample.ValidColor));
 			var dto = new CreateQuestionSetDto { Name = name };
 
 			//act 

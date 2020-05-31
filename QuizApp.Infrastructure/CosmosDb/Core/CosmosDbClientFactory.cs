@@ -1,9 +1,9 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Documents.Client;
+using QuizApp.Infrastructure.CosmosDb.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using QuizApp.Infrastructure.CosmosDb.Exceptions;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {

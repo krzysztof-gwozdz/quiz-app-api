@@ -14,16 +14,16 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
-			var iconUrl = QuestionSetExample.ValidIconUrl;
+			var iconId = QuestionSetExample.ValidIconId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			var questionSet = QuestionSet.Create(name, iconUrl, color);
+			var questionSet = QuestionSet.Create(name, iconId, color);
 
 			//assert
 			questionSet.Id.Should().NotBeEmpty();
 			questionSet.Name.Should().Be(name);
-			questionSet.IconUrl.Should().Be(iconUrl);
+			questionSet.IconId.Should().NotBeEmpty();
 			questionSet.Color.Should().Be(color);
 		}
 
@@ -34,15 +34,31 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionSetWithEmptyName_ThrowException(string name)
 		{
 			//arrange
-			var iconUrl = QuestionSetExample.ValidIconUrl;
+			var iconId = QuestionSetExample.ValidIconId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			Action createQuestionSet = () => QuestionSet.Create(name, iconUrl, color);
+			Action createQuestionSet = () => QuestionSet.Create(name, iconId, color);
 
 			//assert
 			createQuestionSet.Should().Throw<EmptyQuestionSetNameException>()
 				.WithMessage("Question set name can not be empty.");
+		}
+
+		[Fact]
+		public void CreateQuestionSetWithEmptyIcon_ThrowException()
+		{
+			//arrange
+			var name = QuestionSetExample.ValidName;
+			var iconId = Guid.Empty;
+			var color = QuestionSetExample.ValidColor;
+
+			//act
+			Action createQuestionSet = () => QuestionSet.Create(name, iconId, color);
+
+			//assert
+			createQuestionSet.Should().Throw<EmptyQuestionSetIconException>()
+				.WithMessage("Question set icon can not be empty.");
 		}
 	}
 }
