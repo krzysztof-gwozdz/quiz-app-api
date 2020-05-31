@@ -2,6 +2,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using QuizApp.Api.Extensions;
 using QuizApp.Application.Extensions;
+using QuizApp.Infrastructure.AzureBlob;
 using QuizApp.Infrastructure.CosmosDb;
 using QuizApp.Infrastructure.Extensions;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace QuizApp.Api
 					.AddServices()
 					.AddFactories()
 					.AddCosmosDb()
+					.AddAzureBlob()
 				)
 				.Configure(app => app
 					.UseErrorHandling()
