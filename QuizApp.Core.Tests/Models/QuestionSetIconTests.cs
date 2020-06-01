@@ -4,19 +4,21 @@ using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
 using System;
 using System.IO;
-using System.Net.Mime;
+using QuizApp.Shared;
 using Xunit;
 
 namespace QuizApp.Core.Tests.Models
 {
 	public class QuestionSetIconTests
 	{
-		[Fact]
-		public void CreateQuestionSetIconWithCorrectValues_QuestionSetIconCreated()
+		[Theory]
+		[InlineData(MediaTypes.Image.Jpeg)]
+		[InlineData(MediaTypes.Image.Png)]
+		[InlineData(MediaTypes.Image.Gif)]
+		public void CreateQuestionSetIconWithCorrectValues_QuestionSetIconCreated(string contentType)
 		{
 			//arrange
 			var data = QuestionSetIconExample.ValidData;
-			var contentType = QuestionSetIconExample.ValidContentType;
 
 			//act
 			var questionSet = QuestionSetIcon.Create(data, contentType);
@@ -71,19 +73,21 @@ namespace QuizApp.Core.Tests.Models
 				.WithMessage($"Question set icon is to large: {QuestionSetIcon.MaxImageSize + 1}. Max image size: {QuestionSetIcon.MaxImageSize}");
 		}
 
-		[Fact]
-		public void CreateQuestionSetIconWrongContentType_ThrowException()
+		[Theory]
+		[InlineData(MediaTypes.Text.Plain)]
+		[InlineData(MediaTypes.Application.Pdf)]
+		[InlineData(MediaTypes.Application.Json)]
+		public void CreateQuestionSetIconWrongContentType_ThrowException(string contentType)
 		{
 			//arrange
 			var data = QuestionSetIconExample.ValidData;
-			var contentType = MediaTypeNames.Application.Json;
 
 			//act
 			Action createQuestionSet = () => QuestionSetIcon.Create(data, contentType);
 
 			//assert
 			createQuestionSet.Should().Throw<InvalidMediaTypeException>()
-				.WithMessage($"Invalid media type: {contentType}. Expected: {string.Join(",", MediaTypeNames.Image.Jpeg)}");
+				.WithMessage($"Invalid media type: {contentType}. Expected: {string.Join(", ", QuestionSetIcon.ValidMediaTypes)}.");
 		}
 	}
 }

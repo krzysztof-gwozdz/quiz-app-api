@@ -1,13 +1,17 @@
 ﻿using QuizApp.Core.Exceptions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Mime;
+using QuizApp.Shared;
 
 namespace QuizApp.Core.Models
 {
 	public class QuestionSetIcon
 	{
 		public const long MaxImageSize = 1024 * 1024 * 1;
+
+		public static readonly string[] ValidMediaTypes = { MediaTypes.Image.Jpeg, MediaTypes.Image.Png, MediaTypes.Image.Gif };
 
 		public Guid Id { get; }
 		public Stream Data { get; }
@@ -31,8 +35,8 @@ namespace QuizApp.Core.Models
 			if (data.Length > MaxImageSize)
 				throw new QuestionSetIconIsToLargeException(data.Length, MaxImageSize);
 
-			if (contentType != MediaTypeNames.Image.Jpeg)
-				throw new InvalidMediaTypeException(contentType, MediaTypeNames.Image.Jpeg);
+			if (!ValidMediaTypes.Contains(contentType))
+				throw new InvalidMediaTypeException(contentType, ValidMediaTypes);
 
 			//TODO validate image content and add possibility add other extensions
 

@@ -1,7 +1,7 @@
 ﻿using QuizApp.Core.Models;
 using System;
 using System.IO;
-using System.Net.Mime;
+using QuizApp.Shared;
 
 namespace QuizApp.Core.Tests.Examples
 {
@@ -14,7 +14,7 @@ namespace QuizApp.Core.Tests.Examples
 			new MemoryStream(new byte[100]);
 
 		public static string ValidContentType =>
-			MediaTypeNames.Image.Jpeg;
+			MediaTypes.Image.Jpeg;
 
 		public static QuestionSetIcon ValidQuestionSetIcon =>
 			new QuestionSetIcon(NewId, ValidData);

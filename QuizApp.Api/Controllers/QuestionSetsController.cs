@@ -2,8 +2,8 @@
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using System;
-using System.Net.Mime;
 using System.Threading.Tasks;
+using QuizApp.Shared;
 
 namespace QuizApp.Api.Controllers
 {
@@ -34,7 +34,7 @@ namespace QuizApp.Api.Controllers
 		public async Task<ActionResult> GetIcon(Guid id)
 		{
 			var icon = await _questionSetsService.GetIconAsync(id);
-			return File(icon, MediaTypeNames.Image.Jpeg);
+			return File(icon, MediaTypes.Image.Jpeg);
 		}
 
 		[HttpPost("")]
