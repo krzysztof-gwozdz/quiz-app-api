@@ -3,22 +3,10 @@
 
 ### ~~ QUESTION SETS ~~ ###
 ### Get all question sets
+# @name  getQuestionSets
 GET {{baseUrl}}question-sets HTTP/1.1
 
-
-### Add question set
-# @name  addQuestionSet
-POST {{baseUrl}}question-sets HTTP/1.1
-Content-Type: application/json
-
-{
-    "name": "New Question Set [{{$guid}}]",
-    "description": "New Question Set Description that describe this question set.",
-    "imageUrl": "",
-    "color": "#FFFFFF"
-}
-
-@newQuestionSetId = {{addQuestionSet.response.headers.Location}}
+@newQuestionSetId = {{getQuestionSets.response.body.collection[0].id}}
 
 
 ### Get added question set
