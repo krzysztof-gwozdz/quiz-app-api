@@ -4,7 +4,6 @@ using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services

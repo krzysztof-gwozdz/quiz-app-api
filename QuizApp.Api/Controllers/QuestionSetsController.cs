@@ -3,7 +3,6 @@ using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using System;
 using System.Threading.Tasks;
-using QuizApp.Shared;
 
 namespace QuizApp.Api.Controllers
 {

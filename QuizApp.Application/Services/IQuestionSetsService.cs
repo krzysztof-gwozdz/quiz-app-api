@@ -1,6 +1,5 @@
 ﻿using QuizApp.Application.Dtos;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services

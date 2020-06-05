@@ -1,10 +1,8 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
-using Azure.Storage.Blobs.Models;
-using QuizApp.Shared;
 
 namespace QuizApp.Infrastructure.AzureBlob.Core
 {

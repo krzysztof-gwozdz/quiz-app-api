@@ -2,9 +2,9 @@
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
+using QuizApp.Shared;
 using System;
 using System.IO;
-using QuizApp.Shared;
 using Xunit;
 
 namespace QuizApp.Core.Tests.Models

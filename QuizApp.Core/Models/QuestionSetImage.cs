@@ -1,8 +1,8 @@
 ﻿using QuizApp.Core.Exceptions;
+using QuizApp.Shared;
 using System;
 using System.IO;
 using System.Linq;
-using QuizApp.Shared;
 
 namespace QuizApp.Core.Models
 {
@@ -12,8 +12,8 @@ namespace QuizApp.Core.Models
 
 		public static readonly string[] ValidContentTypes =
 		{
-			ContentTypes.Image.Jpeg, 
-			ContentTypes.Image.Png, 
+			ContentTypes.Image.Jpeg,
+			ContentTypes.Image.Png,
 			ContentTypes.Image.Gif
 		};
 

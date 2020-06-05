@@ -1,8 +1,8 @@
 ﻿using QuizApp.Core.Models;
+using QuizApp.Shared;
 using System;
 using System.Globalization;
 using System.IO;
-using QuizApp.Shared;
 
 namespace QuizApp.Core.Tests.Examples
 {
