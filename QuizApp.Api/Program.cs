@@ -20,6 +20,7 @@ namespace QuizApp.Api
 			WebHost.CreateDefaultBuilder(args)
 				.ConfigureServices(services => services
 					.AddErrorHandling()
+					.AddApplicationInsights()
 					.AddSwaggerWithConfig()
 					.AddApi()
 					.AddRepositories()
