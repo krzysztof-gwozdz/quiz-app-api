@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.AzureBlob.Repositories
 {
-	[AzureBlobRepository("question-sets-images")]
+	[AzureBlobRepository("question-set-images")]
 	public class AzureBlobQuestionSetImagesRepository : AzureBlobRepository, IQuestionSetImagesRepository
 	{
 		public AzureBlobQuestionSetImagesRepository(IAzureBlobClientFactory factory) : base(factory)
