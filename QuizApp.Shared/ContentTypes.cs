@@ -1,6 +1,6 @@
 ﻿namespace QuizApp.Shared
 {
-	public static class MediaTypes
+	public static class ContentTypes
 	{
 		public static class Application
 		{

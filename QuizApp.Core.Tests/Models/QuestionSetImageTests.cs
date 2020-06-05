@@ -12,9 +12,9 @@ namespace QuizApp.Core.Tests.Models
 	public class QuestionSetImageTests
 	{
 		[Theory]
-		[InlineData(MediaTypes.Image.Jpeg)]
-		[InlineData(MediaTypes.Image.Png)]
-		[InlineData(MediaTypes.Image.Gif)]
+		[InlineData(ContentTypes.Image.Jpeg)]
+		[InlineData(ContentTypes.Image.Png)]
+		[InlineData(ContentTypes.Image.Gif)]
 		public void CreateQuestionSetImageWithCorrectValues_QuestionSetImageCreated(string contentType)
 		{
 			//arrange
@@ -75,9 +75,9 @@ namespace QuizApp.Core.Tests.Models
 		}
 
 		[Theory]
-		[InlineData(MediaTypes.Text.Plain)]
-		[InlineData(MediaTypes.Application.Pdf)]
-		[InlineData(MediaTypes.Application.Json)]
+		[InlineData(ContentTypes.Text.Plain)]
+		[InlineData(ContentTypes.Application.Pdf)]
+		[InlineData(ContentTypes.Application.Json)]
 		public void CreateQuestionSetImageWrongContentType_ThrowException(string contentType)
 		{
 			//arrange
@@ -87,8 +87,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
 
 			//assert
-			createQuestionSet.Should().Throw<InvalidMediaTypeException>()
-				.WithMessage($"Invalid media type: {contentType}. Expected: {string.Join(", ", QuestionSetImage.ValidMediaTypes)}.");
+			createQuestionSet.Should().Throw<InvalidContentTypeException>()
+				.WithMessage($"Invalid content type: {contentType}. Expected: {string.Join(", ", QuestionSetImage.ValidContentTypes)}.");
 		}
 
 		[Fact]

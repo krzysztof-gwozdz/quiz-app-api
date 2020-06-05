@@ -10,7 +10,12 @@ namespace QuizApp.Core.Models
 	{
 		public const long MaxImageSize = 1024 * 1024 * 1;
 
-		public static readonly string[] ValidMediaTypes = { MediaTypes.Image.Jpeg, MediaTypes.Image.Png, MediaTypes.Image.Gif };
+		public static readonly string[] ValidContentTypes =
+		{
+			ContentTypes.Image.Jpeg, 
+			ContentTypes.Image.Png, 
+			ContentTypes.Image.Gif
+		};
 
 		public Guid Id { get; }
 		public Stream Data { get; }
@@ -36,8 +41,8 @@ namespace QuizApp.Core.Models
 			if (data.Length > MaxImageSize)
 				throw new QuestionSetImageIsToLargeException(data.Length, MaxImageSize);
 
-			if (!ValidMediaTypes.Contains(contentType))
-				throw new InvalidMediaTypeException(contentType, ValidMediaTypes);
+			if (!ValidContentTypes.Contains(contentType))
+				throw new InvalidContentTypeException(contentType, ValidContentTypes);
 
 			if (!data.IsImage())
 				throw new UploadedDataIsNotImageException();
