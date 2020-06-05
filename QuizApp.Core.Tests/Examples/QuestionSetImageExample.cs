@@ -1,5 +1,6 @@
 ﻿using QuizApp.Core.Models;
 using System;
+using System.Globalization;
 using System.IO;
 using QuizApp.Shared;
 
@@ -11,7 +12,7 @@ namespace QuizApp.Core.Tests.Examples
 			Guid.NewGuid();
 
 		public static Stream ValidData =>
-			new MemoryStream(new byte[100]);
+			new MemoryStream(new[] { byte.Parse("FF", NumberStyles.AllowHexSpecifier), byte.Parse("D8", NumberStyles.HexNumber), });
 
 		public static string ValidContentType =>
 			MediaTypes.Image.Jpeg;

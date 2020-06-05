@@ -38,7 +38,8 @@ namespace QuizApp.Core.Models
 			if (!ValidMediaTypes.Contains(contentType))
 				throw new InvalidMediaTypeException(contentType, ValidMediaTypes);
 
-			//TODO validate image content and add possibility add other extensions
+			if (!data.IsImage())
+				throw new UploadedDataIsNotImageException();
 
 			return new QuestionSetImage(data);
 		}

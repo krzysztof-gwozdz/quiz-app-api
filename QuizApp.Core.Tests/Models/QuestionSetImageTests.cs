@@ -89,5 +89,20 @@ namespace QuizApp.Core.Tests.Models
 			createQuestionSet.Should().Throw<InvalidMediaTypeException>()
 				.WithMessage($"Invalid media type: {contentType}. Expected: {string.Join(", ", QuestionSetImage.ValidMediaTypes)}.");
 		}
+
+		[Fact]
+		public void CreateQuestionSetStreamThatIsNotValidImage_ThrowException()
+		{
+			//arrange
+			var data = new MemoryStream(new byte[] { 0, 1 });
+			var contentType = QuestionSetImageExample.ValidContentType;
+
+			//act
+			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
+
+			//assert
+			createQuestionSet.Should().Throw<UploadedDataIsNotImageException>()
+				.WithMessage("Uploaded data is not an image.");
+		}
 	}
 }
