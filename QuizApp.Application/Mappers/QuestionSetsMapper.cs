@@ -12,6 +12,7 @@ namespace QuizApp.Application.Mappers
 			{
 				Id = model.Id,
 				Name = model.Name,
+				Description = model.Description,
 				Color = model.Color.Value,
 				IconUrl = $"question-sets/{model.IconId}/icon", // TODO move to different place
 				TotalQuestions = totalQuestions,
@@ -24,6 +25,7 @@ namespace QuizApp.Application.Mappers
 				{
 					Id = questionSet.Id,
 					Name = questionSet.Name,
+					Description = questionSet.Description,
 					Color = questionSet.Color.Value,
 					IconUrl = $"question-sets/{questionSet.IconId}/icon", // TODO move to different place
 				}).ToArray()

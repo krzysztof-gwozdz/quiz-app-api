@@ -1,24 +1,28 @@
 [
   {
     "name": "C#",
+    "description": "Question about the most popular language created and developed by Microsoft.",
     "iconUrl": "",
     "color": "#A176DB",
     "id": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
   },
   {
     "name": "Web",
+    "description": "Question about web technologies.",
     "iconUrl": "",
     "color": "#E44D26",
     "id": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
   },
   {
     "name": "Javascript",
+    "description": "It is like java but for web browsers.",
     "iconUrl": "",
     "color": "#F7DF1E",
     "id": "cccccccc-b7db-4a5f-83f7-2e1308532c68"
   },
   {
     "name": "Test Set",
+    "description": "Is super question set with super questions and super answers.",
     "iconUrl": "",
     "color": "#444444",
     "id": "dddddddd-25e6-4142-bb07-22e3bc1e4595"

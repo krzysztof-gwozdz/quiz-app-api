@@ -56,7 +56,7 @@ namespace QuizApp.Application.Services
 
 			var icon = QuestionSetIcon.Create(dto.Icon?.OpenReadStream(), dto.Icon?.ContentType);
 			var color = Color.Create(dto.Color);
-			var questionSet = QuestionSet.Create(dto.Name, icon.Id, color);
+			var questionSet = QuestionSet.Create(dto.Name, dto.Description, icon.Id, color);
 			await _questionSetsRepository.AddAsync(questionSet);
 			await _questionSetIconsRepository.AddAsync(icon);
 

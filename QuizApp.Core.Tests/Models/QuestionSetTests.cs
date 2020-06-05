@@ -14,11 +14,12 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
+			var description = QuestionSetExample.ValidDescription;
 			var iconId = QuestionSetExample.ValidIconId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			var questionSet = QuestionSet.Create(name, iconId, color);
+			var questionSet = QuestionSet.Create(name, description, iconId, color);
 
 			//assert
 			questionSet.Id.Should().NotBeEmpty();
@@ -34,27 +35,49 @@ namespace QuizApp.Core.Tests.Models
 		public void CreateQuestionSetWithEmptyName_ThrowException(string name)
 		{
 			//arrange
+			var description = QuestionSetExample.ValidDescription;
 			var iconId = QuestionSetExample.ValidIconId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			Action createQuestionSet = () => QuestionSet.Create(name, iconId, color);
+			Action createQuestionSet = () => QuestionSet.Create(name, description, iconId, color);
 
 			//assert
 			createQuestionSet.Should().Throw<EmptyQuestionSetNameException>()
 				.WithMessage("Question set name can not be empty.");
 		}
 
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		public void CreateQuestionSetWithEmptyDescription_ThrowException(string description)
+		{
+			//arrange
+			var name = QuestionSetExample.ValidName;
+			var iconId = QuestionSetExample.ValidIconId;
+			var color = QuestionSetExample.ValidColor;
+
+			//act
+			Action createQuestionSet = () => QuestionSet.Create(name, description, iconId, color);
+
+			//assert
+			createQuestionSet.Should().Throw<EmptyQuestionSetDescriptionException>()
+				.WithMessage("Question set description can not be empty.");
+		}
+
+
 		[Fact]
 		public void CreateQuestionSetWithEmptyIcon_ThrowException()
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
+			var description = QuestionSetExample.ValidDescription;
 			var iconId = Guid.Empty;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			Action createQuestionSet = () => QuestionSet.Create(name, iconId, color);
+			Action createQuestionSet = () => QuestionSet.Create(name, description, iconId, color);
 
 			//assert
 			createQuestionSet.Should().Throw<EmptyQuestionSetIconException>()
