@@ -13,16 +13,16 @@ namespace QuizApp.Application.Services
 	{
 		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly IQuestionsRepository _questionsRepository;
-		private readonly IQuestionSetIconsRepository _questionSetIconsRepository;
+		private readonly IQuestionSetImagesRepository _questionSetImagesRepository;
 
 		public QuestionSetsService(
 			IQuestionSetsRepository questionSetsRepository,
 			IQuestionsRepository questionsRepository,
-			IQuestionSetIconsRepository questionSetIconsRepository)
+			IQuestionSetImagesRepository questionSetImagesRepository)
 		{
 			_questionSetsRepository = questionSetsRepository;
 			_questionsRepository = questionsRepository;
-			_questionSetIconsRepository = questionSetIconsRepository;
+			_questionSetImagesRepository = questionSetImagesRepository;
 		}
 
 		public async Task<QuestionSetsDto> GetCollectionAsync()
@@ -41,11 +41,11 @@ namespace QuizApp.Application.Services
 			return questionSet.AsDto(totalQuestions);
 		}
 
-		public async Task<Stream> GetIconAsync(Guid id)
+		public async Task<Stream> GetImageAsync(Guid id)
 		{
-			if (!await _questionSetIconsRepository.Exists(id))
-				throw new QuestionSetIconNotFoundException(id);
-			return (await _questionSetIconsRepository.GetAsync(id)).Data;
+			if (!await _questionSetImagesRepository.Exists(id))
+				throw new QuestionSetImageNotFoundException(id);
+			return (await _questionSetImagesRepository.GetAsync(id)).Data;
 		}
 
 		public async Task<Guid> CreateAsync(CreateQuestionSetDto dto)
@@ -54,11 +54,11 @@ namespace QuizApp.Application.Services
 			if (exitingQuestionSet is { })
 				throw new QuestionSetWithSelectedNameAlreadyExistsException(exitingQuestionSet.Name);
 
-			var icon = QuestionSetIcon.Create(dto.Icon?.OpenReadStream(), dto.Icon?.ContentType);
+			var image = QuestionSetImage.Create(dto.Image?.OpenReadStream(), dto.Image?.ContentType);
 			var color = Color.Create(dto.Color);
-			var questionSet = QuestionSet.Create(dto.Name, dto.Description, icon.Id, color);
+			var questionSet = QuestionSet.Create(dto.Name, dto.Description, image.Id, color);
 			await _questionSetsRepository.AddAsync(questionSet);
-			await _questionSetIconsRepository.AddAsync(icon);
+			await _questionSetImagesRepository.AddAsync(image);
 
 			return questionSet.Id;
 		}

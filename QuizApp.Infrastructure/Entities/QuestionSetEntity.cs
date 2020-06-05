@@ -11,8 +11,8 @@ namespace QuizApp.Infrastructure.Entities
 		[JsonProperty("description")]
 		public string Description { get; set; }
 
-		[JsonProperty("iconId")]
-		public Guid IconId { get; set; }
+		[JsonProperty("imageId")]
+		public Guid ImageId { get; set; }
 
 		[JsonProperty("color")]
 		public string Color { get; set; }

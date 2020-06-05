@@ -14,7 +14,7 @@ Content-Type: application/json
 {
     "name": "New Question Set [{{$guid}}]",
     "description": "New Question Set Description that describe this question set.",
-    "iconUrl": "",
+    "imageUrl": "",
     "color": "#FFFFFF"
 }
 

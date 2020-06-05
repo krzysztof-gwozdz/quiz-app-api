@@ -17,18 +17,18 @@ namespace QuizApp.Application.Tests.Services
 	{
 		private readonly Mock<IQuestionSetsRepository> _questionSetsRepositoryMock;
 		private readonly Mock<IQuestionsRepository> _questionsRepositoryMock;
-		private readonly Mock<IQuestionSetIconsRepository> _questionSetIconsRepositoryMock;
+		private readonly Mock<IQuestionSetImagesRepository> _questionSetImagesRepositoryMock;
 		private readonly QuestionSetsService _questionSetsService;
 
 		public QuestionSetsServiceTests()
 		{
 			_questionSetsRepositoryMock = new Mock<IQuestionSetsRepository>();
 			_questionsRepositoryMock = new Mock<IQuestionsRepository>();
-			_questionSetIconsRepositoryMock = new Mock<IQuestionSetIconsRepository>();
+			_questionSetImagesRepositoryMock = new Mock<IQuestionSetImagesRepository>();
 			_questionSetsService = new QuestionSetsService(
 				_questionSetsRepositoryMock.Object,
 				_questionsRepositoryMock.Object,
-				_questionSetIconsRepositoryMock.Object);
+				_questionSetImagesRepositoryMock.Object);
 		}
 
 		[Fact]
@@ -86,11 +86,11 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var iconMock = new Mock<IFormFile>();
-			iconMock.Setup(x => x.OpenReadStream()).Returns(QuestionSetIconExample.ValidData);
-			iconMock.Setup(x => x.Length).Returns(QuestionSetIconExample.ValidData.Length);
-			iconMock.Setup(x => x.ContentType).Returns(QuestionSetIconExample.ValidContentType);
-			var dto = new CreateQuestionSetDto { Name = name, Description = description, Icon = iconMock.Object, Color = "#FFF" };
+			var imageMock = new Mock<IFormFile>();
+			imageMock.Setup(x => x.OpenReadStream()).Returns(QuestionSetImageExample.ValidData);
+			imageMock.Setup(x => x.Length).Returns(QuestionSetImageExample.ValidData.Length);
+			imageMock.Setup(x => x.ContentType).Returns(QuestionSetImageExample.ValidContentType);
+			var dto = new CreateQuestionSetDto { Name = name, Description = description, Image = imageMock.Object, Color = "#FFF" };
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
@@ -106,7 +106,7 @@ namespace QuizApp.Application.Tests.Services
 			var name = QuestionSetExample.ValidName;
 			_questionSetsRepositoryMock
 				.Setup(x => x.GetByNameAsync(name))
-				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidDescription, QuestionSetExample.ValidIconId, QuestionSetExample.ValidColor));
+				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidDescription, QuestionSetExample.ValidImageId, QuestionSetExample.ValidColor));
 			var dto = new CreateQuestionSetDto { Name = name };
 
 			//act 

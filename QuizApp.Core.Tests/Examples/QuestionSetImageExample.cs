@@ -5,7 +5,7 @@ using QuizApp.Shared;
 
 namespace QuizApp.Core.Tests.Examples
 {
-	public static class QuestionSetIconExample
+	public static class QuestionSetImageExample
 	{
 		public static Guid NewId =>
 			Guid.NewGuid();
@@ -16,7 +16,7 @@ namespace QuizApp.Core.Tests.Examples
 		public static string ValidContentType =>
 			MediaTypes.Image.Jpeg;
 
-		public static QuestionSetIcon ValidQuestionSetIcon =>
-			new QuestionSetIcon(NewId, ValidData);
+		public static QuestionSetImage ValidQuestionSetImage =>
+			new QuestionSetImage(NewId, ValidData);
 	}
 }

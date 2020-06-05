@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Core.Repositories
 {
-	public interface IQuestionSetIconsRepository : IRepository
+	public interface IQuestionSetImagesRepository : IRepository
 	{
-		Task<QuestionSetIcon> GetAsync(Guid id);
+		Task<QuestionSetImage> GetAsync(Guid id);
 		Task<bool> Exists(Guid id);
-		Task AddAsync(QuestionSetIcon icon);
+		Task AddAsync(QuestionSetImage image);
 	}
 }

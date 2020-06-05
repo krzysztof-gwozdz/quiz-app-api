@@ -30,11 +30,11 @@ namespace QuizApp.Api.Controllers
 			return Ok(await _questionSetsService.GetAsync(id));
 		}
 
-		[HttpGet("{id:guid}/icon")]
-		public async Task<ActionResult> GetIcon(Guid id)
+		[HttpGet("{id:guid}/image")]
+		public async Task<ActionResult> GetImage(Guid id)
 		{
-			var icon = await _questionSetsService.GetIconAsync(id);
-			return File(icon, MediaTypes.Image.Jpeg);
+			var image = await _questionSetsService.GetImageAsync(id);
+			return File(image, MediaTypes.Image.Jpeg);
 		}
 
 		[HttpPost("")]

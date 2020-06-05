@@ -14,7 +14,7 @@ namespace QuizApp.Application.Mappers
 				Name = model.Name,
 				Description = model.Description,
 				Color = model.Color.Value,
-				IconUrl = $"question-sets/{model.IconId}/icon", // TODO move to different place
+				ImageUrl = $"question-sets/{model.ImageId}/image", // TODO move to different place
 				TotalQuestions = totalQuestions,
 			};
 
@@ -27,7 +27,7 @@ namespace QuizApp.Application.Mappers
 					Name = questionSet.Name,
 					Description = questionSet.Description,
 					Color = questionSet.Color.Value,
-					IconUrl = $"question-sets/{questionSet.IconId}/icon", // TODO move to different place
+					ImageUrl = $"question-sets/{questionSet.ImageId}/image", // TODO move to different place
 				}).ToArray()
 			};
 	}

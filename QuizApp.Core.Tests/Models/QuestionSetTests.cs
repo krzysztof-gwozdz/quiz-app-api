@@ -15,16 +15,16 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var iconId = QuestionSetExample.ValidIconId;
+			var imageId = QuestionSetExample.ValidImageId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			var questionSet = QuestionSet.Create(name, description, iconId, color);
+			var questionSet = QuestionSet.Create(name, description, imageId, color);
 
 			//assert
 			questionSet.Id.Should().NotBeEmpty();
 			questionSet.Name.Should().Be(name);
-			questionSet.IconId.Should().NotBeEmpty();
+			questionSet.ImageId.Should().NotBeEmpty();
 			questionSet.Color.Should().Be(color);
 		}
 
@@ -36,11 +36,11 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var description = QuestionSetExample.ValidDescription;
-			var iconId = QuestionSetExample.ValidIconId;
+			var imageId = QuestionSetExample.ValidImageId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			Action createQuestionSet = () => QuestionSet.Create(name, description, iconId, color);
+			Action createQuestionSet = () => QuestionSet.Create(name, description, imageId, color);
 
 			//assert
 			createQuestionSet.Should().Throw<EmptyQuestionSetNameException>()
@@ -55,11 +55,11 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
-			var iconId = QuestionSetExample.ValidIconId;
+			var imageId = QuestionSetExample.ValidImageId;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			Action createQuestionSet = () => QuestionSet.Create(name, description, iconId, color);
+			Action createQuestionSet = () => QuestionSet.Create(name, description, imageId, color);
 
 			//assert
 			createQuestionSet.Should().Throw<EmptyQuestionSetDescriptionException>()
@@ -68,20 +68,20 @@ namespace QuizApp.Core.Tests.Models
 
 
 		[Fact]
-		public void CreateQuestionSetWithEmptyIcon_ThrowException()
+		public void CreateQuestionSetWithEmptyImage_ThrowException()
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var iconId = Guid.Empty;
+			var imageId = Guid.Empty;
 			var color = QuestionSetExample.ValidColor;
 
 			//act
-			Action createQuestionSet = () => QuestionSet.Create(name, description, iconId, color);
+			Action createQuestionSet = () => QuestionSet.Create(name, description, imageId, color);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetIconException>()
-				.WithMessage("Question set icon can not be empty.");
+			createQuestionSet.Should().Throw<EmptyQuestionSetImageException>()
+				.WithMessage("Question set image can not be empty.");
 		}
 	}
 }

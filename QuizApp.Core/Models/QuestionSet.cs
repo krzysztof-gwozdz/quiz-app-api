@@ -8,24 +8,24 @@ namespace QuizApp.Core.Models
 		public Guid Id { get; }
 		public string Name { get; }
 		public string Description { get; }
-		public Guid IconId { get; }
+		public Guid ImageId { get; }
 		public Color Color { get; }
 
-		public QuestionSet(Guid id, string name, string description, Guid iconId, Color color)
+		public QuestionSet(Guid id, string name, string description, Guid imageId, Color color)
 		{
 			Id = id;
 			Name = name;
 			Description = description;
-			IconId = iconId;
+			ImageId = imageId;
 			Color = color;
 		}
 
-		private QuestionSet(string name, string description, Guid iconId, Color color)
-			: this(Guid.NewGuid(), name, description, iconId, color)
+		private QuestionSet(string name, string description, Guid imageId, Color color)
+			: this(Guid.NewGuid(), name, description, imageId, color)
 		{
 		}
 
-		public static QuestionSet Create(string name, string description, Guid iconId, Color color)
+		public static QuestionSet Create(string name, string description, Guid imageId, Color color)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyQuestionSetNameException();
@@ -33,10 +33,10 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(description))
 				throw new EmptyQuestionSetDescriptionException();
 
-			if (Guid.Empty == iconId)
-				throw new EmptyQuestionSetIconException();
+			if (Guid.Empty == imageId)
+				throw new EmptyQuestionSetImageException();
 
-			return new QuestionSet(name, description, iconId, color);
+			return new QuestionSet(name, description, imageId, color);
 		}
 	}
 }

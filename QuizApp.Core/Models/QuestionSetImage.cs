@@ -7,7 +7,7 @@ using QuizApp.Shared;
 
 namespace QuizApp.Core.Models
 {
-	public class QuestionSetIcon
+	public class QuestionSetImage
 	{
 		public const long MaxImageSize = 1024 * 1024 * 1;
 
@@ -16,31 +16,31 @@ namespace QuizApp.Core.Models
 		public Guid Id { get; }
 		public Stream Data { get; }
 
-		public QuestionSetIcon(Guid id, Stream data)
+		public QuestionSetImage(Guid id, Stream data)
 		{
 			Id = id;
 			Data = data;
 		}
 
-		private QuestionSetIcon(Stream data)
+		private QuestionSetImage(Stream data)
 			: this(Guid.NewGuid(), data)
 		{
 		}
 
-		public static QuestionSetIcon Create(Stream data, string contentType)
+		public static QuestionSetImage Create(Stream data, string contentType)
 		{
 			if (data is null || data.Length == 0)
-				throw new EmptyQuestionSetIconException();
+				throw new EmptyQuestionSetImageException();
 
 			if (data.Length > MaxImageSize)
-				throw new QuestionSetIconIsToLargeException(data.Length, MaxImageSize);
+				throw new QuestionSetImageIsToLargeException(data.Length, MaxImageSize);
 
 			if (!ValidMediaTypes.Contains(contentType))
 				throw new InvalidMediaTypeException(contentType, ValidMediaTypes);
 
 			//TODO validate image content and add possibility add other extensions
 
-			return new QuestionSetIcon(data);
+			return new QuestionSetImage(data);
 		}
 	}
 }
