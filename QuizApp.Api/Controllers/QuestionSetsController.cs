@@ -34,7 +34,7 @@ namespace QuizApp.Api.Controllers
 		public async Task<ActionResult> GetImage(Guid id)
 		{
 			var image = await _questionSetsService.GetImageAsync(id);
-			return File(image, MediaTypes.Image.Jpeg);
+			return File(image.Data, image.ContentType);
 		}
 
 		[HttpPost("")]

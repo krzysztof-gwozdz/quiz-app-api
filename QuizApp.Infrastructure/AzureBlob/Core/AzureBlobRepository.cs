@@ -1,7 +1,10 @@
 ﻿using Azure.Storage.Blobs;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs.Models;
+using QuizApp.Shared;
 
 namespace QuizApp.Infrastructure.AzureBlob.Core
 {
@@ -20,11 +23,11 @@ namespace QuizApp.Infrastructure.AzureBlob.Core
 		private BlobContainerClient BlobContainerClient =>
 			_azureBlobClientFactory.GetBlobContainerClient(ContainerName);
 
-		protected async Task<Stream> GetBlobAsync(string fileName)
+		protected async Task<BlobDownloadInfo> GetBlobAsync(string fileName)
 		{
 			var blobClient = GetBlobClient(fileName);
 			var blob = await blobClient.DownloadAsync();
-			return blob.Value.Content;
+			return blob.Value;
 		}
 
 		protected async Task<bool> CheckIfBlobExists(string fileName)
@@ -33,11 +36,12 @@ namespace QuizApp.Infrastructure.AzureBlob.Core
 			return await blobClient.ExistsAsync();
 		}
 
-		protected async Task AddBlobAsync(string fileName, Stream stream)
+		protected async Task AddBlobAsync(string fileName, Stream stream, string contentType)
 		{
 			var blobClient = GetBlobClient(fileName);
 			stream.Position = 0;
-			await blobClient.UploadAsync(stream, true);
+			BlobHttpHeaders httpHeaders = new BlobHttpHeaders { ContentType = contentType };
+			await blobClient.UploadAsync(stream, httpHeaders);
 		}
 
 		private BlobClient GetBlobClient(string fileName)

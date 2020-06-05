@@ -26,6 +26,7 @@ namespace QuizApp.Core.Tests.Models
 			//assert
 			questionSet.Id.Should().NotBeEmpty();
 			questionSet.Data.Should().NotBeNull();
+			questionSet.ContentType.Should().BeEquivalentTo(contentType);
 		}
 
 		[Fact]

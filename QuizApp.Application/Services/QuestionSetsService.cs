@@ -41,11 +41,11 @@ namespace QuizApp.Application.Services
 			return questionSet.AsDto(totalQuestions);
 		}
 
-		public async Task<Stream> GetImageAsync(Guid id)
+		public async Task<QuestionSetImageDto> GetImageAsync(Guid id)
 		{
 			if (!await _questionSetImagesRepository.Exists(id))
 				throw new QuestionSetImageNotFoundException(id);
-			return (await _questionSetImagesRepository.GetAsync(id)).Data;
+			return (await _questionSetImagesRepository.GetAsync(id)).AsDto();
 		}
 
 		public async Task<Guid> CreateAsync(CreateQuestionSetDto dto)

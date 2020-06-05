@@ -30,5 +30,12 @@ namespace QuizApp.Application.Mappers
 					ImageUrl = $"question-sets/{questionSet.ImageId}/image", // TODO move to different place
 				}).ToArray()
 			};
+
+		public static QuestionSetImageDto AsDto(this QuestionSetImage model) =>
+			new QuestionSetImageDto
+			{
+				Data = model.Data,
+				ContentType = model.ContentType
+			};
 	}
 }

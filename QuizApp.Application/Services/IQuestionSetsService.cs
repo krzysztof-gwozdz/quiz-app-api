@@ -9,7 +9,7 @@ namespace QuizApp.Application.Services
 	{
 		Task<QuestionSetsDto> GetCollectionAsync();
 		Task<QuestionSetDto> GetAsync(Guid id);
-		Task<Stream> GetImageAsync(Guid id);
+		Task<QuestionSetImageDto> GetImageAsync(Guid id);
 		Task<Guid> CreateAsync(CreateQuestionSetDto dto);
 	}
 }

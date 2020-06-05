@@ -18,6 +18,6 @@ namespace QuizApp.Core.Tests.Examples
 			MediaTypes.Image.Jpeg;
 
 		public static QuestionSetImage ValidQuestionSetImage =>
-			new QuestionSetImage(NewId, ValidData);
+			new QuestionSetImage(NewId, ValidData, ValidContentType);
 	}
 }

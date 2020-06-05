@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using QuizApp.Shared;
 
 namespace QuizApp.Core.Models
@@ -15,15 +14,17 @@ namespace QuizApp.Core.Models
 
 		public Guid Id { get; }
 		public Stream Data { get; }
+		public string ContentType { get; }
 
-		public QuestionSetImage(Guid id, Stream data)
+		public QuestionSetImage(Guid id, Stream data, string contentType)
 		{
 			Id = id;
 			Data = data;
+			ContentType = contentType;
 		}
 
-		private QuestionSetImage(Stream data)
-			: this(Guid.NewGuid(), data)
+		private QuestionSetImage(Stream data, string contentType)
+			: this(Guid.NewGuid(), data, contentType)
 		{
 		}
 
@@ -41,7 +42,7 @@ namespace QuizApp.Core.Models
 			if (!data.IsImage())
 				throw new UploadedDataIsNotImageException();
 
-			return new QuestionSetImage(data);
+			return new QuestionSetImage(data, contentType);
 		}
 	}
 }
