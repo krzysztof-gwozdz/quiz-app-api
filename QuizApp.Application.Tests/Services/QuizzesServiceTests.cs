@@ -64,11 +64,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task GenerateQuiz_NewQuizId()
 		{
 			//arrange
-			var quizParameters = new QuizParametersDto
-			{
-				QuestionSetId = QuestionSetExample.NewId,
-				QuestionCount = 4
-			};
+			var quizParameters = new QuizParametersDto(QuestionSetExample.NewId, 4);
 			_questionsFactoryMock
 				.Setup(x => x.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount))
 				.ReturnsAsync(QuizExample.GetValidQuiz(4, 4));
@@ -87,7 +83,7 @@ namespace QuizApp.Application.Tests.Services
 			var solveQuizDto = new SolvedQuizDto
 			{
 				QuizId = QuizExample.NewId,
-				PlayerAnswers = new[] { new PlayerAnswerDto { QuestionId = QuizExample.PlayerAnswer.NewQuestionId, AnswerId = QuizExample.PlayerAnswer.NewAnswerId } }
+				PlayerAnswers = new[] { new PlayerAnswerDto(QuizExample.PlayerAnswer.NewQuestionId, QuizExample.PlayerAnswer.NewAnswerId) }
 			};
 			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(solveQuizDto.QuizId))

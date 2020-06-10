@@ -6,9 +6,9 @@ namespace QuizApp.Application.Tests.Examples
 	public static class CreateAnswerDtoExample
 	{
 		public static CreateAnswerDto ValidCorrectAnswerDto =>
-			new CreateAnswerDto { Text = Guid.NewGuid().ToString(), IsCorrect = true };
+			new CreateAnswerDto(Guid.NewGuid().ToString(), true);
 
 		public static CreateAnswerDto ValidInCorrectAnswerDto =>
-			new CreateAnswerDto { Text = Guid.NewGuid().ToString(), IsCorrect = false };
+			new CreateAnswerDto(Guid.NewGuid().ToString(), false);
 	}
 }

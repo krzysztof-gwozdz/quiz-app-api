@@ -11,5 +11,20 @@ namespace QuizApp.Application.Dtos
 		public Guid? PlayerAnswerId { get; set; }
 		public bool IsAnswered { get; set; }
 		public bool? IsCorrect { get; set; }
+
+		private QuestionSummaryDto()
+		{
+		}
+
+		public QuestionSummaryDto(Guid questionId, string text, AnswerDto[] answers, Guid correctAnswerId, Guid? playerAnswerId, bool isAnswered, bool? isCorrect)
+		{
+			QuestionId = questionId;
+			Text = text;
+			Answers = answers;
+			CorrectAnswerId = correctAnswerId;
+			PlayerAnswerId = playerAnswerId;
+			IsAnswered = isAnswered;
+			IsCorrect = isCorrect;
+		}
 	}
 }

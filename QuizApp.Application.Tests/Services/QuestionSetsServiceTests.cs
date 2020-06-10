@@ -90,7 +90,8 @@ namespace QuizApp.Application.Tests.Services
 			imageMock.Setup(x => x.OpenReadStream()).Returns(QuestionSetImageExample.ValidData);
 			imageMock.Setup(x => x.Length).Returns(QuestionSetImageExample.ValidData.Length);
 			imageMock.Setup(x => x.ContentType).Returns(QuestionSetImageExample.ValidContentType);
-			var dto = new CreateQuestionSetDto { Name = name, Description = description, Image = imageMock.Object, Color = "#FFF" };
+			var color = QuestionSetExample.ValidColor;
+			var dto = new CreateQuestionSetDto(name, description, imageMock.Object, color.Value);
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
@@ -104,10 +105,13 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var name = QuestionSetExample.ValidName;
+			var description = QuestionSetExample.ValidDescription;
+			var image = new Mock<IFormFile>().Object;
+			var color = QuestionSetExample.ValidColor;
 			_questionSetsRepositoryMock
 				.Setup(x => x.GetByNameAsync(name))
 				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidDescription, QuestionSetExample.ValidImageId, QuestionSetExample.ValidColor));
-			var dto = new CreateQuestionSetDto { Name = name };
+			var dto = new CreateQuestionSetDto(name, description, image, color.Value);
 
 			//act 
 			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(dto);

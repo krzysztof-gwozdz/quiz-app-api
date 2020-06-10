@@ -7,49 +7,36 @@ namespace QuizApp.Application.Mappers
 	public static class QuizzesMapper
 	{
 		public static QuizDto AsQuizDto(this Quiz model) => new QuizDto
-		{
-			Id = model.Id,
-			Questions = model.Questions.Select(question =>
+		(
+			model.Id,
+			model.Questions.Select(question =>
 				new QuestionDto
-				{
-					Id = question.Id,
-					Text = question.Text,
-					Answers = question.Answers.Select(answer =>
-						new AnswerDto
-						{
-							Id = answer.Id,
-							Text = answer.Text,
-							IsCorrect = answer.IsCorrect
-						}
-					).ToArray(),
-					QuestionSetId = question.QuestionSetId,
-				}
-			).ToArray(),
-		};
+				(
+					question.Id,
+					question.Text,
+					question.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
+					question.QuestionSetId
+				)
+			).ToArray()
+		);
 
 		public static QuizSummaryDto AsQuizSummaryDto(this Quiz model) => new QuizSummaryDto
-		{
-			QuizId = model.Id,
-			CorrectAnswers = model.CorrectAnswers,
-			TotalQuestions = model.TotalQuestions,
-			QuestionSummaries = model.Questions.Select(question =>
+		(
+			 model.Id,
+			 model.CorrectAnswers,
+			 model.TotalQuestions,
+			 model.Questions.Select(question =>
 				new QuestionSummaryDto
-				{
-					QuestionId = question.Id,
-					Text = question.Text,
-					Answers = question.Answers.Select(answer =>
-						new AnswerDto
-						{
-							Id = answer.Id,
-							Text = answer.Text,
-							IsCorrect = answer.IsCorrect
-						}
-					).ToArray(),
-					PlayerAnswerId = question.PlayerAnswerId,
-					IsAnswered = question.IsAnswered,
-					IsCorrect = question.IsCorrect
-				}
-			).ToArray(),
-		};
+				(
+					question.Id,
+					question.Text,
+					question.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
+					question.CorrectAnswerId,
+					question.PlayerAnswerId,
+					question.IsAnswered,
+					question.IsCorrect
+				)
+			).ToArray()
+		);
 	}
 }

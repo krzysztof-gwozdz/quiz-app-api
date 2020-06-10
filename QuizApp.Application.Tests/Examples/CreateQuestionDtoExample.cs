@@ -7,16 +7,16 @@ namespace QuizApp.Application.Tests.Examples
 	{
 		public static CreateQuestionDto ValidDto =>
 			new CreateQuestionDto
-			{
-				Text = QuestionExample.ValidText,
-				Answers = new[]
+			(
+				QuestionExample.ValidText,
+				new[]
 				{
 					CreateAnswerDtoExample.ValidCorrectAnswerDto,
 					CreateAnswerDtoExample.ValidInCorrectAnswerDto,
 					CreateAnswerDtoExample.ValidInCorrectAnswerDto,
 					CreateAnswerDtoExample.ValidInCorrectAnswerDto
 				},
-				QuestionSetId = QuestionSetExample.NewId
-			};
+				QuestionSetExample.NewId
+			);
 	}
 }

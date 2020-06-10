@@ -8,18 +8,11 @@ namespace QuizApp.Application.Mappers
 	{
 		public static QuestionDto AsDto(this Question model) =>
 			new QuestionDto
-			{
-				Id = model.Id,
-				Text = model.Text,
-				Answers = model.Answers.Select(answer =>
-					new AnswerDto
-					{
-						Id = answer.Id,
-						Text = answer.Text,
-						IsCorrect = answer.IsCorrect
-					}
-				).ToArray(),
-				QuestionSetId = model.QuestionSetId,
-			};
+			(
+				model.Id,
+				model.Text,
+				model.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
+				model.QuestionSetId
+			);
 	}
 }

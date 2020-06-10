@@ -8,5 +8,17 @@ namespace QuizApp.Application.Dtos
 		public int CorrectAnswers { get; set; }
 		public int TotalQuestions { get; set; }
 		public QuestionSummaryDto[] QuestionSummaries { get; set; }
+
+		private QuizSummaryDto()
+		{
+		}
+
+		public QuizSummaryDto(Guid quizId, int correctAnswers, int totalQuestions, QuestionSummaryDto[] questionSummaries)
+		{
+			QuizId = quizId;
+			CorrectAnswers = correctAnswers;
+			TotalQuestions = totalQuestions;
+			QuestionSummaries = questionSummaries;
+		}
 	}
 }

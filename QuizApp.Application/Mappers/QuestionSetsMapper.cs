@@ -9,33 +9,29 @@ namespace QuizApp.Application.Mappers
 	{
 		public static QuestionSetDto AsDto(this QuestionSet model, int totalQuestions) =>
 			new QuestionSetDto
-			{
-				Id = model.Id,
-				Name = model.Name,
-				Description = model.Description,
-				Color = model.Color.Value,
-				ImageUrl = $"question-sets/{model.ImageId}/image", // TODO move to different place
-				TotalQuestions = totalQuestions,
-			};
+			(
+				model.Id,
+				model.Name,
+				model.Description,
+				model.Color.Value,
+				$"question-sets/{model.ImageId}/image", // TODO move to different place
+				totalQuestions
+			);
 
 		public static QuestionSetsDto AsDto(this IEnumerable<QuestionSet> model) =>
 			new QuestionSetsDto
-			{
-				Collection = model.Select(questionSet => new QuestionSetsElementDto
-				{
-					Id = questionSet.Id,
-					Name = questionSet.Name,
-					Description = questionSet.Description,
-					Color = questionSet.Color.Value,
-					ImageUrl = $"question-sets/{questionSet.ImageId}/image", // TODO move to different place
-				}).ToArray()
-			};
+			(
+				model.Select(questionSet => new QuestionSetsElementDto
+				(
+					questionSet.Id,
+					questionSet.Name,
+					questionSet.Description,
+					questionSet.Color.Value,
+					$"question-sets/{questionSet.ImageId}/image" // TODO move to different place
+				)).ToArray()
+			);
 
 		public static QuestionSetImageDto AsDto(this QuestionSetImage model) =>
-			new QuestionSetImageDto
-			{
-				Data = model.Data,
-				ContentType = model.ContentType
-			};
+			new QuestionSetImageDto(model.Data, model.ContentType);
 	}
 }

@@ -6,5 +6,15 @@ namespace QuizApp.Application.Dtos
 	{
 		public Guid QuestionId { get; set; }
 		public Guid AnswerId { get; set; }
+
+		private PlayerAnswerDto()
+		{
+		}
+
+		public PlayerAnswerDto(Guid questionId, Guid answerId)
+		{
+			QuestionId = questionId;
+			AnswerId = answerId;
+		}
 	}
 }

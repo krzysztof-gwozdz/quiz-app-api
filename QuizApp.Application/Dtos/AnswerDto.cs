@@ -7,5 +7,16 @@ namespace QuizApp.Application.Dtos
 		public Guid Id { get; set; }
 		public string Text { get; set; }
 		public bool IsCorrect { get; set; }
+
+		private AnswerDto()
+		{
+		}
+
+		public AnswerDto(Guid id, string text, bool isCorrect)
+		{
+			Id = id;
+			Text = text;
+			IsCorrect = isCorrect;
+		}
 	}
 }

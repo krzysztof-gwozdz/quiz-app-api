@@ -6,5 +6,15 @@ namespace QuizApp.Application.Dtos
 	{
 		public Guid QuestionSetId { get; set; }
 		public int QuestionCount { get; set; }
+
+		private QuizParametersDto()
+		{
+		}
+
+		public QuizParametersDto(Guid questionSetId, int questionCount)
+		{
+			QuestionSetId = questionSetId;
+			QuestionCount = questionCount;
+		}
 	}
 }
