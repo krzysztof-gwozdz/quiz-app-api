@@ -6,10 +6,10 @@ namespace QuizApp.Api.Extensions
 {
 	public static class ErrorHandlingExtensions
 	{
-		public static IServiceCollection AddErrorHandling(this IServiceCollection service)
+		public static IServiceCollection AddErrorHandling(this IServiceCollection services)
 		{
-			service.AddSingleton<IExceptionToResponseMapper, ExceptionToResponseMapper>();
-			return service;
+			services.AddSingleton<IExceptionToResponseMapper, ExceptionToResponseMapper>();
+			return services;
 		}
 
 		public static IApplicationBuilder UseErrorHandling(this IApplicationBuilder app)

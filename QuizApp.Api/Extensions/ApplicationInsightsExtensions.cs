@@ -2,7 +2,7 @@
 
 namespace QuizApp.Api.Extensions
 {
-	public static class ApplicationInsights
+	public static class ApplicationInsightsExtensions
 	{
 		public static IServiceCollection AddApplicationInsights(this IServiceCollection services)
 		{
