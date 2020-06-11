@@ -20,13 +20,19 @@ namespace QuizApp.Api.Controllers
 		[HttpGet("")]
 		public async Task<ActionResult<QuestionSetsDto>> Get()
 		{
-			return Ok(await _questionSetsService.GetCollectionAsync());
+			var questions = await _questionSetsService.GetCollectionAsync();
+			foreach (var questionSet in questions.Collection)
+				questionSet.ImageUrl = GetImageUrl(questionSet.Id);
+			return Ok(questions);
 		}
 
 		[HttpGet("{id:guid}")]
 		public async Task<ActionResult<QuestionSetDto>> Get(Guid id)
 		{
-			return Ok(await _questionSetsService.GetAsync(id));
+			var questionSet = await _questionSetsService.GetAsync(id);
+			questionSet.ImageUrl = GetImageUrl(id);
+
+			return Ok(questionSet);
 		}
 
 		[HttpGet("{id:guid}/image")]
@@ -41,5 +47,8 @@ namespace QuizApp.Api.Controllers
 		{
 			return Created((await _questionSetsService.CreateAsync(createQuestionSetDto)).ToString(), null);
 		}
+
+		private string GetImageUrl(Guid id) =>
+			Url.ActionLink(nameof(GetImage), "QuestionSets", new { id });
 	}
 }

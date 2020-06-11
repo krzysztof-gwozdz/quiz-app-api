@@ -36,7 +36,7 @@ namespace QuizApp.Core.Models
 			if (Guid.Empty == imageId)
 				throw new EmptyQuestionSetImageException();
 
-			return new QuestionSet(name, description, imageId, color);
+			return new QuestionSet(imageId, name, description, imageId, color);
 		}
 	}
 }

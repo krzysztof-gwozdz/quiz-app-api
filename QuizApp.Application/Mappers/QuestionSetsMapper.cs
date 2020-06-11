@@ -2,7 +2,6 @@
 using QuizApp.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
-using QuizApp.Shared;
 
 namespace QuizApp.Application.Mappers
 {
@@ -15,7 +14,6 @@ namespace QuizApp.Application.Mappers
 				model.Name,
 				model.Description,
 				model.Color.Value,
-				$"{AppContext.AppBaseUrl}/question-sets/{model.ImageId}/image", // TODO move to different place, it's like rest but use image id...
 				totalQuestions
 			);
 
@@ -27,8 +25,7 @@ namespace QuizApp.Application.Mappers
 					questionSet.Id,
 					questionSet.Name,
 					questionSet.Description,
-					questionSet.Color.Value,
-					$"{AppContext.AppBaseUrl}/question-sets/{questionSet.ImageId}/image" // TODO move to different place, it's like rest but use image id...
+					questionSet.Color.Value
 				)).ToArray()
 			);
 

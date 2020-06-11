@@ -33,7 +33,6 @@ namespace QuizApp.Api
 					.UseErrorHandling()
 					.UseSwaggerWithConfig()
 					.UseApi()
-					.UseHttpContext()
 				);
 	}
 }
