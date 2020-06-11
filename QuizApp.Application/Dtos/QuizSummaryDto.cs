@@ -9,7 +9,7 @@ namespace QuizApp.Application.Dtos
 		public int TotalQuestions { get; set; }
 		public QuestionSummaryDto[] QuestionSummaries { get; set; }
 
-		private QuizSummaryDto()
+		public QuizSummaryDto()
 		{
 		}
 

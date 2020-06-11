@@ -4,7 +4,7 @@
 	{
 		public QuestionSetsElementDto[] Collection { get; set; }
 
-		private QuestionSetsDto()
+		public QuestionSetsDto()
 		{
 		}
 

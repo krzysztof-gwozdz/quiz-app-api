@@ -5,7 +5,7 @@
 		public string Text { get; set; }
 		public bool IsCorrect { get; set; }
 
-		private CreateAnswerDto()
+		public CreateAnswerDto()
 		{
 		}
 

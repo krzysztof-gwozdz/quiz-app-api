@@ -7,7 +7,7 @@ namespace QuizApp.Application.Dtos
 		public Stream Data { get; set; }
 		public string ContentType { get; set; }
 
-		private QuestionSetImageDto()
+		public QuestionSetImageDto()
 		{
 		}
 

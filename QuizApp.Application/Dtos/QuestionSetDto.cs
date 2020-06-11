@@ -11,7 +11,7 @@ namespace QuizApp.Application.Dtos
 		public string Color { get; set; }
 		public int TotalQuestions { get; set; }
 
-		private QuestionSetDto()
+		public QuestionSetDto()
 		{
 		}
 

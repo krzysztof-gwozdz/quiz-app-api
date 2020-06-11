@@ -12,7 +12,7 @@ namespace QuizApp.Application.Dtos
 		public bool IsAnswered { get; set; }
 		public bool? IsCorrect { get; set; }
 
-		private QuestionSummaryDto()
+		public QuestionSummaryDto()
 		{
 		}
 

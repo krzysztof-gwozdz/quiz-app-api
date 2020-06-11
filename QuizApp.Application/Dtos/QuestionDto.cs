@@ -9,7 +9,7 @@ namespace QuizApp.Application.Dtos
 		public AnswerDto[] Answers { get; set; }
 		public Guid QuestionSetId { get; set; }
 
-		private QuestionDto()
+		public QuestionDto()
 		{
 		}
 

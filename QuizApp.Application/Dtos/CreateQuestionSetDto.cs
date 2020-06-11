@@ -9,7 +9,7 @@ namespace QuizApp.Application.Dtos
 		public IFormFile Image { get; set; }
 		public string Color { get; set; }
 
-		private CreateQuestionSetDto()
+		public CreateQuestionSetDto()
 		{
 		}
 

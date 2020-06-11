@@ -8,7 +8,7 @@ namespace QuizApp.Application.Dtos
 		public string Text { get; set; }
 		public bool IsCorrect { get; set; }
 
-		private AnswerDto()
+		public AnswerDto()
 		{
 		}
 

@@ -10,7 +10,7 @@ namespace QuizApp.Application.Dtos
 		public string ImageUrl { get; set; }
 		public string Color { get; set; }
 
-		private QuestionSetsElementDto()
+		public QuestionSetsElementDto()
 		{
 		}
 
