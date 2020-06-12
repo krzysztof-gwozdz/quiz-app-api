@@ -83,7 +83,10 @@ namespace QuizApp.Application.Tests.Services
 			var solveQuizDto = new SolvedQuizDto
 			{
 				QuizId = QuizExample.NewId,
-				PlayerAnswers = new[] { new PlayerAnswerDto(QuizExample.PlayerAnswer.NewQuestionId, QuizExample.PlayerAnswer.NewAnswerId) }
+				PlayerAnswers = new[]
+				{
+					new PlayerAnswerDto(QuizExample.PlayerAnswer.NewQuestionId, QuizExample.PlayerAnswer.NewAnswerId, (int?)QuizExample.PlayerAnswer.ValidRating)
+				}
 			};
 			_quizzesRepositoryMock
 				.Setup(x => x.GetByIdAsync(solveQuizDto.QuizId))

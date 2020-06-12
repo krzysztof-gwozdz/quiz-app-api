@@ -22,8 +22,8 @@
             "id": "2b5a99e3-4994-40df-ad80-3025fecab38d"
           }
         ],
-        "correctAnswerId": "2de640d4-0acf-4847-b094-dfd90c2a42bb",
         "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+        "correctAnswerId": "2de640d4-0acf-4847-b094-dfd90c2a42bb",
         "id": "dd4ddddd-25e6-4142-bb07-22e3bc1e4595"
       },
       {
@@ -43,8 +43,8 @@
             "id": "1c3aec67-8d28-43d8-8038-74e029373344"
           }
         ],
-        "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
         "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+        "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
         "id": "dd2ddddd-25e6-4142-bb07-22e3bc1e4595"
       },
       {
@@ -72,8 +72,8 @@
             "id": "ab502cde-7315-45d8-ae3d-9e49737b762c"
           }
         ],
-        "correctAnswerId": "ca1bda61-a413-4c9d-9599-ee42402ed842",
         "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+        "correctAnswerId": "ca1bda61-a413-4c9d-9599-ee42402ed842",
         "id": "dd3ddddd-25e6-4142-bb07-22e3bc1e4595"
       }
     ],
@@ -94,9 +94,10 @@
             "id": "44fac8e1-efa4-4316-ac9a-677fecf92486"
           }
         ],
+        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "e7bc4cba-d028-488b-b204-eaea9c2060b3",
         "playerAnswerId": "e7bc4cba-d028-488b-b204-eaea9c2060b3",
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+        "playerRating": 1,
         "id": "dd1ddddd-25e6-4142-bb07-22e3bc1e4595"
       },
       {
@@ -116,9 +117,10 @@
             "id": "1c3aec67-8d28-43d8-8038-74e029373344"
           }
         ],
+        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
         "playerAnswerId": "08c43d75-e18b-4840-a0ad-bc2240520ea6",
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+        "playerRating": -1,
         "id": "dd2ddddd-25e6-4142-bb07-22e3bc1e4595"
       },
       {
@@ -146,8 +148,8 @@
             "id": "ab502cde-7315-45d8-ae3d-9e49737b762c"
           }
         ],
-        "correctAnswerId": "ca1bda61-a413-4c9d-9599-ee42402ed842",
         "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+        "correctAnswerId": "ca1bda61-a413-4c9d-9599-ee42402ed842",
         "id": "dd3ddddd-25e6-4142-bb07-22e3bc1e4595"
       }
     ],
@@ -172,9 +174,9 @@
             "id": "1c3aec67-8d28-43d8-8038-74e029373344"
           }
         ],
+        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
         "playerAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "id": "dd2ddddd-25e6-4142-bb07-22e3bc1e4595"
       },
       {
@@ -198,9 +200,9 @@
             "id": "9051933c-d8bd-4a73-adc7-c834082a509a"
           }
         ],
+        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "cccdc21d-4043-405f-8744-228477977793",
         "playerAnswerId": "cccdc21d-4043-405f-8744-228477977793",
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "id": "dd5ddddd-25e6-4142-bb07-22e3bc1e4595"
       }
     ],

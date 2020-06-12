@@ -80,7 +80,8 @@ Content-Type: application/json
   "playerAnswers": [
     {
       "questionId": "{{questionIdFromQuiz}}",
-      "answerId": "{{answerIdFromQuiz}}"
+      "answerId": "{{answerIdFromQuiz}}",
+      "rating": -1
     }
   ]
 }

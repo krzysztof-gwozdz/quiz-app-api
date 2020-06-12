@@ -26,7 +26,7 @@ namespace QuizApp.Core.Tests.Examples
 				Guid.NewGuid().ToString();
 
 			public static Quiz.Question GetValidQuestion(int answerCount) =>
-				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), null, QuestionSetExample.NewId);
+				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), QuestionSetExample.NewId, null, null);
 
 			public static HashSet<Quiz.Question> GetValidQuestions(int questionCount, int answerCount) =>
 				Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();
@@ -61,6 +61,8 @@ namespace QuizApp.Core.Tests.Examples
 
 			public static Guid NewAnswerId =>
 				Guid.NewGuid();
+
+			public static QuestionRatings? ValidRating => QuestionRatings.Positive;
 		}
 	}
 }

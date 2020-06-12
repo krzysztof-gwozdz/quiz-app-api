@@ -24,7 +24,8 @@ namespace QuizApp.Infrastructure.Mappers
 							}).ToHashSet(),
 						CorrectAnswerId = question.CorrectAnswerId,
 						QuestionSetId = question.QuestionSetId,
-						PlayerAnswerId = question.PlayerAnswerId
+						PlayerAnswerId = question.PlayerAnswerId,
+						PlayerRating = question.PlayerRating
 					}
 				).ToHashSet()
 			};
@@ -42,8 +43,9 @@ namespace QuizApp.Infrastructure.Mappers
 								answer.Text,
 								answer.IsCorrect)
 							).ToHashSet(),
+						question.QuestionSetId,
 						question.PlayerAnswerId,
-						question.QuestionSetId)
+						question.PlayerRating)
 				).ToHashSet()
 			);
 	}

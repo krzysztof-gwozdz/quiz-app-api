@@ -51,7 +51,7 @@ namespace QuizApp.Application.Services
 			var quiz = await _quizzesRepository.GetByIdAsync(solvedQuiz.QuizId);
 			if (quiz is null)
 				throw new QuizNotFoundException(solvedQuiz.QuizId);
-			var playerAnswers = solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId)).ToHashSet();
+			var playerAnswers = solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId, playerAnswer.Rating)).ToHashSet();
 			quiz.Solve(playerAnswers);
 			await _quizzesRepository.Update(quiz);
 		}

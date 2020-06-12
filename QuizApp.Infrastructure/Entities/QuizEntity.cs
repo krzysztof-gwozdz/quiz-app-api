@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using QuizApp.Core.Models;
 
 namespace QuizApp.Infrastructure.Entities
 {
@@ -17,14 +18,17 @@ namespace QuizApp.Infrastructure.Entities
 			[JsonProperty("answers")]
 			public ISet<AnswerEntity> Answers { get; set; }
 
+			[JsonProperty("questionSetId")]
+			public Guid QuestionSetId { get; set; }
+
 			[JsonProperty("correctAnswerId")]
 			public Guid CorrectAnswerId { get; set; }
 
 			[JsonProperty("playerAnswerId")]
 			public Guid? PlayerAnswerId { get; set; }
 
-			[JsonProperty("questionSetId")]
-			public Guid QuestionSetId { get; set; }
+			[JsonProperty("playerRating")]
+			public QuestionRatings? PlayerRating { get; set; }
 
 			public class AnswerEntity : Entity
 			{

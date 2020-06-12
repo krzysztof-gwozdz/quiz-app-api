@@ -10,7 +10,7 @@ namespace QuizApp.Core.Models
 		public Guid Id { get; }
 		public HashSet<Question> Questions { get; }
 		public int CorrectAnswers => Questions?.Count(question => question.IsCorrect == true) ?? 0;
-		public int TotalQuestions => Questions?.Count() ?? 0;
+		public int TotalQuestions => Questions?.Count ?? 0;
 
 		public Quiz(Guid id, HashSet<Question> questions)
 		{
@@ -21,16 +21,24 @@ namespace QuizApp.Core.Models
 		public void Solve(HashSet<PlayerAnswer> playerAnswers)
 		{
 			foreach (var playerAnswer in playerAnswers)
-			{
-				var question = Questions.FirstOrDefault(x => x.Id == playerAnswer.QuestionId);
-				if (question is null)
-					throw new QuestionIsNotAPartOfQuizException(playerAnswer.QuestionId, Id);
+				Solve(playerAnswer);
+		}
 
-				if (!question.Answers.Any(x => x.Id == playerAnswer.AnswerId))
-					throw new AnswerIsNotFromQuestionException(playerAnswer.AnswerId, playerAnswer.QuestionId);
+		private void Solve(PlayerAnswer playerAnswer)
+		{
+			var question = TryGetQuestion(playerAnswer.QuestionId);
+			CheckIfQuestionIsFromQuiz(playerAnswer, question.Answers);
+			question.AnswerQuestion(playerAnswer.AnswerId);
+			question.Rate(playerAnswer.Rating);
+		}
 
-				question.AnswerQuestion(playerAnswer.AnswerId);
-			}
+		private Question TryGetQuestion(Guid questionId) =>
+			Questions.FirstOrDefault(x => x.Id == questionId) ?? throw new QuestionIsNotAPartOfQuizException(questionId, Id);
+
+		private void CheckIfQuestionIsFromQuiz(PlayerAnswer playerAnswer, ISet<Question.Answer> answers)
+		{
+			if (!answers.Any(x => x.Id == playerAnswer.AnswerId))
+				throw new AnswerIsNotFromQuestionException(playerAnswer.AnswerId, playerAnswer.QuestionId);
 		}
 
 		public class Question
@@ -40,28 +48,35 @@ namespace QuizApp.Core.Models
 			public ISet<Answer> Answers { get; }
 			public Guid QuestionSetId { get; }
 			public Guid? PlayerAnswerId { get; private set; }
+			public QuestionRatings? PlayerRating { get; private set; }
 
 			public bool IsAnswered => PlayerAnswerId.HasValue;
 			public Guid CorrectAnswerId => Answers.Single(answer => answer.IsCorrect).Id;
 			public bool? IsCorrect => IsAnswered ? CorrectAnswerId == PlayerAnswerId : (bool?)null;
 
-			public Question(Guid id, string text, ISet<Answer> answers, Guid? playerAnswerId, Guid questionSetId)
+			public Question(Guid id, string text, ISet<Answer> answers, Guid questionSetId, Guid? playerAnswerId, QuestionRatings? playerRating)
 			{
 				Id = id;
 				Text = text;
 				Answers = answers;
-				PlayerAnswerId = playerAnswerId;
 				QuestionSetId = questionSetId;
+				PlayerAnswerId = playerAnswerId;
+				PlayerRating = playerRating;
 			}
 
 			public Question(Models.Question question)
-				: this(question.Id, question.Text, question.Answers.Select(answer => new Answer(answer)).ToHashSet(), null, question.QuestionSetId)
+				: this(question.Id, question.Text, question.Answers.Select(answer => new Answer(answer)).ToHashSet(), question.QuestionSetId, null, null)
 			{
 			}
 
-			public void AnswerQuestion(Guid playerAnswerId)
+			public void AnswerQuestion(Guid answerId)
 			{
-				PlayerAnswerId = playerAnswerId;
+				PlayerAnswerId = answerId;
+			}
+
+			public void Rate(QuestionRatings? rating)
+			{
+				PlayerRating = rating;
 			}
 
 			public class Answer
@@ -88,16 +103,21 @@ namespace QuizApp.Core.Models
 		{
 			public Guid QuestionId { get; }
 			public Guid AnswerId { get; }
+			public QuestionRatings? Rating { get; }
 
-			private PlayerAnswer(Guid questionId, Guid answerId)
+			private PlayerAnswer(Guid questionId, Guid answerId, QuestionRatings? rating)
 			{
 				QuestionId = questionId;
 				AnswerId = answerId;
+				Rating = rating;
 			}
 
-			public static PlayerAnswer Create(Guid questionId, Guid answerId)
+			public static PlayerAnswer Create(Guid questionId, Guid answerId, int? rating)
 			{
-				return new PlayerAnswer(questionId, answerId);
+				if (rating.HasValue && !Enum.IsDefined(typeof(QuestionRatings), rating))
+					throw new QuestionRatingIsOutOfRangeException(rating);
+
+				return new PlayerAnswer(questionId, answerId, (QuestionRatings?)rating);
 			}
 		}
 	}
