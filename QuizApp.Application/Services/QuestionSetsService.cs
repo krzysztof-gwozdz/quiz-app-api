@@ -49,9 +49,9 @@ namespace QuizApp.Application.Services
 
 		public async Task<Guid> CreateAsync(CreateQuestionSetDto dto)
 		{
-			var exitingQuestionSet = await _questionSetsRepository.GetByNameAsync(dto.Name);
-			if (exitingQuestionSet is { })
-				throw new QuestionSetWithSelectedNameAlreadyExistsException(exitingQuestionSet.Name);
+			var existingQuestionSet = await _questionSetsRepository.GetByNameAsync(dto.Name);
+			if (existingQuestionSet is { })
+				throw new QuestionSetWithSelectedNameAlreadyExistsException(existingQuestionSet.Name);
 
 			var image = QuestionSetImage.Create(dto.Image?.OpenReadStream(), dto.Image?.ContentType);
 			var color = Color.Create(dto.Color);

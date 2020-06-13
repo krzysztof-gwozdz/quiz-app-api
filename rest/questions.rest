@@ -88,3 +88,17 @@ Content-Type: application/json
 
 ### Get quiz summary
 GET {{baseUrl}}quizzes/{{newQuizId}}/summary HTTP/1.1
+
+
+### ~~ TAGS ~~ ###
+### Add tag
+POST {{baseUrl}}tags HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "New tag [{{$guid}}]"
+}
+
+
+### Get tags
+GET {{baseUrl}}tags HTTP/1.1

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
+using QuizApp.Core.Models;
 using System;
 using System.Collections.Generic;
-using QuizApp.Core.Models;
 
 namespace QuizApp.Infrastructure.Entities
 {
