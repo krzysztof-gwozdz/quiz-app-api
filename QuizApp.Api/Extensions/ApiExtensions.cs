@@ -14,11 +14,11 @@ namespace QuizApp.Api.Extensions
 		public static IApplicationBuilder UseApi(this IApplicationBuilder app)
 		{
 			app.UseCors(
-                p => p.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader()
-                      .WithExposedHeaders("location")
-            );
+				p => p.AllowAnyOrigin()
+					  .AllowAnyMethod()
+					  .AllowAnyHeader()
+					  .WithExposedHeaders("location")
+			);
 			app.UseHttpsRedirection();
 			app.UseRouting();
 			app.UseAuthorization();

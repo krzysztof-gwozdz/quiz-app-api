@@ -13,6 +13,7 @@ namespace QuizApp.Application.Mappers
 				model.Id,
 				model.Name,
 				model.Description,
+				model.Tags.Select(tag => tag.Name).ToArray(),
 				model.Color.Value,
 				totalQuestions
 			);
@@ -25,6 +26,7 @@ namespace QuizApp.Application.Mappers
 					questionSet.Id,
 					questionSet.Name,
 					questionSet.Description,
+					questionSet.Tags.Select(tag => tag.Name).ToArray(),
 					questionSet.Color.Value
 				)).ToArray()
 			);

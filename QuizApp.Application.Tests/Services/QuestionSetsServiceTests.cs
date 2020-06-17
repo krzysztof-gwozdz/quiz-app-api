@@ -8,6 +8,7 @@ using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,6 +19,7 @@ namespace QuizApp.Application.Tests.Services
 		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly IQuestionsRepository _questionsRepository;
 		private readonly IQuestionSetImagesRepository _questionSetImagesRepository;
+		private readonly ITagsRepository _tagsRepository;
 		private readonly QuestionSetsService _questionSetsService;
 
 		public QuestionSetsServiceTests()
@@ -25,7 +27,8 @@ namespace QuizApp.Application.Tests.Services
 			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
 			_questionsRepository = Substitute.For<IQuestionsRepository>();
 			_questionSetImagesRepository = Substitute.For<IQuestionSetImagesRepository>();
-			_questionSetsService = new QuestionSetsService(_questionSetsRepository, _questionsRepository, _questionSetImagesRepository);
+			_tagsRepository = Substitute.For<ITagsRepository>();
+			_questionSetsService = new QuestionSetsService(_questionSetsRepository, _questionsRepository, _questionSetImagesRepository, _tagsRepository);
 		}
 
 		[Fact]
@@ -77,12 +80,14 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
+			var tags = QuestionSetExample.ValidTags.Select(x => x.Name).ToArray();
 			var image = Substitute.For<IFormFile>();
 			image.OpenReadStream().Returns(QuestionSetImageExample.ValidData);
 			image.Length.Returns(QuestionSetImageExample.ValidData.Length);
 			image.ContentType.Returns(QuestionSetImageExample.ValidContentType);
 			var color = QuestionSetExample.ValidColor;
-			var dto = new CreateQuestionSetDto(name, description, image, color.Value);
+			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
+			_tagsRepository.GetByNameAsync(tags.First()).Returns(new Tag(Guid.NewGuid(), name));
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
@@ -97,11 +102,12 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
+			var tags = QuestionSetExample.ValidTags.Select(x => x.Name).ToArray();
 			var image = Substitute.For<IFormFile>();
 			var color = QuestionSetExample.ValidColor;
-			var questionSet = new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidDescription, QuestionSetExample.ValidImageId, QuestionSetExample.ValidColor);
+			var questionSet = new QuestionSet(QuestionSetExample.NewId, name, description, QuestionSetExample.ValidTags, QuestionSetExample.ValidImageId, color);
 			_questionSetsRepository.GetByNameAsync(name).Returns(questionSet);
-			var dto = new CreateQuestionSetDto(name, description, image, color.Value);
+			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
 
 			//act 
 			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(dto);
@@ -109,6 +115,26 @@ namespace QuizApp.Application.Tests.Services
 			//assert
 			await createQuestionSet.Should().ThrowAsync<QuestionSetWithSelectedNameAlreadyExistsException>()
 				.WithMessage($"Question set with name: {name} already exists.");
+		}
+
+		[Fact]
+		public async Task CreateQuestionSetTagThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var name = QuestionSetExample.ValidName;
+			var description = QuestionSetExample.ValidDescription;
+			var tagName = "Test tag";
+			var tags = new[] { tagName };
+			var image = Substitute.For<IFormFile>();
+			var color = QuestionSetExample.ValidColor;
+			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
+
+			//act 
+			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(dto);
+
+			//assert
+			await createQuestionSet.Should().ThrowAsync<TagNotFoundException>()
+				.WithMessage($"Tag: {tagName} not found.");
 		}
 	}
 }

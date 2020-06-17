@@ -11,10 +11,19 @@ namespace QuizApp.Infrastructure.Entities
 		[JsonProperty("description")]
 		public string Description { get; set; }
 
+		[JsonProperty("tags")]
+		public TagEntity[] Tags { get; set; }
+
 		[JsonProperty("imageId")]
 		public Guid ImageId { get; set; }
 
 		[JsonProperty("color")]
 		public string Color { get; set; }
+
+		public class TagEntity : Entity
+		{
+			[JsonProperty("name")]
+			public string Name { get; set; }
+		}
 	}
 }

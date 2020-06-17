@@ -8,10 +8,23 @@ namespace QuizApp.Infrastructure.Mappers
 	public static class QuestionSetsMapper
 	{
 		public static QuestionSetEntity ToEntity(this QuestionSet model) =>
-			new QuestionSetEntity { Id = model.Id, Name = model.Name, Description = model.Description, ImageId = model.ImageId, Color = model.Color.Value };
+			new QuestionSetEntity
+			{
+				Id = model.Id,
+				Name = model.Name,
+				Description = model.Description,
+				Tags = model.Tags.Select(tag =>
+					new QuestionSetEntity.TagEntity
+					{
+						Id = tag.Id,
+						Name = tag.Name
+					}).ToArray(),
+				ImageId = model.ImageId,
+				Color = model.Color.Value
+			};
 
 		public static QuestionSet ToModel(this QuestionSetEntity entity) =>
-			new QuestionSet(entity.Id, entity.Name, entity.Description, entity.ImageId, new Color(entity.Color));
+			new QuestionSet(entity.Id, entity.Name, entity.Description, entity.Tags.Select(tag => new Tag(tag.Id, tag.Name)).ToHashSet(), entity.ImageId, new Color(entity.Color));
 
 		public static ISet<QuestionSet> ToModel(this ISet<QuestionSetEntity> entities) =>
 			new HashSet<QuestionSet>(entities.Select(ToModel));

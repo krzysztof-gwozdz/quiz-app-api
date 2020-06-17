@@ -4,6 +4,7 @@ using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
@@ -13,15 +14,18 @@ namespace QuizApp.Application.Services
 		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly IQuestionsRepository _questionsRepository;
 		private readonly IQuestionSetImagesRepository _questionSetImagesRepository;
+		private readonly ITagsRepository _tagsRepository;
 
 		public QuestionSetsService(
 			IQuestionSetsRepository questionSetsRepository,
 			IQuestionsRepository questionsRepository,
-			IQuestionSetImagesRepository questionSetImagesRepository)
+			IQuestionSetImagesRepository questionSetImagesRepository,
+			ITagsRepository tagsRepository)
 		{
 			_questionSetsRepository = questionSetsRepository;
 			_questionsRepository = questionsRepository;
 			_questionSetImagesRepository = questionSetImagesRepository;
+			_tagsRepository = tagsRepository;
 		}
 
 		public async Task<QuestionSetsDto> GetCollectionAsync()
@@ -53,9 +57,18 @@ namespace QuizApp.Application.Services
 			if (existingQuestionSet is { })
 				throw new QuestionSetWithSelectedNameAlreadyExistsException(existingQuestionSet.Name);
 
+			var tags = new HashSet<Tag>();
+			foreach (var tag in dto.Tags)
+			{
+				var existingTag = await _tagsRepository.GetByNameAsync(tag);
+				if (existingTag is null)
+					throw new TagNotFoundException(tag);
+				tags.Add(existingTag);
+			}
+
 			var image = QuestionSetImage.Create(dto.Image?.OpenReadStream(), dto.Image?.ContentType);
 			var color = Color.Create(dto.Color);
-			var questionSet = QuestionSet.Create(dto.Name, dto.Description, image.Id, color);
+			var questionSet = QuestionSet.Create(dto.Name, dto.Description, tags, image.Id, color);
 			await _questionSetsRepository.AddAsync(questionSet);
 			await _questionSetImagesRepository.AddAsync(image);
 

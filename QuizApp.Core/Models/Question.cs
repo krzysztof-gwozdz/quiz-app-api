@@ -32,6 +32,7 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(text))
 				throw new EmptyQuestionTextException();
 
+			//TODO What if answers are null?
 			if (answers.Count < MinNumberOfAnswers)
 				throw new InvalidNumberOfAnswersInQuestionException(answers.Count);
 
