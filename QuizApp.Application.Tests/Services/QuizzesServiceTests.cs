@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Moq;
+using NSubstitute;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
@@ -15,15 +15,15 @@ namespace QuizApp.Application.Tests.Services
 {
 	public class QuizzesServiceTests
 	{
-		private readonly Mock<IQuizzesRepository> _quizzesRepositoryMock;
-		private readonly Mock<IQuizFactory> _questionsFactoryMock;
+		private readonly IQuizzesRepository _quizzesRepository;
+		private readonly IQuizFactory _questionsFactory;
 		private readonly QuizzesService _quizzesService;
 
 		public QuizzesServiceTests()
 		{
-			_quizzesRepositoryMock = new Mock<IQuizzesRepository>();
-			_questionsFactoryMock = new Mock<IQuizFactory>();
-			_quizzesService = new QuizzesService(_quizzesRepositoryMock.Object, _questionsFactoryMock.Object);
+			_quizzesRepository = Substitute.For<IQuizzesRepository>();
+			_questionsFactory = Substitute.For<IQuizFactory>();
+			_quizzesService = new QuizzesService(_quizzesRepository, _questionsFactory);
 		}
 
 		[Fact]
@@ -31,9 +31,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
-			_quizzesRepositoryMock
-				.Setup(x => x.GetByIdAsync(existingQuiz.Id))
-				.ReturnsAsync(existingQuiz);
+			_quizzesRepository.GetByIdAsync(existingQuiz.Id).Returns(existingQuiz);
 
 			//act 
 			var quiz = await _quizzesService.GetAsync(existingQuiz.Id);
@@ -48,9 +46,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var quizId = QuizExample.NewId;
-			_quizzesRepositoryMock
-				.Setup(x => x.GetByIdAsync(quizId))
-				.ReturnsAsync((Quiz)null);
+			_quizzesRepository.GetByIdAsync(quizId).Returns((Quiz)null);
 
 			//act 
 			Func<Task> getQuiz = async () => await _quizzesService.GetAsync(quizId);
@@ -65,9 +61,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var quizParameters = new QuizParametersDto(QuestionSetExample.NewId, 4);
-			_questionsFactoryMock
-				.Setup(x => x.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount))
-				.ReturnsAsync(QuizExample.GetValidQuiz(4, 4));
+			_questionsFactory.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount).Returns(QuizExample.GetValidQuiz(4, 4));
 
 			//act 
 			var quizId = await _quizzesService.GenerateAsync(quizParameters);
@@ -88,9 +82,7 @@ namespace QuizApp.Application.Tests.Services
 					new PlayerAnswerDto(QuizExample.PlayerAnswer.NewQuestionId, QuizExample.PlayerAnswer.NewAnswerId, (int?)QuizExample.PlayerAnswer.ValidRating)
 				}
 			};
-			_quizzesRepositoryMock
-				.Setup(x => x.GetByIdAsync(solveQuizDto.QuizId))
-				.ReturnsAsync((Quiz)null);
+			_quizzesRepository.GetByIdAsync(solveQuizDto.QuizId).Returns((Quiz)null);
 
 			//act 
 			Func<Task> getQuiz = async () => await _quizzesService.SolveAsync(solveQuizDto);
@@ -105,9 +97,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
-			_quizzesRepositoryMock
-				.Setup(x => x.GetByIdAsync(existingQuiz.Id))
-				.ReturnsAsync(existingQuiz);
+			_quizzesRepository.GetByIdAsync(existingQuiz.Id).Returns(existingQuiz);
 
 			//act 
 			var quizSummary = await _quizzesService.GetSummaryAsync(existingQuiz.Id);
@@ -122,9 +112,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var quizId = QuizExample.NewId;
-			_quizzesRepositoryMock
-				.Setup(x => x.GetByIdAsync(quizId))
-				.ReturnsAsync((Quiz)null);
+			_quizzesRepository.GetByIdAsync(quizId).Returns((Quiz)null);
 
 			//act 
 			Func<Task> getQuizSummary = async () => await _quizzesService.GetSummaryAsync(quizId);

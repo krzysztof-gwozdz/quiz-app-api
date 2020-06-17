@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Moq;
+using NSubstitute;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
@@ -15,20 +15,17 @@ namespace QuizApp.Application.Tests.Services
 {
 	public class QuestionSetsServiceTests
 	{
-		private readonly Mock<IQuestionSetsRepository> _questionSetsRepositoryMock;
-		private readonly Mock<IQuestionsRepository> _questionsRepositoryMock;
-		private readonly Mock<IQuestionSetImagesRepository> _questionSetImagesRepositoryMock;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
+		private readonly IQuestionsRepository _questionsRepository;
+		private readonly IQuestionSetImagesRepository _questionSetImagesRepository;
 		private readonly QuestionSetsService _questionSetsService;
 
 		public QuestionSetsServiceTests()
 		{
-			_questionSetsRepositoryMock = new Mock<IQuestionSetsRepository>();
-			_questionsRepositoryMock = new Mock<IQuestionsRepository>();
-			_questionSetImagesRepositoryMock = new Mock<IQuestionSetImagesRepository>();
-			_questionSetsService = new QuestionSetsService(
-				_questionSetsRepositoryMock.Object,
-				_questionsRepositoryMock.Object,
-				_questionSetImagesRepositoryMock.Object);
+			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
+			_questionsRepository = Substitute.For<IQuestionsRepository>();
+			_questionSetImagesRepository = Substitute.For<IQuestionSetImagesRepository>();
+			_questionSetsService = new QuestionSetsService(_questionSetsRepository, _questionsRepository, _questionSetImagesRepository);
 		}
 
 		[Fact]
@@ -36,9 +33,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var questionsSetsCollection = new[] { QuestionSetExample.ValidQuestionSet, QuestionSetExample.ValidQuestionSet, QuestionSetExample.ValidQuestionSet };
-			_questionSetsRepositoryMock
-				.Setup(x => x.GetAllAsync())
-				.ReturnsAsync(questionsSetsCollection);
+			_questionSetsRepository.GetAllAsync().Returns(questionsSetsCollection);
 
 			//act 
 			var questionSets = await _questionSetsService.GetCollectionAsync();
@@ -52,9 +47,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var existingQuestionSet = QuestionSetExample.ValidQuestionSet;
-			_questionSetsRepositoryMock
-				.Setup(x => x.GetByIdAsync(existingQuestionSet.Id))
-				.ReturnsAsync(existingQuestionSet);
+			_questionSetsRepository.GetByIdAsync(existingQuestionSet.Id).Returns(existingQuestionSet);
 
 			//act 
 			var questionSet = await _questionSetsService.GetAsync(existingQuestionSet.Id);
@@ -68,9 +61,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
-			_questionSetsRepositoryMock
-				.Setup(x => x.GetByIdAsync(questionSetId))
-				.ReturnsAsync((QuestionSet)null);
+			_questionSetsRepository.GetByIdAsync(questionSetId).Returns((QuestionSet)null);
 
 			//act 
 			Func<Task> getQuestionSet = async () => await _questionSetsService.GetAsync(questionSetId);
@@ -86,12 +77,12 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var imageMock = new Mock<IFormFile>();
-			imageMock.Setup(x => x.OpenReadStream()).Returns(QuestionSetImageExample.ValidData);
-			imageMock.Setup(x => x.Length).Returns(QuestionSetImageExample.ValidData.Length);
-			imageMock.Setup(x => x.ContentType).Returns(QuestionSetImageExample.ValidContentType);
+			var image = Substitute.For<IFormFile>();
+			image.OpenReadStream().Returns(QuestionSetImageExample.ValidData);
+			image.Length.Returns(QuestionSetImageExample.ValidData.Length);
+			image.ContentType.Returns(QuestionSetImageExample.ValidContentType);
 			var color = QuestionSetExample.ValidColor;
-			var dto = new CreateQuestionSetDto(name, description, imageMock.Object, color.Value);
+			var dto = new CreateQuestionSetDto(name, description, image, color.Value);
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);
@@ -106,11 +97,10 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var image = new Mock<IFormFile>().Object;
+			var image = Substitute.For<IFormFile>();
 			var color = QuestionSetExample.ValidColor;
-			_questionSetsRepositoryMock
-				.Setup(x => x.GetByNameAsync(name))
-				.ReturnsAsync(new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidDescription, QuestionSetExample.ValidImageId, QuestionSetExample.ValidColor));
+			var questionSet = new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidDescription, QuestionSetExample.ValidImageId, QuestionSetExample.ValidColor);
+			_questionSetsRepository.GetByNameAsync(name).Returns(questionSet);
 			var dto = new CreateQuestionSetDto(name, description, image, color.Value);
 
 			//act 

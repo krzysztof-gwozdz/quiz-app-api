@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Moq;
+using NSubstitute;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Factories;
 using QuizApp.Core.Repositories;
@@ -13,17 +13,17 @@ namespace QuizApp.Core.Tests.Factories
 {
 	public class QuizFactoryTests
 	{
-		private readonly Mock<IQuestionsRepository> _questionsRepositoryMock;
-		private readonly Mock<IQuestionSetsRepository> _questionSetsRepositoryMock;
-		private readonly Mock<IRandomFactory> _randomFactory;
+		private readonly IQuestionsRepository _questionsRepository;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
+		private readonly IRandomFactory _randomFactory;
 		private QuizFactory _quizFactory;
 
 		public QuizFactoryTests()
 		{
-			_questionsRepositoryMock = new Mock<IQuestionsRepository>();
-			_questionSetsRepositoryMock = new Mock<IQuestionSetsRepository>();
-			_randomFactory = new Mock<IRandomFactory>();
-			_quizFactory = new QuizFactory(_questionsRepositoryMock.Object, _questionSetsRepositoryMock.Object, _randomFactory.Object);
+			_questionsRepository = Substitute.For<IQuestionsRepository>();
+			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
+			_randomFactory = Substitute.For<IRandomFactory>();
+			_quizFactory = new QuizFactory(_questionsRepository, _questionSetsRepository, _randomFactory);
 		}
 
 		[Fact]
@@ -33,18 +33,11 @@ namespace QuizApp.Core.Tests.Factories
 			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 4;
 			var questions = QuestionExample.GetValidQuestions(4, 4);
-			_questionsRepositoryMock
-				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
-				.ReturnsAsync(questions);
-			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
-				.ReturnsAsync(true);
-			_questionsRepositoryMock
-				.Setup(x => x.CountBySetIdAsync(questionSetId))
-				.ReturnsAsync(questionCount + 1);
-			_randomFactory
-				.Setup(x => x.NextInt(questionCount))
-				.Returns(0);
+
+			_questionsRepository.GetAllBySetIdAsync(questionSetId).Returns(questions);
+			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
+			_questionsRepository.CountBySetIdAsync(questionSetId).Returns(questionCount + 1);
+			_randomFactory.NextInt(questionCount).Returns(0);
 
 			//act
 			var quiz = await _quizFactory.GetAsync(questionSetId, questionCount);
@@ -59,9 +52,7 @@ namespace QuizApp.Core.Tests.Factories
 		{
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
-			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
-				.ReturnsAsync(false);
+			_questionSetsRepository.ExistsAsync(questionSetId).Returns(false);
 
 			//act
 			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, 2);
@@ -77,9 +68,7 @@ namespace QuizApp.Core.Tests.Factories
 			//arrange
 			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 1;
-			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
-				.ReturnsAsync(true);
+			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
 
 			//act
 			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, questionCount);
@@ -96,12 +85,8 @@ namespace QuizApp.Core.Tests.Factories
 			var questionSetId = QuestionSetExample.NewId;
 			int questionCount = 11;
 			int maxQuestionCount = 10;
-			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
-				.ReturnsAsync(true);
-			_questionsRepositoryMock
-				.Setup(x => x.CountBySetIdAsync(questionSetId))
-				.ReturnsAsync(maxQuestionCount);
+			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
+			_questionsRepository.CountBySetIdAsync(questionSetId).Returns(maxQuestionCount);
 
 			//act
 			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, questionCount);
@@ -118,18 +103,12 @@ namespace QuizApp.Core.Tests.Factories
 			var questionCount = 3;
 
 			var questions = QuestionExample.GetValidQuestions(5, 4);
-			_questionsRepositoryMock
-				.Setup(x => x.GetAllBySetIdAsync(questionSetId))
-				.ReturnsAsync(questions);
-			_questionSetsRepositoryMock
-				.Setup(x => x.ExistsAsync(questionSetId))
-				.ReturnsAsync(true);
-			_questionsRepositoryMock
-				.Setup(x => x.CountBySetIdAsync(questionSetId))
-				.ReturnsAsync(questionCount + 1);
+			_questionsRepository.GetAllBySetIdAsync(questionSetId).Returns(questions);
+			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
+			_questionsRepository.CountBySetIdAsync(questionSetId).Returns(questionCount + 1);
 
-			var randomFactory = new MockRandomFactory(new[] { 0, 1, 1, 0, 2 });
-			_quizFactory = new QuizFactory(_questionsRepositoryMock.Object, _questionSetsRepositoryMock.Object, randomFactory);
+			var randomFactory = new RandomFactoryMock(new[] { 0, 1, 1, 0, 2 });
+			_quizFactory = new QuizFactory(_questionsRepository, _questionSetsRepository, randomFactory);
 
 			//act
 			var quiz = await _quizFactory.GetAsync(questionSetId, questionCount);

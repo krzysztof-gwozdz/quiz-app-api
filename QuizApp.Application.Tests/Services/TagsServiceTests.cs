@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Moq;
+using NSubstitute;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
@@ -14,13 +14,13 @@ namespace QuizApp.Application.Tests.Services
 {
 	public class TagsServiceTests
 	{
-		private readonly Mock<ITagsRepository> _tagsRepositoryMock;
-		private readonly TagsService _questionSetsService;
+		private readonly ITagsRepository _tagsRepository;
+		private readonly TagsService _tagsService;
 
 		public TagsServiceTests()
 		{
-			_tagsRepositoryMock = new Mock<ITagsRepository>();
-			_questionSetsService = new TagsService(_tagsRepositoryMock.Object);
+			_tagsRepository = Substitute.For<ITagsRepository>();
+			_tagsService = new TagsService(_tagsRepository);
 		}
 
 		[Fact]
@@ -28,12 +28,10 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var tagsCollection = new[] { TagExample.ValidTag, TagExample.ValidTag, TagExample.ValidTag };
-			_tagsRepositoryMock
-				.Setup(x => x.GetAllAsync())
-				.ReturnsAsync(tagsCollection);
+			_tagsRepository.GetAllAsync().Returns(tagsCollection);
 
 			//act 
-			var tags = await _questionSetsService.GetCollectionAsync();
+			var tags = await _tagsService.GetCollectionAsync();
 
 			//assert
 			tags.Collection.Should().HaveCount(tagsCollection.Length);
@@ -47,7 +45,7 @@ namespace QuizApp.Application.Tests.Services
 			var dto = new CreateTagDto(name);
 
 			//act 
-			var tagId = await _questionSetsService.CreateAsync(dto);
+			var tagId = await _tagsService.CreateAsync(dto);
 
 			//assert
 			tagId.Should().NotBeEmpty();
@@ -58,13 +56,11 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var name = TagExample.ValidName;
-			_tagsRepositoryMock
-				.Setup(x => x.GetByNameAsync(name))
-				.ReturnsAsync(new Tag(TagExample.NewId, name));
+			_tagsRepository.GetByNameAsync(name).Returns(new Tag(TagExample.NewId, name));
 			var dto = new CreateTagDto(name);
 
 			//act 
-			Func<Task> createTags = async () => await _questionSetsService.CreateAsync(dto);
+			Func<Task> createTags = async () => await _tagsService.CreateAsync(dto);
 
 			//assert
 			await createTags.Should().ThrowAsync<TagWithSelectedNameAlreadyExistsException>()

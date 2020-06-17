@@ -3,12 +3,12 @@
 
 namespace QuizApp.Core.Tests.Mocks
 {
-	public class MockRandomFactory : IRandomFactory
+	public class RandomFactoryMock : IRandomFactory
 	{
 		private readonly int[] _intSequence;
 		private int _intIndex = 0;
 
-		public MockRandomFactory(int[] intSequence)
+		public RandomFactoryMock(int[] intSequence)
 		{
 			_intSequence = intSequence;
 		}
