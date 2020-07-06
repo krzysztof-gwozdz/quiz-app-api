@@ -6,15 +6,17 @@ namespace QuizApp.Application.Dtos
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
+		public string Description { get; set; }
 
 		public TagDto()
 		{
 		}
 
-		public TagDto(Guid id, string name)
+		public TagDto(Guid id, string name, string description)
 		{
 			Id = id;
 			Name = name;
+			Description = description;
 		}
 	}
 }

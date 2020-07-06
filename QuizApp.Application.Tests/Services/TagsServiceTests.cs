@@ -42,7 +42,8 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var name = TagExample.ValidName;
-			var dto = new CreateTagDto(name);
+			var description = TagExample.ValidDescription;
+			var dto = new CreateTagDto(name, description);
 
 			//act 
 			var tagId = await _tagsService.CreateAsync(dto);
@@ -56,8 +57,9 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var name = TagExample.ValidName;
-			_tagsRepository.GetByNameAsync(name).Returns(new Tag(TagExample.NewId, name));
-			var dto = new CreateTagDto(name);
+			var description = TagExample.ValidDescription;
+			_tagsRepository.GetByNameAsync(name).Returns(new Tag(TagExample.NewId, name, description));
+			var dto = new CreateTagDto(name, description);
 
 			//act 
 			Func<Task> createTags = async () => await _tagsService.CreateAsync(dto);

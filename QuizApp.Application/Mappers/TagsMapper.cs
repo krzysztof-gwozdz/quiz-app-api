@@ -13,7 +13,8 @@ namespace QuizApp.Application.Mappers
 				model.Select(tag => new TagDto
 				(
 					tag.Id,
-					tag.Name
+					tag.Name,
+					tag.Description
 				)).ToArray()
 			);
 	}

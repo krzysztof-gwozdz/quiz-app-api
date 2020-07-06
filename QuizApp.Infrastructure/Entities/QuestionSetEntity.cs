@@ -24,6 +24,9 @@ namespace QuizApp.Infrastructure.Entities
 		{
 			[JsonProperty("name")]
 			public string Name { get; set; }
+
+			[JsonProperty("description")]
+			public string Description { get; set; }			
 		}
 	}
 }

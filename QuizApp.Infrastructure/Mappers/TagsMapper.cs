@@ -11,7 +11,7 @@ namespace QuizApp.Infrastructure.Mappers
 			new TagEntity { Id = model.Id, Name = model.Name };
 
 		public static Tag ToModel(this TagEntity entity) =>
-			new Tag(entity.Id, entity.Name);
+			new Tag(entity.Id, entity.Name, entity.Description);
 
 		public static ISet<Tag> ToModel(this ISet<TagEntity> entities) =>
 			new HashSet<Tag>(entities.Select(ToModel));

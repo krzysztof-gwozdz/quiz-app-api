@@ -7,19 +7,25 @@ namespace QuizApp.Core.Models
 	{
 		public Guid Id { get; }
 		public string Name { get; }
+		public string Description { get; }
 
-		public Tag(Guid id, string name)
+		public Tag(Guid id, string name, string description)
 		{
 			Id = id;
 			Name = name;
+			Description = description;
 		}
 
-		public static Tag Create(string name)
+		public static Tag Create(string name, string description)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyTagNameException();
 
-			return new Tag(Guid.NewGuid(), name);
+			//TODO VALIDATION EXCPETIONS + Problem Details
+			if (string.IsNullOrWhiteSpace(description))
+				throw new EmptyTagDescriptionException();
+
+			return new Tag(Guid.NewGuid(), name, description);
 		}
 	}
 }

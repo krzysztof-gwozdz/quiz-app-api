@@ -24,7 +24,15 @@ namespace QuizApp.Infrastructure.Mappers
 			};
 
 		public static QuestionSet ToModel(this QuestionSetEntity entity) =>
-			new QuestionSet(entity.Id, entity.Name, entity.Description, entity.Tags.Select(tag => new Tag(tag.Id, tag.Name)).ToHashSet(), entity.ImageId, new Color(entity.Color));
+			new QuestionSet
+			(
+				entity.Id,
+				entity.Name,
+				entity.Description,
+				entity.Tags.Select(tag => new Tag(tag.Id, tag.Name, tag.Description)).ToHashSet(), 
+				entity.ImageId, 
+				new Color(entity.Color)
+			);
 
 		public static ISet<QuestionSet> ToModel(this ISet<QuestionSetEntity> entities) =>
 			new HashSet<QuestionSet>(entities.Select(ToModel));
