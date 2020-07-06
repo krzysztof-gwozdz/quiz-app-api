@@ -2,6 +2,7 @@
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -192,8 +193,8 @@ namespace QuizApp.Core.Tests.Models
 				Action createPlayerAnswer = () => Quiz.PlayerAnswer.Create(questionId, answerId, rating);
 
 				//assert
-				createPlayerAnswer.Should().Throw<QuestionRatingIsOutOfRangeException>()
-					.WithMessage($"Question rating: {rating} is out of range.");
+				createPlayerAnswer.Should().Throw<ValidationException>()
+					.WithMessage($"rating: Question rating: {rating} is out of range.");
 			}
 		}
 	}

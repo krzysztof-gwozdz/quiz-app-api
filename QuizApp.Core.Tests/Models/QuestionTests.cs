@@ -2,6 +2,7 @@
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.Linq;
 using Xunit;
@@ -42,8 +43,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<EmptyQuestionTextException>()
-				.WithMessage("Question text can not be empty.");
+			createQuestion.Should().Throw<ValidationException>()
+				.WithMessage("text: Question text can not be empty.");
 		}
 
 		[Theory]
@@ -53,15 +54,14 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
+			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidCorrectAnswer);
 			var questionSetId = QuestionSetExample.NewId;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
-				.WithMessage($"Number of answers in question invalid: {numberOfAnswers}.");
+			createQuestion.Should().Throw<ValidationException>().WithMessage($"answers: Number of answers in question invalid: {numberOfAnswers}.");
 		}
 
 		[Fact]
@@ -83,8 +83,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<QuestionContainsDuplicatedAnswersException>()
-				.WithMessage($"Question contains duplicated answers: {duplicatedAnswerText}.");
+			createQuestion.Should().Throw<ValidationException>()
+				.WithMessage($"answers: Question contains duplicated answers: {duplicatedAnswerText}.");
 		}
 
 		[Fact]
@@ -105,8 +105,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
-				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 0");
+			createQuestion.Should().Throw<ValidationException>()
+				.WithMessage("answers: Not exactly one answer is correct exception. Correct answer count: 0");
 		}
 
 		[Fact]
@@ -127,8 +127,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestion = () => Question.Create(text, answers, questionSetId);
 
 			//assert
-			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
-				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 2");
+			createQuestion.Should().Throw<ValidationException>()
+				.WithMessage("answers: Not exactly one answer is correct exception. Correct answer count: 2");
 		}
 
 		public class AnswerTests
@@ -162,8 +162,8 @@ namespace QuizApp.Core.Tests.Models
 				Action createAnswer = () => Question.Answer.Create(text, isCorrect);
 
 				//assert
-				createAnswer.Should().Throw<EmptyAnswerTextException>()
-					.WithMessage("Answer text can not be empty.");
+				createAnswer.Should().Throw<ValidationException>()
+					.WithMessage("text: Answer text can not be empty.");
 			}
 		}
 	}

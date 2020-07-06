@@ -1,4 +1,4 @@
-﻿using QuizApp.Core.Exceptions;
+﻿using QuizApp.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,22 +29,30 @@ namespace QuizApp.Core.Models
 
 		public static Question Create(string text, ISet<Answer> answers, Guid questionSetId)
 		{
-			if (string.IsNullOrWhiteSpace(text))
-				throw new EmptyQuestionTextException();
-
-			//TODO What if answers are null?
-			if (answers.Count < MinNumberOfAnswers)
-				throw new InvalidNumberOfAnswersInQuestionException(answers.Count);
-
-			var duplicates = answers.GroupBy(x => x.Text).SelectMany(d => d.Skip(1));
-			if (duplicates.Any())
-				throw new QuestionContainsDuplicatedAnswersException(duplicates.First().Text);
-
-			var correctAnswerCount = answers.Count(answer => answer.IsCorrect);
-			if (correctAnswerCount != 1)
-				throw new NotExactlyOneAnswerIsCorrectException(correctAnswerCount);
-
+			Validate(text, answers);
 			return new Question(text, answers.ToHashSet(), questionSetId);
+		}
+
+		public static void Validate(string text, ISet<Answer> answers)
+		{
+			var errors = new HashSet<ValidationError>();
+
+			if (string.IsNullOrWhiteSpace(text))
+				errors.Add(new ValidationError(nameof(text), "Question text can not be empty."));
+			if (answers is null || answers.Count < MinNumberOfAnswers)
+				errors.Add(new ValidationError(nameof(answers), $"Number of answers in question invalid: {answers?.Count ?? 0}."));
+			else
+			{
+				var duplicates = answers.GroupBy(x => x.Text).SelectMany(d => d.Skip(1));
+				if (duplicates.Any())
+					errors.Add(new ValidationError(nameof(answers), $"Question contains duplicated answers: {duplicates.First().Text}."));
+				var correctAnswerCount = answers.Count(answer => answer.IsCorrect);
+				if (correctAnswerCount != 1)
+					errors.Add(new ValidationError(nameof(answers), $"Not exactly one answer is correct exception. Correct answer count: {correctAnswerCount}"));
+			}
+
+			if (errors.Any())
+				throw new ValidationException(errors.ToArray());
 		}
 
 		public class Answer
@@ -67,10 +75,19 @@ namespace QuizApp.Core.Models
 
 			public static Answer Create(string text, bool isCorrect)
 			{
-				if (string.IsNullOrWhiteSpace(text))
-					throw new EmptyAnswerTextException();
-
+				Validate(text);
 				return new Answer(text, isCorrect);
+			}
+
+			public static void Validate(string text)
+			{
+				var errors = new HashSet<ValidationError>();
+
+				if (string.IsNullOrWhiteSpace(text))
+					errors.Add(new ValidationError(nameof(text), "Answer text can not be empty."));
+
+				if (errors.Any())
+					throw new ValidationException(errors.ToArray());
 			}
 		}
 	}

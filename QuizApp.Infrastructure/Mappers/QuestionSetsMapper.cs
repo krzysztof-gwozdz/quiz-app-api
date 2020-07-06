@@ -30,8 +30,8 @@ namespace QuizApp.Infrastructure.Mappers
 				entity.Id,
 				entity.Name,
 				entity.Description,
-				entity.Tags.Select(tag => new Tag(tag.Id, tag.Name, tag.Description)).ToHashSet(), 
-				entity.ImageId, 
+				entity.Tags.Select(tag => new Tag(tag.Id, tag.Name, tag.Description)).ToHashSet(),
+				entity.ImageId,
 				new Color(entity.Color)
 			);
 

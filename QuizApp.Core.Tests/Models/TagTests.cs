@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
+using QuizApp.Shared.Exceptions;
 using System;
 using Xunit;
 
@@ -37,8 +37,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createTag = () => Tag.Create(name, description);
 
 			//assert
-			createTag.Should().Throw<EmptyTagNameException>()
-				.WithMessage("Tag name can not be empty.");
+			createTag.Should().Throw<ValidationException>()
+				.WithMessage("name: Tag name can not be empty.");
 		}
 
 		[Theory]
@@ -54,8 +54,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createTag = () => Tag.Create(name, description);
 
 			//assert
-			createTag.Should().Throw<EmptyTagDescriptionException>()
-				.WithMessage("Tag description can not be empty.");
+			createTag.Should().Throw<ValidationException>()
+				.WithMessage("description: Tag description can not be empty.");
 		}
 	}
 }

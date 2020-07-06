@@ -1,6 +1,7 @@
 ﻿using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,18 +29,27 @@ namespace QuizApp.Core.Factories
 
 		public async Task<Quiz> GetAsync(Guid questionSetId, int questionCount)
 		{
-			if (questionCount < MinQuestionCount)
-				throw new NotEnoughQuestionsException(questionCount, MinQuestionCount);
+			await Validate(questionSetId, questionCount);
+			var questions = await GetQuestionsAsync(questionSetId, questionCount);
+			return new Quiz(Guid.NewGuid(), questions);
+		}
+
+		private async Task Validate(Guid questionSetId, int questionCount)
+		{
+			var errors = new HashSet<ValidationError>();
 
 			if (!await _questionSetsRepository.ExistsAsync(questionSetId))
 				throw new QuestionSetNotFoundException(questionSetId);
 
+			if (questionCount < MinQuestionCount)
+				errors.Add(new ValidationError(nameof(questionCount), $"Not enough question: {questionCount}. Min question count: {MinQuestionCount}."));
+
 			var maxQuestionCount = await _questionsRepository.CountBySetIdAsync(questionSetId);
 			if (questionCount > maxQuestionCount)
-				throw new TooManyQuestionsException(questionCount, maxQuestionCount);
+				errors.Add(new ValidationError(nameof(questionCount), $"Too many questions: {questionCount}. Max question count for this question set: {maxQuestionCount}."));
 
-			var questions = await GetQuestionsAsync(questionSetId, questionCount);
-			return new Quiz(Guid.NewGuid(), questions);
+			if (errors.Any())
+				throw new ValidationException(errors.ToArray());
 		}
 
 		private async Task<HashSet<Quiz.Question>> GetQuestionsAsync(Guid questionSetId, int questionCount)

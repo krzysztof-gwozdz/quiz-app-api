@@ -9,6 +9,8 @@ namespace QuizApp.Api.ErrorHandling
 		public ExceptionResponse Map(Exception exception) =>
 			exception switch
 			{
+				ValidationException ex => new ExceptionResponse("validation error", ex.Errors, HttpStatusCode.BadRequest),
+
 				NotFoundException ex => new ExceptionResponse(ex.Code, ex.Message, HttpStatusCode.NotFound),
 
 				DomainException ex => new ExceptionResponse(ex.Code, ex.Message, HttpStatusCode.BadRequest),

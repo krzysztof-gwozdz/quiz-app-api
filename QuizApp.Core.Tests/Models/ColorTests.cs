@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
+using QuizApp.Shared.Exceptions;
 using System;
 using Xunit;
 
@@ -47,8 +47,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createColor = () => Color.Create(value);
 
 			//assert
-			createColor.Should().Throw<InvalidColorException>()
-				.WithMessage($"Color: {value} is invalid.");
+			createColor.Should().Throw<ValidationException>()
+				.WithMessage($"color: Color: {value} is invalid.");
 		}
 	}
 }

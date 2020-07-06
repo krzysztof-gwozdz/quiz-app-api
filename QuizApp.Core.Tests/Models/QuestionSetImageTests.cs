@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
 using QuizApp.Shared;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.IO;
 using Xunit;
@@ -40,8 +40,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetImageException>()
-				.WithMessage("Question set image can not be empty.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage("image: Question set image can not be empty.");
 		}
 
 		[Fact]
@@ -55,8 +55,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetImageException>()
-				.WithMessage("Question set image can not be empty.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage("image: Question set image can not be empty.");
 		}
 
 		[Fact]
@@ -70,8 +70,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
 
 			//assert
-			createQuestionSet.Should().Throw<QuestionSetImageIsToLargeException>()
-				.WithMessage($"Question set image is to large: {QuestionSetImage.MaxImageSize + 1}. Max image size: {QuestionSetImage.MaxImageSize}");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage($"image: Question set image is to large: {QuestionSetImage.MaxImageSize + 1}. Max image size: {QuestionSetImage.MaxImageSize}");
 		}
 
 		[Theory]
@@ -87,8 +87,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
 
 			//assert
-			createQuestionSet.Should().Throw<InvalidContentTypeException>()
-				.WithMessage($"Invalid content type: {contentType}. Expected: {string.Join(", ", QuestionSetImage.ValidContentTypes)}.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage($"image: Invalid content type: {contentType}. Expected: {string.Join(", ", QuestionSetImage.ValidContentTypes)}.");
 		}
 
 		[Fact]
@@ -102,8 +102,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSetImage.Create(data, contentType);
 
 			//assert
-			createQuestionSet.Should().Throw<UploadedDataIsNotImageException>()
-				.WithMessage("Uploaded data is not an image.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage("image: Uploaded data is not an image.");
 		}
 	}
 }

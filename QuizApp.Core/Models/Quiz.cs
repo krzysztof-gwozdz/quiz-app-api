@@ -1,4 +1,5 @@
 ﻿using QuizApp.Core.Exceptions;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,10 +115,19 @@ namespace QuizApp.Core.Models
 
 			public static PlayerAnswer Create(Guid questionId, Guid answerId, int? rating)
 			{
-				if (rating.HasValue && !Enum.IsDefined(typeof(QuestionRatings), rating))
-					throw new QuestionRatingIsOutOfRangeException(rating);
-
+				Validate(rating);
 				return new PlayerAnswer(questionId, answerId, (QuestionRatings?)rating);
+			}
+
+			private static void Validate(int? rating)
+			{
+				var errors = new HashSet<ValidationError>();
+
+				if (rating.HasValue && !Enum.IsDefined(typeof(QuestionRatings), rating))
+					errors.Add(new ValidationError(nameof(rating), $"Question rating: {rating} is out of range."));
+
+				if (errors.Any())
+					throw new ValidationException(errors.ToArray());
 			}
 		}
 	}

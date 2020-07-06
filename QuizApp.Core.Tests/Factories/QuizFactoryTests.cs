@@ -5,6 +5,7 @@ using QuizApp.Core.Factories;
 using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using QuizApp.Core.Tests.Mocks;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -74,8 +75,11 @@ namespace QuizApp.Core.Tests.Factories
 			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, questionCount);
 
 			//assert
-			await getQuiz.Should().ThrowAsync<NotEnoughQuestionsException>()
-				.WithMessage($"Not enough question: {questionCount}. Min question count: {QuizFactory.MinQuestionCount}.");
+			await getQuiz.Should().ThrowAsync<ValidationException>()
+				.WithMessage(
+					$"questionCount: Not enough question: {questionCount}. Min question count: {QuizFactory.MinQuestionCount}.{Environment.NewLine}" +
+					$"questionCount: Too many questions: {questionCount}. Max question count for this question set: 0."
+				);
 		}
 
 		[Fact]
@@ -92,8 +96,8 @@ namespace QuizApp.Core.Tests.Factories
 			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, questionCount);
 
 			//assert
-			await getQuiz.Should().ThrowAsync<TooManyQuestionsException>()
-				.WithMessage($"Too many questions: {questionCount}. Max question count for this question set: {maxQuestionCount}.");
+			await getQuiz.Should().ThrowAsync<ValidationException>()
+				.WithMessage($"questionCount: Too many questions: {questionCount}. Max question count for this question set: {maxQuestionCount}.");
 		}
 
 		[Fact]

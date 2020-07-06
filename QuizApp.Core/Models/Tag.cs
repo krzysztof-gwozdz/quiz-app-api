@@ -1,5 +1,7 @@
-﻿using QuizApp.Core.Exceptions;
+﻿using QuizApp.Shared.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QuizApp.Core.Models
 {
@@ -18,14 +20,21 @@ namespace QuizApp.Core.Models
 
 		public static Tag Create(string name, string description)
 		{
-			if (string.IsNullOrWhiteSpace(name))
-				throw new EmptyTagNameException();
-
-			//TODO VALIDATION EXCPETIONS + Problem Details
-			if (string.IsNullOrWhiteSpace(description))
-				throw new EmptyTagDescriptionException();
-
+			Validate(name, description);
 			return new Tag(Guid.NewGuid(), name, description);
+		}
+
+		public static void Validate(string name, string description)
+		{
+			var errors = new HashSet<ValidationError>();
+
+			if (string.IsNullOrWhiteSpace(name))
+				errors.Add(new ValidationError(nameof(name), "Tag name can not be empty."));
+			if (string.IsNullOrWhiteSpace(description))
+				errors.Add(new ValidationError(nameof(description), "Tag description can not be empty."));
+
+			if (errors.Any())
+				throw new ValidationException(errors.ToArray());
 		}
 	}
 }

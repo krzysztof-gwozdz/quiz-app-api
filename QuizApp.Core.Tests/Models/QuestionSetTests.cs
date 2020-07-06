@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
+using QuizApp.Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -46,8 +46,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSet.Create(name, description, tags, imageId, color);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetNameException>()
-				.WithMessage("Question set name can not be empty.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage("name: Question set name can not be empty.");
 		}
 
 		[Theory]
@@ -66,8 +66,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSet.Create(name, description, tags, imageId, color);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetDescriptionException>()
-				.WithMessage("Question set description can not be empty.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage("description: Question set description can not be empty.");
 		}
 
 		[Fact]
@@ -84,8 +84,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSet.Create(name, description, tags, imageId, color);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetsTagsException>()
-				.WithMessage($"Question set tag collection can not be empty.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage($"tags: Question set tag collection can not be empty.");
 		}
 
 		[Fact]
@@ -102,8 +102,8 @@ namespace QuizApp.Core.Tests.Models
 			Action createQuestionSet = () => QuestionSet.Create(name, description, tags, imageId, color);
 
 			//assert
-			createQuestionSet.Should().Throw<EmptyQuestionSetImageException>()
-				.WithMessage("Question set image can not be empty.");
+			createQuestionSet.Should().Throw<ValidationException>()
+				.WithMessage("image: Question set image can not be empty.");
 		}
 	}
 }
