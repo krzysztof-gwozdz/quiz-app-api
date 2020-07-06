@@ -17,7 +17,8 @@ namespace QuizApp.Infrastructure.Mappers
 					new QuestionSetEntity.TagEntity
 					{
 						Id = tag.Id,
-						Name = tag.Name
+						Name = tag.Name,
+						Description = tag.Description
 					}).ToArray(),
 				ImageId = model.ImageId,
 				Color = model.Color.Value

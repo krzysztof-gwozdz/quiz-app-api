@@ -8,7 +8,7 @@ namespace QuizApp.Infrastructure.Mappers
 	public static class TagsMapper
 	{
 		public static TagEntity ToEntity(this Tag model) =>
-			new TagEntity { Id = model.Id, Name = model.Name };
+			new TagEntity { Id = model.Id, Name = model.Name, Description = model.Description };
 
 		public static Tag ToModel(this TagEntity entity) =>
 			new Tag(entity.Id, entity.Name, entity.Description);
