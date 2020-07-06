@@ -14,7 +14,7 @@ namespace QuizApp.Infrastructure.Mappers
 				Name = model.Name,
 				Description = model.Description,
 				Tags = model.Tags.Select(tag =>
-					new QuestionSetEntity.TagEntity
+					new TagEntity
 					{
 						Id = tag.Id,
 						Name = tag.Name,

@@ -19,14 +19,5 @@ namespace QuizApp.Infrastructure.Entities
 
 		[JsonProperty("color")]
 		public string Color { get; set; }
-
-		public class TagEntity : Entity
-		{
-			[JsonProperty("name")]
-			public string Name { get; set; }
-
-			[JsonProperty("description")]
-			public string Description { get; set; }			
-		}
 	}
 }
