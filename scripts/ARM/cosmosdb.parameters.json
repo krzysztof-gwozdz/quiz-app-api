@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accountName": {
+      "value": "QuizApp_CosmoDb_Account"
+    },
+    "location": {
+      "value": ""
+    },
+    "autoscaleMaxThroughput": {
+      "value": 4000
+    },
+    "throughput": {
+      "value": 400
+    },
+    "tier": {
+      "value": "Standard"
+    },
+    "databaseName": {
+      "value": "QuizApp"
+    },
+    "questionsContainerName": {
+      "value": "Questions"
+    },
+    "questionSetsContainerName": {
+      "value": "QuestionSets"
+    },
+    "quizzesContainerName": {
+      "value": "Quizzes"
+    },
+    "tagsContainerName": {
+      "value": "Tags"
+    }
+  }
+}

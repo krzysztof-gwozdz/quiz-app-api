@@ -31,3 +31,6 @@
     - [Visual Studio Code](https://code.visualstudio.com/)
     - run script `run.bat` from root directory
 5. If you set up Azure DocumentDb Data Migration Tool in 3. you can run scripts\add_fake_date.ps1 [optional]    
+
+### Azure Infrastructure
+![azure_infrastructure](documents/azure_infrastruture.png)
