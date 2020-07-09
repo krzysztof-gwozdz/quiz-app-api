@@ -26,7 +26,7 @@ namespace QuizApp.Core.Tests.Examples
 				Guid.NewGuid().ToString();
 
 			public static Quiz.Question GetValidQuestion(int answerCount) =>
-				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), QuestionSetExample.NewId, null, null);
+				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), null, null);
 
 			public static HashSet<Quiz.Question> GetValidQuestions(int questionCount, int answerCount) =>
 				Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();

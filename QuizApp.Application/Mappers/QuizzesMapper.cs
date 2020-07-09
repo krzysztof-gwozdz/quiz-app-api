@@ -10,12 +10,11 @@ namespace QuizApp.Application.Mappers
 		(
 			model.Id,
 			model.Questions.Select(question =>
-				new QuestionDto
+				new QuizQuestionDto
 				(
 					question.Id,
 					question.Text,
-					question.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
-					question.QuestionSetId
+					question.Answers.Select(answer => new QuizAnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray()
 				)
 			).ToArray()
 		);

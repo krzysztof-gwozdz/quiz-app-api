@@ -24,9 +24,6 @@ namespace QuizApp.Infrastructure.Entities
 			[JsonProperty("answers")]
 			public ISet<AnswerEntity> Answers { get; set; }
 
-			[JsonProperty("questionSetId")]
-			public Guid QuestionSetId { get; set; }
-
 			[JsonProperty("correctAnswerId")]
 			public Guid CorrectAnswerId { get; set; }
 

@@ -23,7 +23,6 @@ namespace QuizApp.Infrastructure.Mappers
 								IsCorrect = answer.IsCorrect,
 							}).ToHashSet(),
 						CorrectAnswerId = question.CorrectAnswerId,
-						QuestionSetId = question.QuestionSetId,
 						PlayerAnswerId = question.PlayerAnswerId,
 						PlayerRating = question.PlayerRating
 					}
@@ -43,7 +42,6 @@ namespace QuizApp.Infrastructure.Mappers
 								answer.Text,
 								answer.IsCorrect)
 							).ToHashSet(),
-						question.QuestionSetId,
 						question.PlayerAnswerId,
 						question.PlayerRating)
 				).ToHashSet()
