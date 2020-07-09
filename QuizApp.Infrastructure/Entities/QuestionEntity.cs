@@ -4,8 +4,11 @@ using System.Collections.Generic;
 
 namespace QuizApp.Infrastructure.Entities
 {
-	public class QuestionEntity : Entity
+	public class QuestionEntity
 	{
+		[JsonProperty("id")]
+		public Guid Id { get; set; }
+
 		[JsonProperty("text")]
 		public string Text { get; set; }
 
@@ -18,8 +21,11 @@ namespace QuizApp.Infrastructure.Entities
 		[JsonProperty("questionSetId")]
 		public Guid QuestionSetId { get; set; }
 
-		public class AnswerEntity : Entity
+		public class AnswerEntity
 		{
+			[JsonProperty("id")]
+			public Guid Id { get; set; }
+
 			[JsonProperty("text")]
 			public string Text { get; set; }
 
