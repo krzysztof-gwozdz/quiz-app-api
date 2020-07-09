@@ -7,10 +7,18 @@ namespace QuizApp.Application.Mappers
 {
 	public static class TagsMapper
 	{
+		public static TagDto AsDto(this Tag model) =>
+			new TagDto
+			(
+				model.Id,
+				model.Name,
+				model.Description
+			);
+
 		public static TagsDto AsDto(this IEnumerable<Tag> model) =>
 			new TagsDto
 			(
-				model.Select(tag => new TagDto
+				model.Select(tag => new TagDtosElementDto
 				(
 					tag.Id,
 					tag.Name,

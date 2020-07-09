@@ -23,6 +23,24 @@ namespace QuizApp.Application.Services
 			return tags.AsDto();
 		}
 
+		public async Task<TagDto> GetByIdAsync(Guid id)
+		{
+			var tag = await _tagsRepository.GetByIdAsync(id);
+			if (tag is null)
+				throw new TagNotFoundException(id);
+
+			return tag.AsDto();
+		}
+
+		public async Task<TagDto> GetByNameAsync(string name)
+		{
+			var tag = await _tagsRepository.GetByNameAsync(name);
+			if (tag is null)
+				throw new TagNotFoundException(name);
+
+			return tag.AsDto();
+		}
+
 		public async Task<Guid> CreateAsync(CreateTagDto dto)
 		{
 			var existingTag = await _tagsRepository.GetByNameAsync(dto.Name);

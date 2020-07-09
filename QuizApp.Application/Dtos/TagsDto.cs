@@ -2,13 +2,13 @@
 {
 	public class TagsDto
 	{
-		public TagDto[] Collection { get; set; }
+		public TagDtosElementDto[] Collection { get; set; }
 
 		public TagsDto()
 		{
 		}
 
-		public TagsDto(TagDto[] collection)
+		public TagsDto(TagDtosElementDto[] collection)
 		{
 			Collection = collection;
 		}
