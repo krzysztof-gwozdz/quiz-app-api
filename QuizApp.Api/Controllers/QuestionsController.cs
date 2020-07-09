@@ -30,7 +30,7 @@ namespace QuizApp.Api.Controllers
 		}
 
 		[HttpDelete("{id:guid}")]
-		public async Task<ActionResult> Create(Guid id)
+		public async Task<ActionResult> Delete(Guid id)
 		{
 			await _questionsService.RemoveAsync(id);
 			return Ok();
