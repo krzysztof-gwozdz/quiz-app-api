@@ -10,6 +10,7 @@ namespace QuizApp.Infrastructure.Mappers
 			new QuizEntity
 			{
 				Id = entity.Id,
+				QuestionSetId = entity.QuestionSetId,
 				Questions = entity.Questions.Select(question =>
 					new QuizEntity.QuestionEntity
 					{
@@ -32,6 +33,7 @@ namespace QuizApp.Infrastructure.Mappers
 		public static Quiz ToModel(this QuizEntity entity) =>
 			new Quiz(
 				entity.Id,
+				entity.QuestionSetId,
 				entity.Questions.Select(question =>
 					new Quiz.Question(
 						question.Id,

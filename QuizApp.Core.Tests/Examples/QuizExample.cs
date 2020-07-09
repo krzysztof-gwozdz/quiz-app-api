@@ -10,10 +10,14 @@ namespace QuizApp.Core.Tests.Examples
 		public static Guid NewId =>
 			Guid.NewGuid();
 
+		public static Guid ValidQuestionSetId =>
+			Guid.NewGuid();
+
 		public static Quiz GetValidQuiz(int questionCount, int answerCount) =>
 			new Quiz
 			(
 				NewId,
+				ValidQuestionSetId,
 				Question.GetValidQuestions(questionCount, answerCount)
 			);
 

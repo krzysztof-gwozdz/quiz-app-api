@@ -10,6 +10,9 @@ namespace QuizApp.Infrastructure.Entities
 		[JsonProperty("id")]
 		public Guid Id { get; set; }
 
+		[JsonProperty("questionSetId")]
+		public Guid QuestionSetId { get; set; }
+
 		[JsonProperty("questions")]
 		public ISet<QuestionEntity> Questions { get; set; }
 
@@ -22,7 +25,7 @@ namespace QuizApp.Infrastructure.Entities
 			public string Text { get; set; }
 
 			[JsonProperty("answers")]
-			public ISet<AnswerEntity> Answers { get; set; }
+			public ISet<AnswerEntity> Answers { get; set; }			
 
 			[JsonProperty("correctAnswerId")]
 			public Guid CorrectAnswerId { get; set; }

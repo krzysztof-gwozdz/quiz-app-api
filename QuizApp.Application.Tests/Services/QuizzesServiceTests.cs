@@ -38,6 +38,7 @@ namespace QuizApp.Application.Tests.Services
 
 			//assert
 			quiz.Id.Should().Be(existingQuiz.Id);
+			quiz.QuestionSetId.Should().Be(existingQuiz.QuestionSetId);
 			quiz.Questions.Should().HaveCount(existingQuiz.Questions.Count);
 		}
 

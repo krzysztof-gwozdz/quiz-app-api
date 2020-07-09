@@ -8,13 +8,15 @@ namespace QuizApp.Core.Models
 	public class Quiz
 	{
 		public Guid Id { get; }
+		public Guid QuestionSetId { get; }
 		public HashSet<Question> Questions { get; }
 		public int CorrectAnswers => Questions?.Count(question => question.IsCorrect == true) ?? 0;
 		public int TotalQuestions => Questions?.Count ?? 0;
 
-		public Quiz(Guid id, HashSet<Question> questions)
+		public Quiz(Guid id, Guid questionSetId, HashSet<Question> questions)
 		{
 			Id = id;
+			QuestionSetId = questionSetId;
 			Questions = questions;
 		}
 

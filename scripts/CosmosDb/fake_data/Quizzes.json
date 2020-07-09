@@ -1,6 +1,7 @@
 [
   {
     "id": "fc94a05e-646c-4c54-b362-02f09a19eb17",
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
     "questions": [
       {
         "id": "dd4ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -24,7 +25,6 @@
             "text": "Fourth"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "2de640d4-0acf-4847-b094-dfd90c2a42bb"
       },
       {
@@ -45,7 +45,6 @@
             "text": "Third"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992"
       },
       {
@@ -74,13 +73,13 @@
             "text": "Fifth"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "ca1bda61-a413-4c9d-9599-ee42402ed842"
       }
     ]
   },
   {
     "id": "336647bf-0727-4c33-944b-2d5ed0a54585",
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
     "questions": [
       {
         "id": "dd1ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -96,7 +95,6 @@
             "text": "Second"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "e7bc4cba-d028-488b-b204-eaea9c2060b3",
         "playerAnswerId": "e7bc4cba-d028-488b-b204-eaea9c2060b3",
         "playerRating": 1
@@ -119,7 +117,6 @@
             "text": "Third"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
         "playerAnswerId": "08c43d75-e18b-4840-a0ad-bc2240520ea6",
         "playerRating": -1
@@ -150,13 +147,13 @@
             "text": "Fifth"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "ca1bda61-a413-4c9d-9599-ee42402ed842"
       }
     ]
   },
   {
     "id": "d055ff11-6278-49f9-97fa-22e18e0a2a28",
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
     "questions": [
       {
         "id": "dd2ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -176,7 +173,6 @@
             "text": "Third"
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992",
         "playerAnswerId": "40a0e0f1-84cc-418c-985f-79c573dcc992"
       },
@@ -202,7 +198,6 @@
             "text": "This one contains realy long world: 1234567890134567890."
           }
         ],
-        "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
         "correctAnswerId": "cccdc21d-4043-405f-8744-228477977793",
         "playerAnswerId": "cccdc21d-4043-405f-8744-228477977793"
       }

@@ -39,7 +39,7 @@ namespace QuizApp.Core.Factories
 				throw new TooManyQuestionsException(questionCount, maxQuestionCount);
 
 			var questions = await GetQuestionsAsync(questionSetId, questionCount);
-			return new Quiz(Guid.NewGuid(), questions);
+			return new Quiz(Guid.NewGuid(), questionSetId, questions);
 		}
 
 		private async Task<HashSet<Quiz.Question>> GetQuestionsAsync(Guid questionSetId, int questionCount)

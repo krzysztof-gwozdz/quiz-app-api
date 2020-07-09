@@ -9,6 +9,7 @@ namespace QuizApp.Application.Mappers
 		public static QuizDto AsQuizDto(this Quiz model) => new QuizDto
 		(
 			model.Id,
+			model.QuestionSetId,
 			model.Questions.Select(question =>
 				new QuizQuestionDto
 				(
