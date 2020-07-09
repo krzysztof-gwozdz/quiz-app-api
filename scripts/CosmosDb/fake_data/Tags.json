@@ -12,6 +12,10 @@
     "description": "CSS (Cascading Style Sheets) is a representation style sheet language used for describing the look and formatting of HTML, XML and SVG."
   },
   {
+    "name": "HTTP",
+    "description": "The Hypertext Transfer Protocol (HTTP) is an application protocol for distributed, collaborative, hypermedia information systems."
+  },
+  {
     "name": "Javascript",
     "description": "JavaScript, often abbreviated as JS, is a programming language that conforms to the ECMAScript specification."
   },

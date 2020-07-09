@@ -11,7 +11,7 @@
     "id": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
     "name": "Web",
     "description": "Question about web technologies.",
-    "tags": ["Html", "CSS"],
+    "tags": ["Html", "CSS", "HTTP"],
     "imageId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
     "color": "#E44D26"
   },

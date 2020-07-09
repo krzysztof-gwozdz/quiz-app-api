@@ -20,11 +20,12 @@ namespace QuizApp.Infrastructure.Mappers
 						IsCorrect = answer.IsCorrect,
 					}
 				).ToHashSet(),
-				QuestionSetId = model.QuestionSetId
+				QuestionSetId = model.QuestionSetId,
+				Tags = model.Tags.ToArray()
 			};
 
 		public static Question ToModel(this QuestionEntity entity) =>
-			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text, answer.IsCorrect)).ToHashSet(), entity.QuestionSetId);
+			new Question(entity.Id, entity.Text, entity.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text, answer.IsCorrect)).ToHashSet(), entity.QuestionSetId, entity.Tags.ToHashSet());
 
 		public static ISet<Question> ToModel(this ISet<QuestionEntity> entities) =>
 			new HashSet<Question>(entities.Select(ToModel));

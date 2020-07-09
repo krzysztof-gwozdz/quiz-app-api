@@ -13,21 +13,23 @@ namespace QuizApp.Core.Models
 		public string Text { get; }
 		public ISet<Answer> Answers { get; }
 		public Guid QuestionSetId { get; }
+		public ISet<string> Tags { get; }
 
-		public Question(Guid id, string text, ISet<Answer> answers, Guid questionSetId)
+		public Question(Guid id, string text, ISet<Answer> answers, Guid questionSetId, ISet<string> tags)
 		{
 			Id = id;
 			Text = text;
 			Answers = answers;
 			QuestionSetId = questionSetId;
+			Tags = tags;
 		}
 
-		public Question(string text, ISet<Answer> answers, Guid questionSetId)
-			: this(Guid.NewGuid(), text, answers, questionSetId)
+		public Question(string text, ISet<Answer> answers, Guid questionSetId, ISet<string> tags)
+			: this(Guid.NewGuid(), text, answers, questionSetId, tags)
 		{
 		}
 
-		public static Question Create(string text, ISet<Answer> answers, Guid questionSetId)
+		public static Question Create(string text, ISet<Answer> answers, Guid questionSetId, ISet<string> tags)
 		{
 			if (string.IsNullOrWhiteSpace(text))
 				throw new EmptyQuestionTextException();
@@ -44,7 +46,11 @@ namespace QuizApp.Core.Models
 			if (correctAnswerCount != 1)
 				throw new NotExactlyOneAnswerIsCorrectException(correctAnswerCount);
 
-			return new Question(text, answers.ToHashSet(), questionSetId);
+			//TODO What if tags are null?
+			if (!tags.Any())
+				throw new EmptyQuestionTagsException();
+
+			return new Question(text, answers.ToHashSet(), questionSetId, tags);
 		}
 
 		public class Answer

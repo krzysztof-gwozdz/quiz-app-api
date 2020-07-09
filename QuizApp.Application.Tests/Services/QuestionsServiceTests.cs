@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NSubstitute;
+using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Application.Tests.Examples;
 using QuizApp.Core.Exceptions;
@@ -8,6 +9,7 @@ using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,13 +19,15 @@ namespace QuizApp.Application.Tests.Services
 	{
 		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly IQuestionsRepository _questionsRepository;
+		private readonly ITagsRepository _tagsRepository;
 		private readonly QuestionsService _questionsService;
 
 		public QuestionsServiceTests()
 		{
 			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
 			_questionsRepository = Substitute.For<IQuestionsRepository>();
-			_questionsService = new QuestionsService(_questionsRepository, _questionSetsRepository);
+			_tagsRepository = Substitute.For<ITagsRepository>();
+			_questionsService = new QuestionsService(_questionsRepository, _questionSetsRepository, _tagsRepository);
 		}
 
 		[Fact]
@@ -31,7 +35,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var questionId = QuestionExample.NewId;
-			_questionsRepository.GetByIdAsync(questionId).Returns(new Question(questionId, "", new HashSet<Question.Answer>(), Guid.NewGuid()));
+			_questionsRepository.GetByIdAsync(questionId).Returns(new Question(questionId, "", new HashSet<Question.Answer>(), Guid.NewGuid(), new HashSet<string>()));
 
 			//act 
 			var question = await _questionsService.GetAsync(questionId);
@@ -61,6 +65,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var dto = CreateQuestionDtoExample.ValidDto;
 			_questionSetsRepository.ExistsAsync(dto.QuestionSetId).Returns(true);
+			_tagsRepository.GetByNameAsync(dto.Tags.First()).Returns(new Tag(dto.Tags.First(), string.Empty));
 
 			//act 
 			var questionId = await _questionsService.CreateAsync(dto);
@@ -82,6 +87,26 @@ namespace QuizApp.Application.Tests.Services
 			//assert
 			await createQuestion.Should().ThrowAsync<QuestionSetNotFoundException>()
 				.WithMessage($"Question set: {dto.QuestionSetId} not found.");
+		}
+
+		[Fact]
+		public async Task CreateQuestionWithTagThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var text = CreateQuestionDtoExample.ValidText;
+			var answers = CreateQuestionDtoExample.ValidAnswers;
+			var questionSetId = CreateQuestionDtoExample.ValidQuestionSetId;
+			var tagName = "Test tag";
+			var tags = new[] { tagName };
+			var dto = new CreateQuestionDto(text, answers, questionSetId, tags);
+			_questionSetsRepository.ExistsAsync(dto.QuestionSetId).Returns(true);
+
+			//act 
+			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(dto);
+
+			//assert
+			await createQuestion.Should().ThrowAsync<TagNotFoundException>()
+				.WithMessage($"Tag: {tagName} not found.");
 		}
 
 		[Fact]

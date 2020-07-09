@@ -12,7 +12,8 @@ namespace QuizApp.Application.Mappers
 				model.Id,
 				model.Text,
 				model.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
-				model.QuestionSetId
+				model.QuestionSetId,
+				model.Tags.ToArray()
 			);
 	}
 }

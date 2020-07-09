@@ -24,7 +24,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
+    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
+    "tags": ["C#"]
   },
   {
     "id": "aa2aaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
@@ -51,7 +52,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
+    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
+    "tags": ["C#"]
   },
   {
     "id": "aa3aaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
@@ -78,7 +80,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d"
+    "questionSetId": "aaaaaaaa-4cc1-4cb2-a1d3-1434dc2be63d",
+    "tags": ["C#"]
   },
   {
     "id": "bb1bbbbb-6cd7-43d7-9eff-dd139a85d5c6",
@@ -105,7 +108,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "tags": ["HTTP"]
   },
   {
     "id": "bb2bbbbb-6cd7-43d7-9eff-dd139a85d5c6",
@@ -132,7 +136,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "tags": ["HTTP"]
   },
   {
     "id": "bb3bbbbb-6cd7-43d7-9eff-dd139a85d5c6",
@@ -159,7 +164,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "tags": ["HTTP"]
   },
   {
     "id": "bb4bbbbb-6cd7-43d7-9eff-dd139a85d5c6",
@@ -186,7 +192,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "tags": ["HTTP"]
   },
   {
     "id": "bb5bbbbb-6cd7-43d7-9eff-dd139a85d5c6",
@@ -213,7 +220,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6"
+    "questionSetId": "bbbbbbbb-6cd7-43d7-9eff-dd139a85d5c6",
+    "tags": ["HTTP"]
   },
   {
     "id": "cc1ccccc-b7db-4a5f-83f7-2e1308532c68",
@@ -240,7 +248,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "cccccccc-b7db-4a5f-83f7-2e1308532c68"
+    "questionSetId": "cccccccc-b7db-4a5f-83f7-2e1308532c68",
+    "tags": ["HTML"]
   },
   {
     "id": "cc2ccccc-b7db-4a5f-83f7-2e1308532c68",
@@ -267,7 +276,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "cccccccc-b7db-4a5f-83f7-2e1308532c68"
+    "questionSetId": "cccccccc-b7db-4a5f-83f7-2e1308532c68",
+    "tags": ["Javascript"]
   },
   {
     "id": "dd1ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -284,7 +294,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595"
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "tags": ["Test tag 1", "Test tag 2"]
   },
   {
     "id": "dd2ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -306,7 +317,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595"
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "tags": ["Test tag 1"]
   },
   {
     "id": "dd3ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -338,7 +350,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595"
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "tags": ["Test tag 2"]
   },
   {
     "id": "dd4ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -365,7 +378,8 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595"
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "tags": ["Test tag 1", "Test tag 2"]
   },
   {
     "id": "dd5ddddd-25e6-4142-bb07-22e3bc1e4595",
@@ -392,6 +406,7 @@
         "isCorrect": false
       }
     ],
-    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595"
+    "questionSetId": "dddddddd-25e6-4142-bb07-22e3bc1e4595",
+    "tags": ["Test tag 1", "Test tag 2"]
   }
 ]
