@@ -4,6 +4,6 @@ namespace QuizApp.Api.ErrorHandling
 {
 	public interface IExceptionToResponseMapper
 	{
-		ExceptionResponse Map(Exception exception);
+		ErrorResponse Map(Exception exception);
 	}
 }
