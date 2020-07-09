@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("Quizzes", "/id")]
-	public class CosmosQuizzesRepository : CosmosDbRepository<QuizEntity>, IQuizzesRepository
+	public class CosmosQuizzesRepository : CosmosDbRepository<QuizEntity, Guid>, IQuizzesRepository
 	{
 		public CosmosQuizzesRepository(ICosmosDbClientFactory factory) : base(factory)
 		{
@@ -22,6 +22,6 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 			await AddDocumentAsync(quiz.ToEntity());
 
 		public async Task Update(Quiz quiz) =>
-			await UpdateDocumentAsync(quiz.ToEntity());
+			await UpdateDocumentAsync(quiz.Id, quiz.ToEntity());
 	}
 }

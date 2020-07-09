@@ -1,13 +1,10 @@
 ﻿using Microsoft.Azure.Documents;
-using QuizApp.Infrastructure.Entities;
-using System;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public interface ICosmosDbRepository<in T> where T : Entity
+	public interface ICosmosDbRepository<T, TId>
 	{
 		string CollectionId { get; }
-		Guid GenerateId(T entity);
-		PartitionKey ResolvePartitionKey(string entityId);
+		PartitionKey ResolvePartitionKey(string id);
 	}
 }

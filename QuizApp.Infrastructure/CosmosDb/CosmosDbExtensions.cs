@@ -47,7 +47,7 @@ namespace QuizApp.Infrastructure.CosmosDb
 			var repositories = allTypes.Where(type =>
 				type.BaseType is { } &&
 				type.BaseType.IsGenericType &&
-				type.BaseType.GetGenericTypeDefinition() == typeof(CosmosDbRepository<>)
+				type.BaseType.GetGenericTypeDefinition() == typeof(CosmosDbRepository<,>)
 			);
 			var containerProperties = repositories.Select(type => type.GetCustomAttribute<CosmosDbRepositoryAttribute>().ContainerProperties);
 			return containerProperties.ToArray();
