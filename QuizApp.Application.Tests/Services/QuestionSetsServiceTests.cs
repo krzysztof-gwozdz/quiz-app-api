@@ -80,7 +80,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var tags = QuestionSetExample.ValidTags.Select(x => x.Name).ToArray();
+			var tags = QuestionSetExample.ValidTags.ToArray();
 			var image = Substitute.For<IFormFile>();
 			image.OpenReadStream().Returns(QuestionSetImageExample.ValidData);
 			image.Length.Returns(QuestionSetImageExample.ValidData.Length);
@@ -102,7 +102,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var tags = QuestionSetExample.ValidTags.Select(x => x.Name).ToArray();
+			var tags = QuestionSetExample.ValidTags.ToArray();
 			var image = Substitute.For<IFormFile>();
 			var color = QuestionSetExample.ValidColor;
 			var questionSet = new QuestionSet(QuestionSetExample.NewId, name, description, QuestionSetExample.ValidTags, QuestionSetExample.ValidImageId, color);

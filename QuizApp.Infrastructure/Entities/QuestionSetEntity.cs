@@ -12,7 +12,7 @@ namespace QuizApp.Infrastructure.Entities
 		public string Description { get; set; }
 
 		[JsonProperty("tags")]
-		public TagEntity[] Tags { get; set; }
+		public string[] Tags { get; set; }
 
 		[JsonProperty("imageId")]
 		public Guid ImageId { get; set; }

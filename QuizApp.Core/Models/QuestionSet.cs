@@ -10,11 +10,11 @@ namespace QuizApp.Core.Models
 		public Guid Id { get; }
 		public string Name { get; }
 		public string Description { get; }
-		public ISet<Tag> Tags { get; }
+		public ISet<string> Tags { get; }
 		public Guid ImageId { get; }
 		public Color Color { get; }
 
-		public QuestionSet(Guid id, string name, string description, ISet<Tag> tags, Guid imageId, Color color)
+		public QuestionSet(Guid id, string name, string description, ISet<string> tags, Guid imageId, Color color)
 		{
 			Id = id;
 			Name = name;
@@ -24,7 +24,7 @@ namespace QuizApp.Core.Models
 			Color = color;
 		}
 
-		public static QuestionSet Create(string name, string description, ISet<Tag> tags, Guid imageId, Color color)
+		public static QuestionSet Create(string name, string description, ISet<string> tags, Guid imageId, Color color)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyQuestionSetNameException();

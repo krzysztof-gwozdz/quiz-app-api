@@ -13,13 +13,7 @@ namespace QuizApp.Infrastructure.Mappers
 				Id = model.Id,
 				Name = model.Name,
 				Description = model.Description,
-				Tags = model.Tags.Select(tag =>
-					new TagEntity
-					{
-						Id = tag.Id,
-						Name = tag.Name,
-						Description = tag.Description
-					}).ToArray(),
+				Tags = model.Tags.ToArray(),
 				ImageId = model.ImageId,
 				Color = model.Color.Value
 			};
@@ -30,7 +24,7 @@ namespace QuizApp.Infrastructure.Mappers
 				entity.Id,
 				entity.Name,
 				entity.Description,
-				entity.Tags.Select(tag => new Tag(tag.Id, tag.Name, tag.Description)).ToHashSet(), 
+				entity.Tags.ToHashSet(), 
 				entity.ImageId, 
 				new Color(entity.Color)
 			);

@@ -76,7 +76,7 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var tags = new HashSet<Tag>();
+			var tags = new HashSet<string>();
 			var imageId = QuestionSetExample.ValidImageId;
 			var color = QuestionSetExample.ValidColor;
 

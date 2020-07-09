@@ -57,13 +57,13 @@ namespace QuizApp.Application.Services
 			if (existingQuestionSet is { })
 				throw new QuestionSetWithSelectedNameAlreadyExistsException(existingQuestionSet.Name);
 
-			var tags = new HashSet<Tag>();
+			var tags = new HashSet<string>();
 			foreach (var tag in dto.Tags)
 			{
 				var existingTag = await _tagsRepository.GetByNameAsync(tag);
 				if (existingTag is null)
 					throw new TagNotFoundException(tag);
-				tags.Add(existingTag);
+				tags.Add(tag);
 			}
 
 			var image = QuestionSetImage.Create(dto.Image?.OpenReadStream(), dto.Image?.ContentType);

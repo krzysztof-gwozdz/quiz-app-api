@@ -15,8 +15,8 @@ namespace QuizApp.Core.Tests.Examples
 		public static string ValidDescription =>
 			Guid.NewGuid().ToString();
 
-		public static ISet<Tag> ValidTags =>
-			new HashSet<Tag>(new[] { TagExample.ValidTag });
+		public static ISet<string> ValidTags =>
+			new HashSet<string>(new[] { Guid.NewGuid().ToString() });
 
 		public static Guid ValidImageId =>
 			Guid.NewGuid();
