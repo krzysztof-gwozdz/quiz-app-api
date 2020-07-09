@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using QuizApp.Api.ErrorHandling;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace QuizApp.Api.Controllers
@@ -18,6 +20,8 @@ namespace QuizApp.Api.Controllers
 		}
 
 		[HttpGet("")]
+		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuestionSetsDto))]
+		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
 		public async Task<ActionResult<QuestionSetsDto>> Get()
 		{
 			var questions = await _questionSetsService.GetCollectionAsync();
@@ -27,6 +31,9 @@ namespace QuizApp.Api.Controllers
 		}
 
 		[HttpGet("{id:guid}")]
+		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuestionSetDto))]
+		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
+		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
 		public async Task<ActionResult<QuestionSetDto>> Get(Guid id)
 		{
 			var questionSet = await _questionSetsService.GetAsync(id);
@@ -36,13 +43,19 @@ namespace QuizApp.Api.Controllers
 		}
 
 		[HttpGet("{id:guid}/image")]
-		public async Task<ActionResult> GetImage(Guid id)
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
+		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
+		public async Task<FileStreamResult> GetImage(Guid id)
 		{
 			var image = await _questionSetsService.GetImageAsync(id);
 			return File(image.Data, image.ContentType);
 		}
 
 		[HttpPost("")]
+		[ProducesResponseType((int)HttpStatusCode.Created)]
+		[ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ErrorResponse))]
+		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
 		public async Task<ActionResult> Create([FromForm] CreateQuestionSetDto createQuestionSetDto)
 		{
 			return Created((await _questionSetsService.CreateAsync(createQuestionSetDto)).ToString(), null);
