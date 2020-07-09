@@ -20,8 +20,8 @@ namespace QuizApp.Core.Tests.Models
 			var tag = Tag.Create(name, description);
 
 			//assert
-			tag.Id.Should().NotBeEmpty();
 			tag.Name.Should().Be(name);
+			tag.Description.Should().Be(description);
 		}
 
 		[Theory]

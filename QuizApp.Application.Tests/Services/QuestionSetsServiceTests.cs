@@ -87,7 +87,7 @@ namespace QuizApp.Application.Tests.Services
 			image.ContentType.Returns(QuestionSetImageExample.ValidContentType);
 			var color = QuestionSetExample.ValidColor;
 			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
-			_tagsRepository.GetByNameAsync(tags.First()).Returns(new Tag(Guid.NewGuid(), name, description));
+			_tagsRepository.GetByNameAsync(tags.First()).Returns(new Tag(name, description));
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(dto);

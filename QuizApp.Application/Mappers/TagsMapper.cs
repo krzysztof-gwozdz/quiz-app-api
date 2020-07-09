@@ -10,7 +10,6 @@ namespace QuizApp.Application.Mappers
 		public static TagDto AsDto(this Tag model) =>
 			new TagDto
 			(
-				model.Id,
 				model.Name,
 				model.Description
 			);
@@ -20,7 +19,6 @@ namespace QuizApp.Application.Mappers
 			(
 				model.Select(tag => new TagDtosElementDto
 				(
-					tag.Id,
 					tag.Name,
 					tag.Description
 				)).ToArray()

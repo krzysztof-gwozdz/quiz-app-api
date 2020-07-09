@@ -58,7 +58,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = TagExample.ValidName;
 			var description = TagExample.ValidDescription;
-			_tagsRepository.GetByNameAsync(name).Returns(new Tag(TagExample.NewId, name, description));
+			_tagsRepository.GetByNameAsync(name).Returns(new Tag(name, description));
 			var dto = new CreateTagDto(name, description);
 
 			//act 

@@ -24,8 +24,8 @@ namespace QuizApp.Infrastructure.Mappers
 				entity.Id,
 				entity.Name,
 				entity.Description,
-				entity.Tags.ToHashSet(), 
-				entity.ImageId, 
+				entity.Tags.ToHashSet(),
+				entity.ImageId,
 				new Color(entity.Color)
 			);
 

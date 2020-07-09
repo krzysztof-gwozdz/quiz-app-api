@@ -3,7 +3,6 @@ using QuizApp.Application.Mappers;
 using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
-using System;
 using System.Threading.Tasks;
 
 namespace QuizApp.Application.Services
@@ -23,16 +22,7 @@ namespace QuizApp.Application.Services
 			return tags.AsDto();
 		}
 
-		public async Task<TagDto> GetByIdAsync(Guid id)
-		{
-			var tag = await _tagsRepository.GetByIdAsync(id);
-			if (tag is null)
-				throw new TagNotFoundException(id);
-
-			return tag.AsDto();
-		}
-
-		public async Task<TagDto> GetByNameAsync(string name)
+		public async Task<TagDto> GetAsync(string name)
 		{
 			var tag = await _tagsRepository.GetByNameAsync(name);
 			if (tag is null)
@@ -41,7 +31,7 @@ namespace QuizApp.Application.Services
 			return tag.AsDto();
 		}
 
-		public async Task<Guid> CreateAsync(CreateTagDto dto)
+		public async Task<string> CreateAsync(CreateTagDto dto)
 		{
 			var existingTag = await _tagsRepository.GetByNameAsync(dto.Name);
 			if (existingTag is { })
@@ -50,7 +40,7 @@ namespace QuizApp.Application.Services
 			var questionSet = Tag.Create(dto.Name, dto.Description);
 			await _tagsRepository.AddAsync(questionSet);
 
-			return questionSet.Id;
+			return questionSet.Name;
 		}
 	}
 }

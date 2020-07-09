@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace QuizApp.Application.Dtos
+﻿namespace QuizApp.Application.Dtos
 {
 	public class TagDtosElementDto
 	{
-		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 
@@ -12,9 +9,8 @@ namespace QuizApp.Application.Dtos
 		{
 		}
 
-		public TagDtosElementDto(Guid id, string name, string description)
+		public TagDtosElementDto(string name, string description)
 		{
-			Id = id;
 			Name = name;
 			Description = description;
 		}

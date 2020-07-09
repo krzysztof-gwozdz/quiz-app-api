@@ -2,7 +2,6 @@
 using QuizApp.Api.ErrorHandling;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -29,23 +28,13 @@ namespace QuizApp.Api.Controllers
 			return Ok(tags);
 		}
 
-		[HttpGet("{id:guid}")]
-		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(TagDto))]
-		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
-		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
-		public async Task<ActionResult<TagDto>> GetById(Guid id)
-		{
-			var tag = await _tagsService.GetByIdAsync(id);
-			return Ok(tag);
-		}
-
 		[HttpGet("{name}")]
 		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(TagDto))]
 		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
-		public async Task<ActionResult<TagDto>> GetByName(string name)
+		public async Task<ActionResult<TagDto>> Get(string name)
 		{
-			var tag = await _tagsService.GetByNameAsync(name);
+			var tag = await _tagsService.GetAsync(name);
 			return Ok(tag);
 		}
 

@@ -1,17 +1,14 @@
 ﻿using QuizApp.Core.Exceptions;
-using System;
 
 namespace QuizApp.Core.Models
 {
 	public class Tag
 	{
-		public Guid Id { get; }
 		public string Name { get; }
 		public string Description { get; }
 
-		public Tag(Guid id, string name, string description)
+		public Tag(string name, string description)
 		{
-			Id = id;
 			Name = name;
 			Description = description;
 		}
@@ -25,7 +22,7 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(description))
 				throw new EmptyTagDescriptionException();
 
-			return new Tag(Guid.NewGuid(), name, description);
+			return new Tag(name, description);
 		}
 	}
 }
