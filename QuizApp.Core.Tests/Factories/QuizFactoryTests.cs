@@ -35,7 +35,7 @@ namespace QuizApp.Core.Tests.Factories
 			var questions = QuestionExample.GetValidQuestions(4, 4);
 
 			_questionsRepository.GetAllByTagsAsync(questionSet.Tags).Returns(questions);
-			_questionSetsRepository.ExistsAsync(questionSet.Id).Returns(true);
+			_questionSetsRepository.GetByIdAsync(questionSet.Id).Returns(questionSet);
 			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
 			_randomFactory.NextInt(questionCount).Returns(0);
 
@@ -85,7 +85,7 @@ namespace QuizApp.Core.Tests.Factories
 			var questionSet = QuestionSetExample.ValidQuestionSet;
 			int questionCount = 11;
 			int maxQuestionCount = 10;
-			_questionSetsRepository.ExistsAsync(questionSet.Id).Returns(true);
+			_questionSetsRepository.GetByIdAsync(questionSet.Id).Returns(questionSet);
 			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(maxQuestionCount);
 
 			//act
@@ -104,7 +104,7 @@ namespace QuizApp.Core.Tests.Factories
 
 			var questions = QuestionExample.GetValidQuestions(5, 4);
 			_questionsRepository.GetAllByTagsAsync(questionSet.Tags).Returns(questions);
-			_questionSetsRepository.ExistsAsync(questionSet.Id).Returns(true);
+			_questionSetsRepository.GetByIdAsync(questionSet.Id).Returns(questionSet);
 			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
 
 			var randomFactory = new RandomFactoryMock(new[] { 0, 1, 1, 0, 2 });
