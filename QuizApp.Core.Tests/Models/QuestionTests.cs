@@ -16,17 +16,15 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var questionSetId = QuestionSetExample.NewId;
 			var tags = QuestionSetExample.ValidTags;
 
 			//act
-			var question = Question.Create(text, answers, questionSetId, tags);
+			var question = Question.Create(text, answers, tags);
 
 			//assert
 			question.Id.Should().NotBeEmpty();
 			question.Text.Should().Be(text);
 			question.Answers.Should().BeEquivalentTo(answers);
-			question.QuestionSetId.Should().Be(questionSetId);
 			question.Tags.Should().BeEquivalentTo(tags);
 		}
 
@@ -38,11 +36,10 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var questionSetId = QuestionSetExample.NewId;
 			var tags = QuestionSetExample.ValidTags;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, questionSetId, tags);
+			Action createQuestion = () => Question.Create(text, answers, tags);
 
 			//assert
 			createQuestion.Should().Throw<EmptyQuestionTextException>()
@@ -57,11 +54,10 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var text = QuestionExample.ValidText;
 			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
-			var questionSetId = QuestionSetExample.NewId;
 			var tags = QuestionSetExample.ValidTags;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), questionSetId, tags);
+			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), tags);
 
 			//assert
 			createQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
@@ -81,11 +77,10 @@ namespace QuizApp.Core.Tests.Models
 				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText, false),
 				QuestionExample.Answer.ValidInCorrectAnswer,
 			}.ToHashSet();
-			var questionSetId = QuestionSetExample.NewId;
 			var tags = QuestionSetExample.ValidTags;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, questionSetId, tags);
+			Action createQuestion = () => Question.Create(text, answers, tags);
 
 			//assert
 			createQuestion.Should().Throw<QuestionContainsDuplicatedAnswersException>()
@@ -104,11 +99,10 @@ namespace QuizApp.Core.Tests.Models
 				QuestionExample.Answer.ValidInCorrectAnswer,
 				QuestionExample.Answer.ValidInCorrectAnswer
 			}.ToHashSet();
-			var questionSetId = QuestionSetExample.NewId;
 			var tags = QuestionSetExample.ValidTags;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, questionSetId, tags);
+			Action createQuestion = () => Question.Create(text, answers, tags);
 
 			//assert
 			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
@@ -127,11 +121,10 @@ namespace QuizApp.Core.Tests.Models
 				QuestionExample.Answer.ValidCorrectAnswer,
 				QuestionExample.Answer.ValidCorrectAnswer
 			}.ToHashSet();
-			var questionSetId = QuestionSetExample.NewId;
 			var tags = QuestionSetExample.ValidTags;
 
 			//act
-			Action createQuestion = () => Question.Create(text, answers, questionSetId, tags);
+			Action createQuestion = () => Question.Create(text, answers, tags);
 
 			//assert
 			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()

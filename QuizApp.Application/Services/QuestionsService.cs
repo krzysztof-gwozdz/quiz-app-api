@@ -51,7 +51,7 @@ namespace QuizApp.Application.Services
 			}
 
 			var answers = dto.Answers.Select(answer => Question.Answer.Create(answer.Text, answer.IsCorrect)).ToHashSet();
-			var question = Question.Create(dto.Text, answers, dto.QuestionSetId, tags);
+			var question = Question.Create(dto.Text, answers, tags);
 			await _questionsRepository.AddAsync(question);
 			return question.Id;
 		}

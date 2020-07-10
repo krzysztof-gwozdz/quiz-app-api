@@ -12,24 +12,22 @@ namespace QuizApp.Core.Models
 		public Guid Id { get; }
 		public string Text { get; }
 		public ISet<Answer> Answers { get; }
-		public Guid QuestionSetId { get; }
 		public ISet<string> Tags { get; }
 
-		public Question(Guid id, string text, ISet<Answer> answers, Guid questionSetId, ISet<string> tags)
+		public Question(Guid id, string text, ISet<Answer> answers, ISet<string> tags)
 		{
 			Id = id;
 			Text = text;
 			Answers = answers;
-			QuestionSetId = questionSetId;
 			Tags = tags;
 		}
 
-		public Question(string text, ISet<Answer> answers, Guid questionSetId, ISet<string> tags)
-			: this(Guid.NewGuid(), text, answers, questionSetId, tags)
+		public Question(string text, ISet<Answer> answers, ISet<string> tags)
+			: this(Guid.NewGuid(), text, answers, tags)
 		{
 		}
 
-		public static Question Create(string text, ISet<Answer> answers, Guid questionSetId, ISet<string> tags)
+		public static Question Create(string text, ISet<Answer> answers, ISet<string> tags)
 		{
 			if (string.IsNullOrWhiteSpace(text))
 				throw new EmptyQuestionTextException();
@@ -50,7 +48,7 @@ namespace QuizApp.Core.Models
 			if (!tags.Any())
 				throw new EmptyQuestionTagsException();
 
-			return new Question(text, answers.ToHashSet(), questionSetId, tags);
+			return new Question(text, answers.ToHashSet(), tags);
 		}
 
 		public class Answer

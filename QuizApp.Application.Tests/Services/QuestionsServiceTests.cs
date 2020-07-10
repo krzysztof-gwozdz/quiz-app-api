@@ -35,7 +35,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var questionId = QuestionExample.NewId;
-			_questionsRepository.GetByIdAsync(questionId).Returns(new Question(questionId, "", new HashSet<Question.Answer>(), Guid.NewGuid(), new HashSet<string>()));
+			_questionsRepository.GetByIdAsync(questionId).Returns(new Question(questionId, "", new HashSet<Question.Answer>(), new HashSet<string>()));
 
 			//act 
 			var question = await _questionsService.GetAsync(questionId);

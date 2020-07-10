@@ -30,17 +30,17 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task GetQuizWithCorrectValues_QuizCreated()
 		{
 			//arrange
-			var questionSetId = QuestionSetExample.NewId;
+			var questionSet = QuestionSetExample.ValidQuestionSet;
 			int questionCount = 4;
 			var questions = QuestionExample.GetValidQuestions(4, 4);
 
-			_questionsRepository.GetAllBySetIdAsync(questionSetId).Returns(questions);
-			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
-			_questionsRepository.CountBySetIdAsync(questionSetId).Returns(questionCount + 1);
+			_questionsRepository.GetAllByTagsAsync(questionSet.Tags).Returns(questions);
+			_questionSetsRepository.ExistsAsync(questionSet.Id).Returns(true);
+			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
 			_randomFactory.NextInt(questionCount).Returns(0);
 
 			//act
-			var quiz = await _quizFactory.GetAsync(questionSetId, questionCount);
+			var quiz = await _quizFactory.GetAsync(questionSet.Id, questionCount);
 
 			//assert
 			quiz.Id.Should().NotBeEmpty();
@@ -82,14 +82,14 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task GetQuizWithMoreThanMaxNumberOfQuestionsForQuestionSet_ThrowException()
 		{
 			//arrange
-			var questionSetId = QuestionSetExample.NewId;
+			var questionSet = QuestionSetExample.ValidQuestionSet;
 			int questionCount = 11;
 			int maxQuestionCount = 10;
-			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
-			_questionsRepository.CountBySetIdAsync(questionSetId).Returns(maxQuestionCount);
+			_questionSetsRepository.ExistsAsync(questionSet.Id).Returns(true);
+			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(maxQuestionCount);
 
 			//act
-			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSetId, questionCount);
+			Func<Task> getQuiz = async () => await _quizFactory.GetAsync(questionSet.Id, questionCount);
 
 			//assert
 			await getQuiz.Should().ThrowAsync<TooManyQuestionsException>()
@@ -99,19 +99,19 @@ namespace QuizApp.Core.Tests.Factories
 		[Fact]
 		public async Task GetQuizWithCorrectValues_QuestionsAreUnique()
 		{
-			var questionSetId = QuestionSetExample.NewId;
+			var questionSet = QuestionSetExample.ValidQuestionSet;
 			var questionCount = 3;
 
 			var questions = QuestionExample.GetValidQuestions(5, 4);
-			_questionsRepository.GetAllBySetIdAsync(questionSetId).Returns(questions);
-			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
-			_questionsRepository.CountBySetIdAsync(questionSetId).Returns(questionCount + 1);
+			_questionsRepository.GetAllByTagsAsync(questionSet.Tags).Returns(questions);
+			_questionSetsRepository.ExistsAsync(questionSet.Id).Returns(true);
+			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
 
 			var randomFactory = new RandomFactoryMock(new[] { 0, 1, 1, 0, 2 });
 			_quizFactory = new QuizFactory(_questionsRepository, _questionSetsRepository, randomFactory);
 
 			//act
-			var quiz = await _quizFactory.GetAsync(questionSetId, questionCount);
+			var quiz = await _quizFactory.GetAsync(questionSet.Id, questionCount);
 
 			//assert
 			quiz.Id.Should().NotBeEmpty();

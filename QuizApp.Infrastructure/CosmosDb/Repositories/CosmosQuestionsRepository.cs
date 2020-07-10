@@ -5,6 +5,7 @@ using QuizApp.Infrastructure.Entities;
 using QuizApp.Infrastructure.Mappers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
@@ -22,11 +23,11 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 		public async Task<bool> ExistsAsync(Guid id) =>
 			await CheckIfDocumentExists(id);
 
-		public async Task<ISet<Question>> GetAllBySetIdAsync(Guid setId) =>
-			(await GetDocumentsAsync(x => x.QuestionSetId == setId))?.ToModel();
+		public async Task<ISet<Question>> GetAllByTagsAsync(ISet<string> tags) =>
+			(await GetDocumentsAsync(question => question.Tags.Any(tag => tags.Contains(tag))))?.ToModel();
 
-		public async Task<int> CountBySetIdAsync(Guid setId) =>
-			await CountDocumentsAsync(x => x.QuestionSetId == setId);
+		public async Task<int> CountByTagsAsync(ISet<string> tags) =>
+			await CountDocumentsAsync(question => question.Tags.Any(tag => tags.Contains(tag)));
 
 		public async Task AddAsync(Question question) =>
 			await AddDocumentAsync(question.ToEntity());

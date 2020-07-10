@@ -40,7 +40,7 @@ namespace QuizApp.Application.Services
 			if (questionSet is null)
 				throw new QuestionSetNotFoundException(id);
 
-			var totalQuestions = await _questionsRepository.CountBySetIdAsync(id);
+			var totalQuestions = await _questionsRepository.CountByTagsAsync(questionSet.Tags);
 			return questionSet.AsDto(totalQuestions);
 		}
 

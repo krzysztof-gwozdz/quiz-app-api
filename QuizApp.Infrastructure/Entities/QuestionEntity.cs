@@ -18,9 +18,6 @@ namespace QuizApp.Infrastructure.Entities
 		[JsonProperty("correctAnswerId")]
 		public Guid CorrectAnswerId { get; set; }
 
-		[JsonProperty("questionSetId")]
-		public Guid QuestionSetId { get; set; }
-
 		[JsonProperty("tags")]
 		public string[] Tags { get; set; }
 

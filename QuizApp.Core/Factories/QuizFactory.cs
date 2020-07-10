@@ -31,10 +31,11 @@ namespace QuizApp.Core.Factories
 			if (questionCount < MinQuestionCount)
 				throw new NotEnoughQuestionsException(questionCount, MinQuestionCount);
 
-			if (!await _questionSetsRepository.ExistsAsync(questionSetId))
+			var questionSet = await _questionSetsRepository.GetByIdAsync(questionSetId);
+			if (questionSet is null)
 				throw new QuestionSetNotFoundException(questionSetId);
 
-			var maxQuestionCount = await _questionsRepository.CountBySetIdAsync(questionSetId);
+			var maxQuestionCount = await _questionsRepository.CountByTagsAsync(questionSet.Tags);
 			if (questionCount > maxQuestionCount)
 				throw new TooManyQuestionsException(questionCount, maxQuestionCount);
 
@@ -44,7 +45,8 @@ namespace QuizApp.Core.Factories
 
 		private async Task<HashSet<Quiz.Question>> GetQuestionsAsync(Guid questionSetId, int questionCount)
 		{
-			var allQuestions = (await _questionsRepository.GetAllBySetIdAsync(questionSetId)).ToList();
+			var questionSet = await _questionSetsRepository.GetByIdAsync(questionSetId);
+			var allQuestions = (await _questionsRepository.GetAllByTagsAsync(questionSet.Tags)).ToList();
 			var questions = new List<Quiz.Question>();
 			for (int i = 0; i < questionCount; i++)
 			{
