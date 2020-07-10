@@ -46,7 +46,7 @@ namespace QuizApp.Application.Tests.Services
 		}
 
 		[Fact]
-		public async Task GetQuestionSetThatExists_Question()
+		public async Task GetQuestionSetThatExists_QuestionSet()
 		{
 			//arrange
 			var existingQuestionSet = QuestionSetExample.ValidQuestionSet;

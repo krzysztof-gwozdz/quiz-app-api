@@ -38,6 +38,35 @@ namespace QuizApp.Application.Tests.Services
 		}
 
 		[Fact]
+		public async Task GetTagThatExists_Tag()
+		{
+			//arrange
+			var existingTag = TagExample.ValidTag;
+			_tagsRepository.GetByNameAsync(existingTag.Name).Returns(existingTag);
+
+			//act 
+			var tag = await _tagsService.GetAsync(existingTag.Name);
+
+			//assert
+			tag.Name.Should().Be(existingTag.Name);
+		}
+
+		[Fact]
+		public async Task GetTagThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var existingTagName = TagExample.ValidName;
+			_tagsRepository.GetByNameAsync(existingTagName).Returns((Tag)null);
+
+			//act 
+			Func<Task> getTag = async () => await _tagsService.GetAsync(existingTagName);
+
+			//assert
+			await getTag.Should().ThrowAsync<TagNotFoundException>()
+				.WithMessage($"Tag: {existingTagName} not found.");
+		}
+
+		[Fact]
 		public async Task CreateTagsWithUniqueName_TagsCreated()
 		{
 			//arrange
