@@ -4,7 +4,7 @@ namespace QuizApp.Infrastructure.Entities
 {
 	public class TagEntity
 	{
-		[JsonProperty("name")]
+		[JsonProperty("id")]
 		public string Name { get; set; }
 
 		[JsonProperty("description")]
