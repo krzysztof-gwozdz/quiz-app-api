@@ -48,6 +48,7 @@ namespace QuizApp.Core.Models
 			public Guid Id { get; }
 			public string Text { get; }
 			public ISet<Answer> Answers { get; }
+			public ISet<string> Tags { get; }
 			public Guid? PlayerAnswerId { get; private set; }
 			public QuestionRatings? PlayerRating { get; private set; }
 
@@ -55,17 +56,18 @@ namespace QuizApp.Core.Models
 			public Guid CorrectAnswerId => Answers.Single(answer => answer.IsCorrect).Id;
 			public bool? IsCorrect => IsAnswered ? CorrectAnswerId == PlayerAnswerId : (bool?)null;
 
-			public Question(Guid id, string text, ISet<Answer> answers, Guid? playerAnswerId, QuestionRatings? playerRating)
+			public Question(Guid id, string text, ISet<Answer> answers, ISet<string> tags, Guid? playerAnswerId, QuestionRatings? playerRating)
 			{
 				Id = id;
 				Text = text;
 				Answers = answers;
+				Tags = tags;
 				PlayerAnswerId = playerAnswerId;
 				PlayerRating = playerRating;
 			}
 
 			public Question(Models.Question question)
-				: this(question.Id, question.Text, question.Answers.Select(answer => new Answer(answer)).ToHashSet(), null, null)
+				: this(question.Id, question.Text, question.Answers.Select(answer => new Answer(answer)).ToHashSet(), question.Tags, null, null)
 			{
 			}
 

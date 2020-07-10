@@ -23,6 +23,7 @@ namespace QuizApp.Infrastructure.Mappers
 								Text = answer.Text,
 								IsCorrect = answer.IsCorrect,
 							}).ToHashSet(),
+						Tags = question.Tags.ToArray(),
 						CorrectAnswerId = question.CorrectAnswerId,
 						PlayerAnswerId = question.PlayerAnswerId,
 						PlayerRating = question.PlayerRating
@@ -44,6 +45,7 @@ namespace QuizApp.Infrastructure.Mappers
 								answer.Text,
 								answer.IsCorrect)
 							).ToHashSet(),
+						question.Tags.ToHashSet(),
 						question.PlayerAnswerId,
 						question.PlayerRating)
 				).ToHashSet()

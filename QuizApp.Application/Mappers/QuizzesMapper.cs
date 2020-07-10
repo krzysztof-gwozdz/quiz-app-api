@@ -15,7 +15,8 @@ namespace QuizApp.Application.Mappers
 				(
 					question.Id,
 					question.Text,
-					question.Answers.Select(answer => new QuizAnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray()
+					question.Answers.Select(answer => new QuizAnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
+					question.Tags.ToArray()
 				)
 			).ToArray()
 		);
