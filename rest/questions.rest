@@ -1,5 +1,26 @@
 @baseUrl = https://localhost:44343/
 
+### ~~ TAGS ~~ ###
+### Add tag
+# @name  addTag
+POST {{baseUrl}}tags HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "New tag [{{$guid}}]",
+  "description": "New tag description [{{$guid}}]"
+}
+
+@newTagName = {{addTag.request.headers.Location}}
+
+
+### Get tags
+GET {{baseUrl}}tags/{{newTagName}} HTTP/1.1
+
+
+### Get tags
+GET {{baseUrl}}tags HTTP/1.1
+
 
 ### ~~ QUESTION SETS ~~ ###
 ### Get all question sets
@@ -38,10 +59,10 @@ Content-Type: application/json
       "isCorrect": false
     }
   ],
-  "questionSetId": "{{newQuestionSetId}}"
+  "tags": ["{{newTagName}}"]
 }
 
-@newQuestionId = {{addQuestion.response.headers.Location}}
+# @newQuestionId = {{addQuestion.response.headers.Location}}
 
 
 ### Get added question
@@ -88,17 +109,3 @@ Content-Type: application/json
 
 ### Get quiz summary
 GET {{baseUrl}}quizzes/{{newQuizId}}/summary HTTP/1.1
-
-
-### ~~ TAGS ~~ ###
-### Add tag
-POST {{baseUrl}}tags HTTP/1.1
-Content-Type: application/json
-
-{
-  "name": "New tag [{{$guid}}]"
-}
-
-
-### Get tags
-GET {{baseUrl}}tags HTTP/1.1
