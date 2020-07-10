@@ -32,7 +32,7 @@ namespace QuizApp.Core.Tests.Examples
 				new HashSet<string>(new[] { Guid.NewGuid().ToString() });
 
 			public static Quiz.Question GetValidQuestion(int answerCount) =>
-				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), ValidTags,  null, null);
+				new Quiz.Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), ValidTags, null, null);
 
 			public static HashSet<Quiz.Question> GetValidQuestions(int questionCount, int answerCount) =>
 				Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();

@@ -1,7 +1,5 @@
 ﻿using QuizApp.Application.Dtos;
-using QuizApp.Core.Tests.Examples;
 using System;
-using System.Linq;
 
 namespace QuizApp.Application.Tests.Examples
 {
