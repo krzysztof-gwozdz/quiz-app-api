@@ -58,12 +58,12 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 					.Where(predicate)
 					.AsDocumentQuery();
 
-				var entities = new HashSet<TDocument>();
+				var documents = new HashSet<TDocument>();
 				while (documentQuery.HasMoreResults)
 					foreach (TDocument t in await documentQuery.ExecuteNextAsync<TDocument>())
-						entities.Add(t);
+						documents.Add(t);
 
-				return entities;
+				return documents;
 			}
 			catch (DocumentClientException e)
 			{

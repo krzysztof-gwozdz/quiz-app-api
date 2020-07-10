@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace QuizApp.Infrastructure.Entities
+namespace QuizApp.Infrastructure.CosmosDb.Documents
 {
-	public class QuestionSetEntity
+	public class QuestionSetDocuments
 	{
 		[JsonProperty("id")]
 		public Guid Id { get; set; }

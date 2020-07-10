@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace QuizApp.Infrastructure.Entities
+namespace QuizApp.Infrastructure.CosmosDb.Documents
 {
-	public class TagEntity
+	public class TagDocument
 	{
 		[JsonProperty("id")]
 		public string Name { get; set; }

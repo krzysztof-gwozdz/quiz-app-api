@@ -1,8 +1,8 @@
 ﻿using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Infrastructure.CosmosDb.Core;
-using QuizApp.Infrastructure.Entities;
-using QuizApp.Infrastructure.Mappers;
+using QuizApp.Infrastructure.CosmosDb.Documents;
+using QuizApp.Infrastructure.CosmosDb.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("Questions", "/id")]
-	public class CosmosQuestionsRepository : CosmosDbRepository<QuestionEntity, Guid>, IQuestionsRepository
+	public class CosmosQuestionsRepository : CosmosDbRepository<QuestionDocument, Guid>, IQuestionsRepository
 	{
 		public CosmosQuestionsRepository(ICosmosDbClientFactory factory) : base(factory)
 		{
@@ -30,7 +30,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 			await CountDocumentsAsync(question => question.Tags.Any(tag => tags.Contains(tag)));
 
 		public async Task AddAsync(Question question) =>
-			await AddDocumentAsync(question.ToEntity());
+			await AddDocumentAsync(question.ToDocument());
 
 		public async Task RemoveAsync(Guid id)
 			=> await DeleteDocumentAsync(id);

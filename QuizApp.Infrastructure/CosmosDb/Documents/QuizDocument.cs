@@ -3,9 +3,9 @@ using QuizApp.Core.Models;
 using System;
 using System.Collections.Generic;
 
-namespace QuizApp.Infrastructure.Entities
+namespace QuizApp.Infrastructure.CosmosDb.Documents
 {
-	public class QuizEntity
+	public class QuizDocument
 	{
 		[JsonProperty("id")]
 		public Guid Id { get; set; }
@@ -14,9 +14,9 @@ namespace QuizApp.Infrastructure.Entities
 		public Guid QuestionSetId { get; set; }
 
 		[JsonProperty("questions")]
-		public ISet<QuestionEntity> Questions { get; set; }
+		public ISet<QuestionDocument> Questions { get; set; }
 
-		public class QuestionEntity
+		public class QuestionDocument
 		{
 			[JsonProperty("id")]
 			public Guid Id { get; set; }
@@ -25,7 +25,7 @@ namespace QuizApp.Infrastructure.Entities
 			public string Text { get; set; }
 
 			[JsonProperty("answers")]
-			public ISet<AnswerEntity> Answers { get; set; }
+			public ISet<AnswerDocument> Answers { get; set; }
 
 			[JsonProperty("tags")]
 			public string[] Tags { get; set; }
@@ -39,7 +39,7 @@ namespace QuizApp.Infrastructure.Entities
 			[JsonProperty("playerRating")]
 			public QuestionRatings? PlayerRating { get; set; }
 
-			public class AnswerEntity
+			public class AnswerDocument
 			{
 				[JsonProperty("id")]
 				public Guid Id { get; set; }
