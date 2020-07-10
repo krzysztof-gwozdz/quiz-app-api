@@ -3,6 +3,7 @@ using QuizApp.Core.Exceptions;
 using QuizApp.Core.Models;
 using QuizApp.Core.Tests.Examples;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -44,6 +45,22 @@ namespace QuizApp.Core.Tests.Models
 			//assert
 			createQuestion.Should().Throw<EmptyQuestionTextException>()
 				.WithMessage("Question text can not be empty.");
+		}
+
+		[Fact]
+		public void CreateQuestionWithoutAnswers_ThrowException()
+		{
+			//arrange
+			var text = QuestionExample.ValidText;
+			var answers = (ISet<Question.Answer>)null;
+			var tags = QuestionSetExample.ValidTags;
+
+			//act
+			Action createQuestion = () => Question.Create(text, answers, tags);
+
+			//assert
+			createQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
+				.WithMessage("Number of answers in question invalid: 0.");
 		}
 
 		[Theory]
@@ -129,6 +146,38 @@ namespace QuizApp.Core.Tests.Models
 			//assert
 			createQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
 				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 2");
+		}
+
+		[Fact]
+		public void CreateQuestionWithTagsCollectionThatDoNotExist_ThrowException()
+		{
+			//arrange
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = (ISet<string>)null;
+
+			//act
+			Action createQuestion = () => Question.Create(text, answers, tags);
+
+			//assert
+			createQuestion.Should().Throw<EmptyQuestionTagsException>()
+				.WithMessage($"Question tag collection can not be empty.");
+		}
+
+		[Fact]
+		public void CreateQuestionWithEmptyTagCollection_ThrowException()
+		{
+			//arrange
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = new HashSet<string>();
+
+			//act
+			Action createQuestion = () => Question.Create(text, answers, tags);
+
+			//assert
+			createQuestion.Should().Throw<EmptyQuestionTagsException>()
+				.WithMessage($"Question tag collection can not be empty.");
 		}
 
 		public class AnswerTests

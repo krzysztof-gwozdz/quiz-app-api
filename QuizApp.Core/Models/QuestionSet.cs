@@ -32,8 +32,7 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(description))
 				throw new EmptyQuestionSetDescriptionException();
 
-			//TODO What if tags are null?
-			if (!tags.Any())
+			if (tags is null || !tags.Any())
 				throw new EmptyQuestionSetsTagsException();
 
 			if (Guid.Empty == imageId)

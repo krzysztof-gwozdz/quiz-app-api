@@ -32,9 +32,8 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(text))
 				throw new EmptyQuestionTextException();
 
-			//TODO What if answers are null?
-			if (answers.Count < MinNumberOfAnswers)
-				throw new InvalidNumberOfAnswersInQuestionException(answers.Count);
+			if (answers is null || answers.Count < MinNumberOfAnswers)
+				throw new InvalidNumberOfAnswersInQuestionException(answers?.Count ?? 0);
 
 			var duplicates = answers.GroupBy(x => x.Text).SelectMany(d => d.Skip(1));
 			if (duplicates.Any())
@@ -44,8 +43,7 @@ namespace QuizApp.Core.Models
 			if (correctAnswerCount != 1)
 				throw new NotExactlyOneAnswerIsCorrectException(correctAnswerCount);
 
-			//TODO What if tags are null?
-			if (!tags.Any())
+			if (tags is null || !tags.Any())
 				throw new EmptyQuestionTagsException();
 
 			return new Question(text, answers.ToHashSet(), tags);

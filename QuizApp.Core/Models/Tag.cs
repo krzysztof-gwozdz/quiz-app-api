@@ -18,7 +18,6 @@ namespace QuizApp.Core.Models
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyTagNameException();
 
-			//TODO VALIDATION EXCPETIONS + Problem Details
 			if (string.IsNullOrWhiteSpace(description))
 				throw new EmptyTagDescriptionException();
 

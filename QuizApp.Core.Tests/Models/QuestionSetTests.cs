@@ -71,6 +71,24 @@ namespace QuizApp.Core.Tests.Models
 		}
 
 		[Fact]
+		public void CreateQuestionSetWithTagsCollectionThatDoNotExist_ThrowException()
+		{
+			//arrange
+			var name = QuestionSetExample.ValidName;
+			var description = QuestionSetExample.ValidDescription;
+			var tags = (ISet<string>)null;
+			var imageId = QuestionSetExample.ValidImageId;
+			var color = QuestionSetExample.ValidColor;
+
+			//act
+			Action createQuestionSet = () => QuestionSet.Create(name, description, tags, imageId, color);
+
+			//assert
+			createQuestionSet.Should().Throw<EmptyQuestionSetsTagsException>()
+				.WithMessage($"Question set tag collection can not be empty.");
+		}
+
+		[Fact]
 		public void CreateQuestionSetWithEmptyTagCollection_ThrowException()
 		{
 			//arrange
