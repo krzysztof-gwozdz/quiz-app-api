@@ -8,7 +8,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 	public static class TagsMapper
 	{
 		public static TagDocument ToDocument(this Tag model) =>
-			new TagDocument { Name = model.Name, Description = model.Description };
+			new TagDocument(model.Name, model.Description);
 
 		public static Tag ToModel(this TagDocument document) =>
 			new Tag(document.Name, document.Description);

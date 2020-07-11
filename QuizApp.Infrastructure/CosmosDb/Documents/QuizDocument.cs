@@ -16,6 +16,13 @@ namespace QuizApp.Infrastructure.CosmosDb.Documents
 		[JsonProperty("questions")]
 		public ISet<QuestionDocument> Questions { get; set; }
 
+		public QuizDocument(Guid id, Guid questionSetId, ISet<QuestionDocument> questions)
+		{
+			Id = id;
+			QuestionSetId = questionSetId;
+			Questions = questions;
+		}
+
 		public class QuestionDocument
 		{
 			[JsonProperty("id")]
@@ -39,6 +46,17 @@ namespace QuizApp.Infrastructure.CosmosDb.Documents
 			[JsonProperty("playerRating")]
 			public QuestionRatings? PlayerRating { get; set; }
 
+			public QuestionDocument(Guid id, string text, ISet<AnswerDocument> answers, string[] tags, Guid correctAnswerId, Guid? playerAnswerId, QuestionRatings? playerRating)
+			{
+				Id = id;
+				Text = text;
+				Answers = answers;
+				Tags = tags;
+				CorrectAnswerId = correctAnswerId;
+				PlayerAnswerId = playerAnswerId;
+				PlayerRating = playerRating;
+			}
+
 			public class AnswerDocument
 			{
 				[JsonProperty("id")]
@@ -49,6 +67,13 @@ namespace QuizApp.Infrastructure.CosmosDb.Documents
 
 				[JsonProperty("isCorrect")]
 				public bool IsCorrect { get; set; }
+
+				public AnswerDocument(Guid id, string text, bool isCorrect)
+				{
+					Id = id;
+					Text = text;
+					IsCorrect = isCorrect;
+				}
 			}
 		}
 	}

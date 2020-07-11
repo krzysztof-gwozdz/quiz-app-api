@@ -9,5 +9,11 @@ namespace QuizApp.Infrastructure.CosmosDb.Documents
 
 		[JsonProperty("description")]
 		public string Description { get; set; }
+
+		public TagDocument(string name, string description)
+		{
+			Name = name;
+			Description = description;
+		}
 	}
 }

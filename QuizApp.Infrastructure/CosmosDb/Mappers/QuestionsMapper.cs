@@ -7,29 +7,29 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 {
 	public static class QuestionsMapper
 	{
-		public static QuestionDocument ToDocument(this Question model) =>
+		public static QuestionDocument ToDocument(this Question question) =>
 			new QuestionDocument
-			{
-				Id = model.Id,
-				Text = model.Text,
-				Answers = model.Answers.Select(answer =>
+			(
+				question.Id,
+				question.Text,
+				question.Answers.Select(answer =>
 					new QuestionDocument.AnswerDocument
-					{
-						Id = answer.Id,
-						Text = answer.Text,
-						IsCorrect = answer.IsCorrect,
-					}
+					(
+						answer.Id,
+						answer.Text,
+						answer.IsCorrect
+					)
 				).ToHashSet(),
-				Tags = model.Tags.ToArray(),
-				CorrectAnswersCount = model.CorrectAnswersCount,
-				AllAnswersCount = model.AllAnswersCount
-			};
+				question.Tags.ToArray(),
+				question.CorrectAnswersCount,
+				question.AllAnswersCount
+			);
 
 		public static Question ToModel(this QuestionDocument document) =>
 			new Question(
-				document.Id, 
-				document.Text, 
-				document.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text, answer.IsCorrect)).ToHashSet(), 
+				document.Id,
+				document.Text,
+				document.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text, answer.IsCorrect)).ToHashSet(),
 				document.Tags.ToHashSet(),
 				document.CorrectAnswersCount,
 				document.AllAnswersCount

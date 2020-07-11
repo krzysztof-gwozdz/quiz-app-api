@@ -9,14 +9,14 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 	{
 		public static QuestionSetDocuments ToDocument(this QuestionSet model) =>
 			new QuestionSetDocuments
-			{
-				Id = model.Id,
-				Name = model.Name,
-				Description = model.Description,
-				Tags = model.Tags.ToArray(),
-				ImageId = model.ImageId,
-				Color = model.Color.Value
-			};
+			(
+				model.Id,
+				model.Name,
+				model.Description,
+				model.Tags.ToArray(),
+				model.ImageId,
+				model.Color.Value
+			);
 
 		public static QuestionSet ToModel(this QuestionSetDocuments document) =>
 			new QuestionSet

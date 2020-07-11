@@ -22,5 +22,15 @@ namespace QuizApp.Infrastructure.CosmosDb.Documents
 
 		[JsonProperty("color")]
 		public string Color { get; set; }
+
+		public QuestionSetDocuments(Guid id, string name, string description, string[] tags, Guid imageId, string color)
+		{
+			Id = id;
+			Name = name;
+			Description = description;
+			Tags = tags;
+			ImageId = imageId;
+			Color = color;
+		}
 	}
 }

@@ -8,28 +8,28 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 	{
 		public static QuizDocument ToDocument(this Quiz document) =>
 			new QuizDocument
-			{
-				Id = document.Id,
-				QuestionSetId = document.QuestionSetId,
-				Questions = document.Questions.Select(question =>
+			(
+				document.Id,
+				 document.QuestionSetId,
+				 document.Questions.Select(question =>
 					new QuizDocument.QuestionDocument
-					{
-						Id = question.Id,
-						Text = question.Text,
-						Answers = question.Answers.Select(answer =>
+					(
+						 question.Id,
+						 question.Text,
+						 question.Answers.Select(answer =>
 							new QuizDocument.QuestionDocument.AnswerDocument
-							{
-								Id = answer.Id,
-								Text = answer.Text,
-								IsCorrect = answer.IsCorrect,
-							}).ToHashSet(),
-						Tags = question.Tags.ToArray(),
-						CorrectAnswerId = question.CorrectAnswerId,
-						PlayerAnswerId = question.PlayerAnswerId,
-						PlayerRating = question.PlayerRating
-					}
+							(
+								 answer.Id,
+								 answer.Text,
+								 answer.IsCorrect
+							)).ToHashSet(),
+						 question.Tags.ToArray(),
+						 question.CorrectAnswerId,
+						 question.PlayerAnswerId,
+						 question.PlayerRating
+					)
 				).ToHashSet()
-			};
+			);
 
 		public static Quiz ToModel(this QuizDocument document) =>
 			new Quiz(
