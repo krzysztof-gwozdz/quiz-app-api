@@ -15,11 +15,14 @@ namespace QuizApp.Infrastructure.CosmosDb.Documents
 		[JsonProperty("answers")]
 		public ISet<AnswerDocument> Answers { get; set; }
 
-		[JsonProperty("correctAnswerId")]
-		public Guid CorrectAnswerId { get; set; }
-
 		[JsonProperty("tags")]
 		public string[] Tags { get; set; }
+
+		[JsonProperty("correctAnswersCount")]
+		public int CorrectAnswersCount { get; set; }
+
+		[JsonProperty("allAnswersCount")]
+		public int AllAnswersCount { get; set; }
 
 		public class AnswerDocument
 		{

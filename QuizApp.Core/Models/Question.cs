@@ -13,17 +13,22 @@ namespace QuizApp.Core.Models
 		public string Text { get; }
 		public ISet<Answer> Answers { get; }
 		public ISet<string> Tags { get; }
+		public int CorrectAnswersCount { get; }
+		public int AllAnswersCount { get; }
+		public double RatioOfCorrectAnswers => AllAnswersCount > 0 ? (double)CorrectAnswersCount / AllAnswersCount : 1;
 
-		public Question(Guid id, string text, ISet<Answer> answers, ISet<string> tags)
+		public Question(Guid id, string text, ISet<Answer> answers, ISet<string> tags, int correctAnswersCount, int allAnswersCount)
 		{
 			Id = id;
 			Text = text;
 			Answers = answers;
 			Tags = tags;
+			CorrectAnswersCount = correctAnswersCount;
+			AllAnswersCount = allAnswersCount;
 		}
 
-		public Question(string text, ISet<Answer> answers, ISet<string> tags)
-			: this(Guid.NewGuid(), text, answers, tags)
+		public Question(string text, ISet<Answer> answers, ISet<string> tags, int correctAnswersCount, int allAnswersCount)
+			: this(Guid.NewGuid(), text, answers, tags, correctAnswersCount, allAnswersCount)
 		{
 		}
 
@@ -46,7 +51,7 @@ namespace QuizApp.Core.Models
 			if (tags is null || !tags.Any())
 				throw new EmptyQuestionTagsException();
 
-			return new Question(text, answers.ToHashSet(), tags);
+			return new Question(text, answers.ToHashSet(), tags, 0, 0);
 		}
 
 		public class Answer

@@ -16,8 +16,14 @@ namespace QuizApp.Core.Tests.Examples
 		public static ISet<string> ValidTags =>
 			new HashSet<string>(new[] { Guid.NewGuid().ToString() });
 
+		public static int ValidCorrectAnswers =>
+			0;
+
+		public static int ValidAllAnswers =>
+			0;
+
 		public static Question GetValidQuestion(int answerCount) =>
-			new Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), ValidTags);
+			new Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), ValidTags, ValidCorrectAnswers, ValidAllAnswers);
 
 		public static HashSet<Question> GetValidQuestions(int questionCount, int answerCount) =>
 			Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();

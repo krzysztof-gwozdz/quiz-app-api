@@ -11,13 +11,55 @@ namespace QuizApp.Core.Tests.Models
 {
 	public class QuestionTests
 	{
+
+		[Fact]
+		public void ConstructQuestions_QuestionCorrectAndAllAnswersCountAreCorrect()
+		{
+			//arrange
+			var id = QuestionExample.NewId;
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = QuestionExample.ValidTags;
+			var correctAnswersCount = 10;
+			var allAnswersCount = 20;
+
+			//act
+			var question = new Question(id, text, answers, tags, correctAnswersCount, allAnswersCount);
+
+			//assert
+			question.CorrectAnswersCount.Should().Be(correctAnswersCount);
+			question.AllAnswersCount.Should().Be(allAnswersCount);
+		}
+
+		[Theory]
+		[InlineData(0, 0, 1)]
+		[InlineData(1, 1, 1)]
+		[InlineData(100, 100, 1)]
+		[InlineData(1, 100, 0.01)]
+		[InlineData(1, 2, 0.5)]
+		[InlineData(1, 3, (double)1 / 3)]
+		public void ConstructQuestions_QuestioRatioIsCorrect(int correctAnswersCount, int allAnswersCount, double ratioOfCorrectAnswers)
+		{
+			//arrange
+			var id = QuestionExample.NewId;
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			var question = new Question(id, text, answers, tags, correctAnswersCount, allAnswersCount);
+
+			//assert
+			question.RatioOfCorrectAnswers.Should().Be(ratioOfCorrectAnswers);
+		}
+
 		[Fact]
 		public void CreateQuestionWithCorrectValues_QuestionCreated()
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			var question = Question.Create(text, answers, tags);
@@ -27,6 +69,8 @@ namespace QuizApp.Core.Tests.Models
 			question.Text.Should().Be(text);
 			question.Answers.Should().BeEquivalentTo(answers);
 			question.Tags.Should().BeEquivalentTo(tags);
+			question.AllAnswersCount.Should().Be(0);
+			question.CorrectAnswersCount.Should().Be(0);
 		}
 
 		[Theory]
@@ -37,7 +81,7 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers, tags);
@@ -53,7 +97,7 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var text = QuestionExample.ValidText;
 			var answers = (ISet<Question.Answer>)null;
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers, tags);
@@ -71,7 +115,7 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var text = QuestionExample.ValidText;
 			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers.ToHashSet(), tags);
@@ -94,7 +138,7 @@ namespace QuizApp.Core.Tests.Models
 				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText, false),
 				QuestionExample.Answer.ValidInCorrectAnswer,
 			}.ToHashSet();
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers, tags);
@@ -116,7 +160,7 @@ namespace QuizApp.Core.Tests.Models
 				QuestionExample.Answer.ValidInCorrectAnswer,
 				QuestionExample.Answer.ValidInCorrectAnswer
 			}.ToHashSet();
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers, tags);
@@ -138,7 +182,7 @@ namespace QuizApp.Core.Tests.Models
 				QuestionExample.Answer.ValidCorrectAnswer,
 				QuestionExample.Answer.ValidCorrectAnswer
 			}.ToHashSet();
-			var tags = QuestionSetExample.ValidTags;
+			var tags = QuestionExample.ValidTags;
 
 			//act
 			Action createQuestion = () => Question.Create(text, answers, tags);

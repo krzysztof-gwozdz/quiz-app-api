@@ -8,7 +8,6 @@ using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -34,14 +33,14 @@ namespace QuizApp.Application.Tests.Services
 		public async Task GetQuestionThatExists_Question()
 		{
 			//arrange
-			var questionId = QuestionExample.NewId;
-			_questionsRepository.GetByIdAsync(questionId).Returns(new Question(questionId, "", new HashSet<Question.Answer>(), new HashSet<string>()));
+			var existingQuestion = QuestionExample.GetValidQuestion(4);
+			_questionsRepository.GetByIdAsync(existingQuestion.Id).Returns(existingQuestion);
 
 			//act 
-			var question = await _questionsService.GetAsync(questionId);
+			var question = await _questionsService.GetAsync(existingQuestion.Id);
 
 			//assert
-			question.Id.Should().Be(questionId);
+			question.Id.Should().Be(existingQuestion.Id);
 		}
 
 		[Fact]
