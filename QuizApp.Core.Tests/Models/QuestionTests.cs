@@ -110,11 +110,11 @@ namespace QuizApp.Core.Tests.Models
 		[Theory]
 		[InlineData(0)]
 		[InlineData(1)]
-		public void CreateQuestionWithLessThanMinNumberOfAnswers_ThrowException(int numberOfAnswers)
+		public void CreateQuestionWithLessThanMinNumberOfAnswers_ThrowException(int answerCount)
 		{
 			//arrange
 			var text = QuestionExample.ValidText;
-			var answers = Enumerable.Range(0, numberOfAnswers).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
+			var answers = Enumerable.Range(0, answerCount).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
 			var tags = QuestionExample.ValidTags;
 
 			//act
@@ -122,7 +122,7 @@ namespace QuizApp.Core.Tests.Models
 
 			//assert
 			createQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
-				.WithMessage($"Number of answers in question invalid: {numberOfAnswers}.");
+				.WithMessage($"Number of answers in question invalid: {answerCount}.");
 		}
 
 		[Fact]

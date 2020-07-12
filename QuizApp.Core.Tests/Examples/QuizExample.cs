@@ -53,7 +53,7 @@ namespace QuizApp.Core.Tests.Examples
 
 				public static HashSet<Quiz.Question.Answer> GetValidAnswers(int answerCount)
 				{
-					var answers = Enumerable.Range(1, answerCount).Select(x => ValidAnswer).ToHashSet();
+					var answers = Enumerable.Range(0, answerCount - 1).Select(x => ValidAnswer).ToHashSet();
 					answers.Add(new Quiz.Question.Answer(NewId, ValidText, true));
 					return answers;
 				}

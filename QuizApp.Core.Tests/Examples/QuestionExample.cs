@@ -44,7 +44,7 @@ namespace QuizApp.Core.Tests.Examples
 
 			public static HashSet<Question.Answer> GetValidAnswers(int count)
 			{
-				var answers = Enumerable.Range(1, count).Select(x => ValidInCorrectAnswer).ToHashSet();
+				var answers = Enumerable.Range(0, count - 1).Select(x => ValidInCorrectAnswer).ToHashSet();
 				answers.Add(ValidCorrectAnswer);
 				return answers;
 			}
