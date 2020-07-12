@@ -15,6 +15,7 @@ namespace QuizApp.Core.Factories
 		private readonly IRandomFactory _randomFactory;
 
 		public const int MinQuestionCount = 2;
+		public const double MagicAIConst = 0.7;
 
 		public QuizFactory(
 			IQuestionsRepository questionsRepository,
@@ -50,21 +51,30 @@ namespace QuizApp.Core.Factories
 		private async Task<HashSet<Quiz.Question>> GetQuestionsAsync(Guid questionSetId, int questionCount)
 		{
 			var allQuestions = await GetAllQuestionsAsync(questionSetId);
-			var questions = new List<Quiz.Question>();
+			var questionList = new List<Quiz.Question>();
 			for (int i = 0; i < questionCount; i++)
 			{
-				int index = _randomFactory.NextInt(allQuestions.Count);
-				var question = new Quiz.Question(allQuestions[index]);
-				questions.Add(question);
-				allQuestions.RemoveAt(index);
+				var question = GetQuestion(allQuestions);
+				questionList.Add(new Quiz.Question(question));
+				allQuestions.Remove(question);
 			}
-			return questions.ToHashSet();
+			return questionList.ToHashSet();
 		}
-
 		private async Task<List<Question>> GetAllQuestionsAsync(Guid questionSetId)
 		{
 			var questionSet = await _questionSetsRepository.GetByIdAsync(questionSetId);
 			return (await _questionsRepository.GetAllByTagsAsync(questionSet.Tags)).ToList();
+		}
+
+		private Question GetQuestion(List<Question> allQuestions)
+		{
+			Question question;
+			do
+			{
+				int index = _randomFactory.NextInt(allQuestions.Count);
+				question = allQuestions[index];
+			} while (question.RatioOfCorrectAnswers * MagicAIConst > _randomFactory.NextDouble());
+			return question;
 		}
 	}
 }

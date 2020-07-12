@@ -2,6 +2,8 @@
 {
 	public interface IRandomFactory : IFactory
 	{
+		int NextInt();
 		int NextInt(int maxValue);
+		double NextDouble();
 	}
 }

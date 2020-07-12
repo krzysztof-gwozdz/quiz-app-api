@@ -6,6 +6,7 @@ using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using QuizApp.Core.Tests.Mocks;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -38,6 +39,7 @@ namespace QuizApp.Core.Tests.Factories
 			_questionSetsRepository.GetByIdAsync(questionSet.Id).Returns(questionSet);
 			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
 			_randomFactory.NextInt(questionCount).Returns(0);
+			_randomFactory.NextDouble().Returns(1);
 
 			//act
 			var quiz = await _quizFactory.GetAsync(questionSet.Id, questionCount);
@@ -107,7 +109,7 @@ namespace QuizApp.Core.Tests.Factories
 			_questionSetsRepository.GetByIdAsync(questionSet.Id).Returns(questionSet);
 			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
 
-			var randomFactory = new RandomFactoryMock(new[] { 0, 1, 1, 0, 2 });
+			var randomFactory = new RandomFactoryMock(new[] { 0, 1, 1, 0, 2 }, new[] { 0.7, 0.7, 0.7, 0.7, 0.7 });
 			_quizFactory = new QuizFactory(_questionsRepository, _questionSetsRepository, randomFactory);
 
 			//act
@@ -116,6 +118,28 @@ namespace QuizApp.Core.Tests.Factories
 			//assert
 			quiz.Id.Should().NotBeEmpty();
 			quiz.Questions.Should().OnlyHaveUniqueItems(x => x.Id);
+		}
+
+		[Fact]
+		public async Task GetQuizWithCorrectValuesWhereFirstTryHadToLowProbability_QuestionsWithHighestProbability()
+		{
+			var questionSet = QuestionSetExample.ValidQuestionSet;
+			var questionCount = 3;
+
+			var questions = QuestionExample.GetValidQuestions(4, 4);
+			_questionsRepository.GetAllByTagsAsync(questionSet.Tags).Returns(questions);
+			_questionSetsRepository.GetByIdAsync(questionSet.Id).Returns(questionSet);
+			_questionsRepository.CountByTagsAsync(questionSet.Tags).Returns(questionCount + 1);
+
+			var randomFactory = new RandomFactoryMock(new[] { 0, 1, 1, 1 }, new[] { 0.6, 0.7, 0.7, 0.7 });
+			_quizFactory = new QuizFactory(_questionsRepository, _questionSetsRepository, randomFactory);
+
+			//act
+			var quiz = await _quizFactory.GetAsync(questionSet.Id, questionCount);
+
+			//assert
+			quiz.Id.Should().NotBeEmpty();
+			quiz.Questions.Should().NotContain(x => x.Id == questions.First().Id);
 		}
 	}
 }
