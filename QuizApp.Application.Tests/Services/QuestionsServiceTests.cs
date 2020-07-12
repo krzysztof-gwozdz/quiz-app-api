@@ -16,17 +16,31 @@ namespace QuizApp.Application.Tests.Services
 {
 	public class QuestionsServiceTests
 	{
-		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly IQuestionsRepository _questionsRepository;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly ITagsRepository _tagsRepository;
 		private readonly QuestionsService _questionsService;
 
 		public QuestionsServiceTests()
 		{
-			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
 			_questionsRepository = Substitute.For<IQuestionsRepository>();
+			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
 			_tagsRepository = Substitute.For<ITagsRepository>();
 			_questionsService = new QuestionsService(_questionsRepository, _questionSetsRepository, _tagsRepository);
+		}
+
+		[Fact]
+		public async Task GetQuestions_Questions()
+		{
+			//arrange
+			var questionsCollection = QuestionExample.GetValidQuestions(3, 4);
+			_questionsRepository.GetAllAsync().Returns(questionsCollection);
+
+			//act 
+			var questions = await _questionsService.GetCollectionAsync();
+
+			//assert
+			questions.Collection.Should().HaveCount(questionsCollection.Count);
 		}
 
 		[Fact]

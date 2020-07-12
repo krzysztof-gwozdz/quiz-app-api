@@ -19,6 +19,15 @@ namespace QuizApp.Api.Controllers
 			_questionsService = questionsService;
 		}
 
+		[HttpGet("")]
+		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuestionsDto))]
+		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
+		public async Task<ActionResult<QuestionsDto>> Get()
+		{
+			var questions = await _questionsService.GetCollectionAsync();
+			return Ok(questions);
+		}
+
 		[HttpGet("{id:guid}")]
 		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuestionDto))]
 		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]

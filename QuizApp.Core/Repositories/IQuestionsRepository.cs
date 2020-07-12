@@ -7,6 +7,7 @@ namespace QuizApp.Core.Repositories
 {
 	public interface IQuestionsRepository : IRepository
 	{
+		Task<IEnumerable<Question>> GetAllAsync();
 		Task<Question> GetByIdAsync(Guid id);
 		Task<bool> ExistsAsync(Guid id);
 		Task<ISet<Question>> GetAllByTagsAsync(ISet<string> tags);

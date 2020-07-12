@@ -1,5 +1,6 @@
 ﻿using QuizApp.Application.Dtos;
 using QuizApp.Core.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace QuizApp.Application.Mappers
@@ -16,6 +17,21 @@ namespace QuizApp.Application.Mappers
 				model.CorrectAnswersCount,
 				model.AllAnswersCount,
 				model.RatioOfCorrectAnswers
+			);
+
+		public static QuestionsDto AsDto(this IEnumerable<Question> model) =>
+			new QuestionsDto
+			(
+				model.Select(question => new QuestionsElementDto
+				(
+					question.Id,
+					question.Text,
+					question.Answers.Count(),
+					question.Tags.ToArray(),
+					question.CorrectAnswersCount,
+					question.AllAnswersCount,
+					question.RatioOfCorrectAnswers
+				)).ToArray()
 			);
 	}
 }

@@ -26,6 +26,12 @@ namespace QuizApp.Application.Services
 			_tagsRepository = tagsRepository;
 		}
 
+		public async Task<QuestionsDto> GetCollectionAsync()
+		{
+			var questions = await _questionsRepository.GetAllAsync();
+			return questions.AsDto();
+		}
+
 		public async Task<QuestionDto> GetAsync(Guid id)
 		{
 			var question = await _questionsRepository.GetByIdAsync(id);
