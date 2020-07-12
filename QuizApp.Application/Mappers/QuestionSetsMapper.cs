@@ -25,8 +25,8 @@ namespace QuizApp.Application.Mappers
 				(
 					questionSet.Id,
 					questionSet.Name,
-					questionSet.Description,
 					questionSet.Tags.ToArray(),
+					questionSet.Description,
 					questionSet.Color.Value
 				)).ToArray()
 			);

@@ -68,7 +68,7 @@ namespace QuizApp.Application.Services
 
 			var image = QuestionSetImage.Create(dto.Image?.OpenReadStream(), dto.Image?.ContentType);
 			var color = Color.Create(dto.Color);
-			var questionSet = QuestionSet.Create(dto.Name, dto.Description, tags, image.Id, color);
+			var questionSet = QuestionSet.Create(dto.Name, tags, dto.Description, image.Id, color);
 			await _questionSetsRepository.AddAsync(questionSet);
 			await _questionSetImagesRepository.AddAsync(image);
 

@@ -6,8 +6,8 @@ namespace QuizApp.Application.Dtos
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
-		public string Description { get; set; }
 		public string[] Tags { get; set; }
+		public string Description { get; set; }
 		public string Color { get; set; }
 
 		public string ImageUrl { get; set; }
@@ -16,12 +16,12 @@ namespace QuizApp.Application.Dtos
 		{
 		}
 
-		public QuestionSetsElementDto(Guid id, string name, string description, string[] tags, string color)
+		public QuestionSetsElementDto(Guid id, string name, string[] tags, string description, string color)
 		{
 			Id = id;
 			Name = name;
-			Description = description;
 			Tags = tags;
+			Description = description;
 			Color = color;
 		}
 	}

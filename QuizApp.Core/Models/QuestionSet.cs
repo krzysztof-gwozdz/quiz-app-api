@@ -9,36 +9,36 @@ namespace QuizApp.Core.Models
 	{
 		public Guid Id { get; }
 		public string Name { get; }
-		public string Description { get; }
 		public ISet<string> Tags { get; }
+		public string Description { get; }
 		public Guid ImageId { get; }
 		public Color Color { get; }
 
-		public QuestionSet(Guid id, string name, string description, ISet<string> tags, Guid imageId, Color color)
+		public QuestionSet(Guid id, string name, ISet<string> tags, string description, Guid imageId, Color color)
 		{
 			Id = id;
 			Name = name;
-			Description = description;
 			Tags = tags;
+			Description = description;
 			ImageId = imageId;
 			Color = color;
 		}
 
-		public static QuestionSet Create(string name, string description, ISet<string> tags, Guid imageId, Color color)
+		public static QuestionSet Create(string name, ISet<string> tags, string description, Guid imageId, Color color)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new EmptyQuestionSetNameException();
 
-			if (string.IsNullOrWhiteSpace(description))
-				throw new EmptyQuestionSetDescriptionException();
-
 			if (tags is null || !tags.Any())
 				throw new EmptyQuestionSetsTagsException();
+
+			if (string.IsNullOrWhiteSpace(description))
+				throw new EmptyQuestionSetDescriptionException();
 
 			if (Guid.Empty == imageId)
 				throw new EmptyQuestionSetImageException();
 
-			return new QuestionSet(imageId, name, description, tags, imageId, color);
+			return new QuestionSet(imageId, name, tags, description, imageId, color);
 		}
 	}
 }

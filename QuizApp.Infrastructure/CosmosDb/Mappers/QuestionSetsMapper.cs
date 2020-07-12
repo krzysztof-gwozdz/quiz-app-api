@@ -12,8 +12,8 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 			(
 				model.Id,
 				model.Name,
-				model.Description,
 				model.Tags.ToArray(),
+				model.Description,
 				model.ImageId,
 				model.Color.Value
 			);
@@ -23,8 +23,8 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 			(
 				document.Id,
 				document.Name,
-				document.Description,
 				document.Tags.ToHashSet(),
+				document.Description,
 				document.ImageId,
 				new Color(document.Color)
 			);

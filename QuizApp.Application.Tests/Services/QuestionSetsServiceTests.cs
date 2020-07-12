@@ -105,7 +105,7 @@ namespace QuizApp.Application.Tests.Services
 			var tags = QuestionSetExample.ValidTags.ToArray();
 			var image = Substitute.For<IFormFile>();
 			var color = QuestionSetExample.ValidColor;
-			var questionSet = new QuestionSet(QuestionSetExample.NewId, name, description, QuestionSetExample.ValidTags, QuestionSetExample.ValidImageId, color);
+			var questionSet = new QuestionSet(QuestionSetExample.NewId, name, QuestionSetExample.ValidTags, description, QuestionSetExample.ValidImageId, color);
 			_questionSetsRepository.GetByNameAsync(name).Returns(questionSet);
 			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
 
