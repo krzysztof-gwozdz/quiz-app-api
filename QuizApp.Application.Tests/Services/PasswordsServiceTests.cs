@@ -1,19 +1,26 @@
 ﻿using FluentAssertions;
 using QuizApp.Application.Services;
+using QuizApp.Core.Tests.Examples;
 using Xunit;
 
 namespace QuizApp.Application.Tests.Services
 {
 	public class PasswordsServiceTests
 	{
+		private readonly PasswordsService _passwordsService;
+
+		public PasswordsServiceTests()
+		{
+			_passwordsService = new PasswordsService();
+		}
+
 		[Fact]
 		public void GenerateSalt_SaltWithCorrectLength()
 		{
 			//arrange
-			var passwordsService = new PasswordsService();
 
 			//act 
-			var salt = passwordsService.GenerateSalt();
+			var salt = _passwordsService.GenerateSalt();
 
 			//assert
 			salt.Should().NotBeEmpty();
@@ -24,15 +31,14 @@ namespace QuizApp.Application.Tests.Services
 		public void HashPassword_HashedPassword()
 		{
 			//arrange
-			var passwordsService = new PasswordsService();
-			var password = "password";
-			var salt = new byte[128 / 8] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+			var password = PasswordExample.ValidPassword;
+			var salt = IdentityExample.ValidSalt;
 
 			//act 
-			var passwordHash = passwordsService.HashPassword(password, salt);
+			var passwordHash = _passwordsService.HashPassword(password, salt);
 
 			//assert
-			passwordHash.Should().Be("jj4vc8PrY5CoGrvIEBwDQ7AXp6//+1q2XhNPCQncyiw=");
+			passwordHash.Should().Be(IdentityExample.ValidPasswordHash);
 		}
 	}
 }

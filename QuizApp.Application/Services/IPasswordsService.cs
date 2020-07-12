@@ -1,8 +1,10 @@
-﻿namespace QuizApp.Application.Services
+﻿using QuizApp.Core.Models;
+
+namespace QuizApp.Application.Services
 {
-	public interface IPasswordsService : IService 
+	public interface IPasswordsService : IService
 	{
 		byte[] GenerateSalt();
-		string HashPassword(string password, byte[] salt);
+		string HashPassword(Password password, byte[] salt);
 	}
 }
