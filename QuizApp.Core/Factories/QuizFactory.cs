@@ -55,10 +55,13 @@ namespace QuizApp.Core.Factories
 			for (int i = 0; i < questionCount; i++)
 			{
 				var question = GetQuestion(allQuestions);
+				Shuffle(question.Answers);
 				questionList.Add(new Quiz.Question(question));
 				allQuestions.Remove(question);
 			}
-			return questionList.ToHashSet();
+			var questionSet = questionList.ToHashSet();
+			Shuffle(questionSet);
+			return questionSet;
 		}
 		private async Task<List<Question>> GetAllQuestionsAsync(Guid questionSetId)
 		{
@@ -75,6 +78,15 @@ namespace QuizApp.Core.Factories
 				question = allQuestions[index];
 			} while (question.RatioOfCorrectAnswers * MagicAIConst > _randomFactory.NextDouble());
 			return question;
+		}
+
+		private void Shuffle<T>(ISet<T> set)
+		{
+			int n = set.Count;
+			var array = set.ToArray().OrderBy(x => _randomFactory.NextInt());
+			set.Clear();
+			foreach (var answer in array)
+				set.Add(answer);
 		}
 	}
 }
