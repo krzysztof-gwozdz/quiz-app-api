@@ -15,15 +15,15 @@ namespace QuizApp.Application.Tests.Services
 	{
 		private readonly IUsersRepository _usersRepository;
 		private readonly IPasswordsService _passwordService;
-		private readonly ITokensService _tokenService;
+		private readonly ITokensService _tokensService;
 		private readonly IdentitiesService _identitiesService;
 
 		public IdentitiesServiceTests()
 		{
 			_usersRepository = Substitute.For<IUsersRepository>();
 			_passwordService = Substitute.For<IPasswordsService>();
-			_tokenService = Substitute.For<ITokensService>();
-			_identitiesService = new IdentitiesService(_usersRepository, _passwordService, _tokenService);
+			_tokensService = Substitute.For<ITokensService>();
+			_identitiesService = new IdentitiesService(_usersRepository, _passwordService, _tokensService);
 		}
 
 		[Fact]
@@ -38,16 +38,15 @@ namespace QuizApp.Application.Tests.Services
 			await _identitiesService.SignUpAsync(dto);
 
 			//assert
-			//TODO check if identity was created.
 		}
 
 		[Fact]
-		public void SignUpWithUsernameNameOfAnotherUser_ThrowException()
+		public void SignUpWithUsernameOfAnotherUser_ThrowException()
 		{
 			//arrange
 			var username = UserExample.ValidUsername;
 			var dto = new SignUpDto(username, PasswordExample.ValidPassword.Value);
-			_usersRepository.CheckIfExistsByUsernameAsync(Arg.Any<string>()).Returns(true);
+			_usersRepository.CheckIfExistsByUsernameAsync(username).Returns(true);
 
 			//act 
 			Func<Task> signUp = async () => await _identitiesService.SignUpAsync(dto);
@@ -55,6 +54,55 @@ namespace QuizApp.Application.Tests.Services
 			//assert
 			signUp.Should().Throw<UserWithSelectedUsernameAlreadyExistsException>()
 				.WithMessage($"User with username: {username} already exists.");
+		}
+
+		[Fact]
+		public async Task SignIpWithCorrectCredentials_Token()
+		{
+			//arrange
+			var user = UserExample.ValidUser;
+			var dto = new SignInDto(user.Username, PasswordExample.ValidPassword.Value);
+			_passwordService.HashPassword(PasswordExample.ValidPassword.Value, Arg.Any<byte[]>()).Returns(UserExample.ValidPasswordHash);
+			_usersRepository.GetByUsernameAsync(user.Username).Returns(user);
+			_tokensService.Create(user.Username).Returns(Substitute.For<TokenDto>());
+
+			//act 
+			var token = await _identitiesService.SignInAsync(dto);
+
+			//assert
+			token.Should().NotBeNull();
+		}
+
+		[Fact]
+		public void SignInWithUsernameOfUserThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var user = UserExample.ValidUser;
+			var dto = new SignInDto(user.Username, PasswordExample.ValidPassword.Value);
+			_passwordService.HashPassword(PasswordExample.ValidPassword.Value, Arg.Any<byte[]>()).Returns(UserExample.ValidPasswordHash);
+
+			//act 
+			Func<Task> signIn = async () => await _identitiesService.SignInAsync(dto);
+
+			//assert
+			signIn.Should().Throw<UserNotFoundException>()
+				.WithMessage($"User: {user.Username} not found.");
+		}
+
+		[Fact]
+		public void SignInWithValidUsernameButWrongPassword_ThrowException()
+		{
+			//arrange
+			var user = UserExample.ValidUser;
+			var dto = new SignInDto(user.Username, "wrong password");
+			_usersRepository.GetByUsernameAsync(user.Username).Returns(user);
+
+			//act 
+			Func<Task> signIn = async () => await _identitiesService.SignInAsync(dto);
+
+			//assert
+			signIn.Should().Throw<UserNotFoundException>()
+				.WithMessage($"User: {user.Username} not found.");
 		}
 	}
 }

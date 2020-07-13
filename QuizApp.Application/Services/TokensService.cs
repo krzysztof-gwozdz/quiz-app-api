@@ -33,13 +33,14 @@ namespace QuizApp.Application.Services
 
 			var securityToken = handler.CreateToken(tokenDescriptor);
 			var token = new TokenDto
-			{
-				Token = handler.WriteToken(securityToken),
-				Issuer = securityToken.Issuer,
-				Subject = username,
-				ValidFrom = securityToken.ValidFrom,
-				ValidTo = securityToken.ValidTo
-			};
+			(
+				 handler.WriteToken(securityToken),
+				 null,
+				 securityToken.Issuer,
+				 username,
+				 securityToken.ValidFrom,
+				 securityToken.ValidTo
+			);
 			return token;
 		}
 	}
