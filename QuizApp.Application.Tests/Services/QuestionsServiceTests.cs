@@ -61,7 +61,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task GetQuestionThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var questionId = QuestionExample.NewId;
+			var questionId = QuestionExample.ValidId;
 			_questionsRepository.GetByIdAsync(questionId).Returns((Question)null);
 
 			//act 
@@ -126,7 +126,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task RemoveQuestionThatExists_QuestionRemoved()
 		{
 			//arrange
-			var questionId = QuestionExample.NewId;
+			var questionId = QuestionExample.ValidId;
 			_questionsRepository.ExistsAsync(questionId).Returns(true);
 
 			//act 
@@ -140,7 +140,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task RemoveQuestionThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var questionId = QuestionExample.NewId;
+			var questionId = QuestionExample.ValidId;
 			_questionsRepository.ExistsAsync(questionId).Returns(false);
 
 			//act 

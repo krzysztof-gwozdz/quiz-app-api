@@ -61,7 +61,7 @@ namespace QuizApp.Core.Tests.Models
 		{
 			//arrange
 			var quiz = QuizExample.GetValidQuiz(4, 4);
-			var incorrectQuestionId = QuizExample.Question.NewId;
+			var incorrectQuestionId = QuizExample.Question.ValidId;
 			var rating = QuizExample.PlayerAnswer.ValidRating;
 			var playerAnswers = new HashSet<Quiz.PlayerAnswer>
 			{
@@ -82,7 +82,7 @@ namespace QuizApp.Core.Tests.Models
 			//arrange
 			var quiz = QuizExample.GetValidQuiz(4, 4);
 			var questionId = quiz.Questions.First().Id;
-			var incorrectAnswerId = QuizExample.Question.Answer.NewId;
+			var incorrectAnswerId = QuizExample.Question.Answer.ValidId;
 			var rating = QuizExample.PlayerAnswer.ValidRating;
 			var playerAnswers = new HashSet<Quiz.PlayerAnswer> { Quiz.PlayerAnswer.Create(questionId, incorrectAnswerId, (int?)rating) };
 

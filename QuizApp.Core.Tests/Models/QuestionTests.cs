@@ -16,7 +16,7 @@ namespace QuizApp.Core.Tests.Models
 		public void ConstructQuestions_QuestionCorrectAndAllAnswersCountAreCorrect()
 		{
 			//arrange
-			var id = QuestionExample.NewId;
+			var id = QuestionExample.ValidId;
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var tags = QuestionExample.ValidTags;
@@ -41,7 +41,7 @@ namespace QuizApp.Core.Tests.Models
 		public void ConstructQuestions_QuestioRatioIsCorrect(int correctAnswersCount, int allAnswersCount, double ratioOfCorrectAnswers)
 		{
 			//arrange
-			var id = QuestionExample.NewId;
+			var id = QuestionExample.ValidId;
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var tags = QuestionExample.ValidTags;

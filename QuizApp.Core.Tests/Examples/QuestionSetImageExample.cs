@@ -8,7 +8,7 @@ namespace QuizApp.Core.Tests.Examples
 {
 	public static class QuestionSetImageExample
 	{
-		public static Guid NewId =>
+		public static Guid ValidId =>
 			Guid.NewGuid();
 
 		public static Stream ValidData =>
@@ -18,6 +18,6 @@ namespace QuizApp.Core.Tests.Examples
 			ContentTypes.Image.Jpeg;
 
 		public static QuestionSetImage ValidQuestionSetImage =>
-			new QuestionSetImage(NewId, ValidData, ValidContentType);
+			new QuestionSetImage(ValidId, ValidData, ValidContentType);
 	}
 }

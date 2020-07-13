@@ -53,7 +53,7 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task GetQuizWithQuestionSetThatDoesNotExists_ThrowException()
 		{
 			//arrange
-			var questionSetId = QuestionSetExample.NewId;
+			var questionSetId = QuestionSetExample.ValidId;
 			_questionSetsRepository.ExistsAsync(questionSetId).Returns(false);
 
 			//act
@@ -68,7 +68,7 @@ namespace QuizApp.Core.Tests.Factories
 		public async Task GetQuizWithLessThanMinimumQuestions_ThrowException()
 		{
 			//arrange
-			var questionSetId = QuestionSetExample.NewId;
+			var questionSetId = QuestionSetExample.ValidId;
 			int questionCount = 1;
 			_questionSetsRepository.ExistsAsync(questionSetId).Returns(true);
 

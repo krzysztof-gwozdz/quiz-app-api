@@ -6,7 +6,7 @@ namespace QuizApp.Core.Tests.Examples
 {
 	public static class QuestionSetExample
 	{
-		public static Guid NewId =>
+		public static Guid ValidId =>
 			Guid.NewGuid();
 
 		public static string ValidName =>
@@ -25,6 +25,6 @@ namespace QuizApp.Core.Tests.Examples
 			Color.Create("#FFFFFF");
 
 		public static QuestionSet ValidQuestionSet =>
-			new QuestionSet(NewId, ValidName, ValidTags, ValidDescription, ValidImageId, ValidColor);
+			new QuestionSet(ValidId, ValidName, ValidTags, ValidDescription, ValidImageId, ValidColor);
 	}
 }

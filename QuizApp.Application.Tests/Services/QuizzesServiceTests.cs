@@ -46,7 +46,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task GetQuizThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var quizId = QuizExample.NewId;
+			var quizId = QuizExample.ValidId;
 			_quizzesRepository.GetByIdAsync(quizId).Returns((Quiz)null);
 
 			//act 
@@ -61,7 +61,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task GenerateQuiz_NewQuizId()
 		{
 			//arrange
-			var quizParameters = new QuizParametersDto(QuestionSetExample.NewId, 4);
+			var quizParameters = new QuizParametersDto(QuestionSetExample.ValidId, 4);
 			_questionsFactory.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount).Returns(QuizExample.GetValidQuiz(4, 4));
 
 			//act 
@@ -77,7 +77,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var solveQuizDto = new SolvedQuizDto
 			{
-				QuizId = QuizExample.NewId,
+				QuizId = QuizExample.ValidId,
 				PlayerAnswers = new[]
 				{
 					new PlayerAnswerDto(QuizExample.PlayerAnswer.NewQuestionId, QuizExample.PlayerAnswer.NewAnswerId, (int?)QuizExample.PlayerAnswer.ValidRating)
@@ -112,7 +112,7 @@ namespace QuizApp.Application.Tests.Services
 		public async Task GetQuizSummaryThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var quizId = QuizExample.NewId;
+			var quizId = QuizExample.ValidId;
 			_quizzesRepository.GetByIdAsync(quizId).Returns((Quiz)null);
 
 			//act 

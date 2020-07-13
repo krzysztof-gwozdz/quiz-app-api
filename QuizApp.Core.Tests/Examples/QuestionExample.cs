@@ -7,7 +7,7 @@ namespace QuizApp.Core.Tests.Examples
 {
 	public static class QuestionExample
 	{
-		public static Guid NewId =>
+		public static Guid ValidId =>
 			Guid.NewGuid();
 
 		public static string ValidText =>
@@ -23,24 +23,24 @@ namespace QuizApp.Core.Tests.Examples
 			0;
 
 		public static Question GetValidQuestion(int answerCount) =>
-			new Question(NewId, ValidText, Answer.GetValidAnswers(answerCount), ValidTags, ValidCorrectAnswers, ValidAllAnswers);
+			new Question(ValidId, ValidText, Answer.GetValidAnswers(answerCount), ValidTags, ValidCorrectAnswers, ValidAllAnswers);
 
 		public static HashSet<Question> GetValidQuestions(int questionCount, int answerCount) =>
 			Enumerable.Range(0, questionCount).Select(x => GetValidQuestion(answerCount)).ToHashSet();
 
 		public static class Answer
 		{
-			public static Guid NewId =>
+			public static Guid ValidId =>
 				Guid.NewGuid();
 
 			public static string ValidText =>
 				Guid.NewGuid().ToString();
 
 			public static Question.Answer ValidInCorrectAnswer =>
-				new Question.Answer(NewId, ValidText, false);
+				new Question.Answer(ValidId, ValidText, false);
 
 			public static Question.Answer ValidCorrectAnswer =>
-				new Question.Answer(NewId, ValidText, true);
+				new Question.Answer(ValidId, ValidText, true);
 
 			public static HashSet<Question.Answer> GetValidAnswers(int count)
 			{
