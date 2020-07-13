@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
-	[CosmosDbRepository("Identities", "/id")]
-	public class CosmosIdentityRepository : CosmosDbRepository<IdentityDocument, string>, IIdentitiesRepository
+	[CosmosDbRepository("Users", "/id")]
+	public class CosmosUsersRepository : CosmosDbRepository<UserDocument, string>, IUsersRepository
 	{
-		public CosmosIdentityRepository(ICosmosDbClientFactory factory) : base(factory)
+		public CosmosUsersRepository(ICosmosDbClientFactory factory) : base(factory)
 		{
 		}
 
-		public async Task AddAsync(Identity identity) =>
-			await AddDocumentAsync(identity.ToDocument());
+		public async Task AddAsync(User user) =>
+			await AddDocumentAsync(user.ToDocument());
 
-		public async Task<Identity> GetByUsernameAsync(string username) =>
+		public async Task<User> GetByUsernameAsync(string username) =>
 			(await GetDocumentsAsync(x => x.Username == username)).FirstOrDefault()?.ToModel();
 
 		public async Task<bool> CheckIfExistsByUsernameAsync(string username) =>

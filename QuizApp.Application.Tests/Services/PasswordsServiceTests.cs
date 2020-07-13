@@ -32,13 +32,13 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var password = PasswordExample.ValidPassword;
-			var salt = IdentityExample.ValidSalt;
+			var salt = UserExample.ValidSalt;
 
 			//act 
 			var passwordHash = _passwordsService.HashPassword(password.Value, salt);
 
 			//assert
-			passwordHash.Should().Be(IdentityExample.ValidPasswordHash);
+			passwordHash.Should().Be(UserExample.ValidPasswordHash);
 		}
 	}
 }

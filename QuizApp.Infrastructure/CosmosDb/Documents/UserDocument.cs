@@ -2,14 +2,14 @@
 
 namespace QuizApp.Infrastructure.CosmosDb.Documents
 {
-	public class IdentityDocument
+	public class UserDocument
 	{
 		public Guid Id { get; set; }
 		public string Username { get; set; }
 		public string PasswordHash { get; set; }
 		public byte[] Salt { get; set; }
 
-		public IdentityDocument(Guid id, string username, string passwordHash, byte[] salt)
+		public UserDocument(Guid id, string username, string passwordHash, byte[] salt)
 		{
 			Id = id;
 			Username = username;

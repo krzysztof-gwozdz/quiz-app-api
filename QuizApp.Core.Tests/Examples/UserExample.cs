@@ -1,6 +1,6 @@
 ﻿namespace QuizApp.Core.Tests.Examples
 {
-	public class IdentityExample
+	public class UserExample
 	{
 		public static string ValidUsername
 			=> "admin";

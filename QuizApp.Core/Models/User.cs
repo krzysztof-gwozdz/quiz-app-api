@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace QuizApp.Core.Models
 {
-	public class Identity
+	public class User
 	{
 		public const byte MinimumUsernameLength = 5;
 		public const byte MaximumUsernameLength = 32;
@@ -17,7 +17,7 @@ namespace QuizApp.Core.Models
 		public string PasswordHash { get; }
 		public byte[] Salt { get; }
 
-		public Identity(Guid id, string username, string passwordHash, byte[] salt)
+		public User(Guid id, string username, string passwordHash, byte[] salt)
 		{
 			Id = id;
 			Username = username;
@@ -25,22 +25,22 @@ namespace QuizApp.Core.Models
 			Salt = salt;
 		}
 
-		public static Identity Create(string username, string passwordHash, byte[] salt)
+		public static User Create(string username, string passwordHash, byte[] salt)
 		{
 			if (string.IsNullOrWhiteSpace(username))
-				throw new EmptyIdentityUsernameException();
+				throw new EmptyUserUsernameException();
 
 			var regex = new Regex(Pattern);
 			if (!regex.IsMatch(username))
-				throw new InvalidIdentityUsernameException(username);
+				throw new InvalidUserUsernameException(username);
 
 			if (string.IsNullOrWhiteSpace(passwordHash))
-				throw new EmptyIdentityPasswordHashException();
+				throw new EmptyUserPasswordHashException();
 
 			if (salt is null || !salt.Any())
-				throw new EmptyIdentitySaltException();
+				throw new EmptyUserSaltException();
 
-			return new Identity(Guid.NewGuid(), username, passwordHash, salt);
+			return new User(Guid.NewGuid(), username, passwordHash, salt);
 		}
 	}
 }

@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Core.Repositories
 {
-	public interface IIdentitiesRepository : IRepository
+	public interface IUsersRepository : IRepository
 	{
-		Task AddAsync(Identity identity);
-		Task<Identity> GetByUsernameAsync(string username);
+		Task AddAsync(User user);
+		Task<User> GetByUsernameAsync(string username);
 		Task<bool> CheckIfExistsByUsernameAsync(string username);
 	}
 }
