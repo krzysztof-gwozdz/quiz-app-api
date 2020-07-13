@@ -21,6 +21,7 @@ namespace QuizApp.Api
 				.ConfigureServices(services => services
 					.AddErrorHandling()
 					.AddApplicationInsights()
+					.AddIdentity()
 					.AddSwaggerWithConfig()
 					.AddApi()
 					.AddRepositories()

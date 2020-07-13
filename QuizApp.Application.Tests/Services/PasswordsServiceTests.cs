@@ -35,7 +35,7 @@ namespace QuizApp.Application.Tests.Services
 			var salt = IdentityExample.ValidSalt;
 
 			//act 
-			var passwordHash = _passwordsService.HashPassword(password, salt);
+			var passwordHash = _passwordsService.HashPassword(password.Value, salt);
 
 			//assert
 			passwordHash.Should().Be(IdentityExample.ValidPasswordHash);

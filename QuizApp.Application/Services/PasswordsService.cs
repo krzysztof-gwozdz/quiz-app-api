@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using QuizApp.Core.Models;
 using System;
 using System.Security.Cryptography;
 
@@ -16,9 +15,9 @@ namespace QuizApp.Application.Services
 			return salt;
 		}
 
-		public string HashPassword(Password password, byte[] salt)
+		public string HashPassword(string password, byte[] salt)
 		{
-			return Convert.ToBase64String(KeyDerivation.Pbkdf2(password.Value, salt, KeyDerivationPrf.HMACSHA1, 10000, 256 / 8));
+			return Convert.ToBase64String(KeyDerivation.Pbkdf2(password, salt, KeyDerivationPrf.HMACSHA1, 10000, 256 / 8));
 		}
 	}
 }

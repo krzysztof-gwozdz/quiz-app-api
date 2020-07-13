@@ -18,7 +18,10 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 		public async Task AddAsync(Identity identity) =>
 			await AddDocumentAsync(identity.ToDocument());
 
-		public async Task<bool> ExistsAsync(string username) =>
+		public async Task<Identity> GetByUsernameAsync(string username) =>
+			(await GetDocumentsAsync(x => x.Username == username)).FirstOrDefault()?.ToModel();
+
+		public async Task<bool> CheckIfExistsByUsernameAsync(string username) =>
 			(await GetDocumentsAsync(x => x.Username == username)).Any();
 	}
 }

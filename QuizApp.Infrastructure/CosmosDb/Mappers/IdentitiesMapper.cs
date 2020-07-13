@@ -7,5 +7,8 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 	{
 		public static IdentityDocument ToDocument(this Identity model) =>
 			new IdentityDocument(model.Id, model.Username, model.PasswordHash, model.Salt);
+
+		public static Identity ToModel(this IdentityDocument document) =>
+			new Identity(document.Id, document.Username, document.PasswordHash, document.Salt);
 	}
 }

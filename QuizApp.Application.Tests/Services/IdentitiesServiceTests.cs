@@ -3,7 +3,6 @@ using NSubstitute;
 using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Core.Exceptions;
-using QuizApp.Core.Models;
 using QuizApp.Core.Repositories;
 using QuizApp.Core.Tests.Examples;
 using System;
@@ -16,13 +15,15 @@ namespace QuizApp.Application.Tests.Services
 	{
 		private readonly IIdentitiesRepository _identitiesRepository;
 		private readonly IPasswordsService _passwordService;
+		private readonly ITokensService _tokenService;
 		private readonly IdentitiesService _identitiesService;
 
 		public IdentitiesServiceTests()
 		{
 			_identitiesRepository = Substitute.For<IIdentitiesRepository>();
 			_passwordService = Substitute.For<IPasswordsService>();
-			_identitiesService = new IdentitiesService(_identitiesRepository, _passwordService);
+			_tokenService = Substitute.For<ITokensService>();
+			_identitiesService = new IdentitiesService(_identitiesRepository, _passwordService, _tokenService);
 		}
 
 		[Fact]
@@ -31,7 +32,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var dto = new SignUpDto(IdentityExample.ValidUsername, PasswordExample.ValidPassword.Value);
 			_passwordService.GenerateSalt().Returns(IdentityExample.ValidSalt);
-			_passwordService.HashPassword(Arg.Any<Password>(), Arg.Any<byte[]>()).Returns(IdentityExample.ValidPasswordHash);
+			_passwordService.HashPassword(Arg.Any<string>(), Arg.Any<byte[]>()).Returns(IdentityExample.ValidPasswordHash);
 
 			//act 
 			await _identitiesService.SignUpAsync(dto);
@@ -46,7 +47,7 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var username = IdentityExample.ValidUsername;
 			var dto = new SignUpDto(username, PasswordExample.ValidPassword.Value);
-			_identitiesRepository.ExistsAsync(Arg.Any<string>()).Returns(true);
+			_identitiesRepository.CheckIfExistsByUsernameAsync(Arg.Any<string>()).Returns(true);
 
 			//act 
 			Func<Task> signUp = async () => await _identitiesService.SignUpAsync(dto);

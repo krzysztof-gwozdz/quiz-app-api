@@ -6,6 +6,7 @@ namespace QuizApp.Core.Repositories
 	public interface IIdentitiesRepository : IRepository
 	{
 		Task AddAsync(Identity identity);
-		Task<bool> ExistsAsync(string username);
+		Task<Identity> GetByUsernameAsync(string username);
+		Task<bool> CheckIfExistsByUsernameAsync(string username);
 	}
 }
