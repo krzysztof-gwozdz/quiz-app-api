@@ -37,10 +37,10 @@ namespace QuizApp.Application.Services
 			if (existingTag is { })
 				throw new TagWithSelectedNameAlreadyExistsException(existingTag.Name);
 
-			var questionSet = Tag.Create(dto.Name, dto.Description);
-			await _tagsRepository.AddAsync(questionSet);
+			var tag = Tag.Create(dto.Name, dto.Description);
+			await _tagsRepository.AddAsync(tag);
 
-			return questionSet.Name;
+			return tag.Name;
 		}
 	}
 }

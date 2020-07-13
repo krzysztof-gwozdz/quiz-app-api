@@ -21,7 +21,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 		public async Task<Tag> GetByNameAsync(string name) =>
 			(await GetDocumentByIdAsync(name))?.ToModel();
 
-		public async Task AddAsync(Tag questionSet) =>
-			await AddDocumentAsync(questionSet.ToDocument());
+		public async Task AddAsync(Tag tag) =>
+			await AddDocumentAsync(tag.ToDocument());
 	}
 }
