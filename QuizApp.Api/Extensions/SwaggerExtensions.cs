@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace QuizApp.Api.Extensions
 {
@@ -12,10 +9,10 @@ namespace QuizApp.Api.Extensions
 	{
 		public static IServiceCollection AddSwaggerWithConfig(this IServiceCollection services)
 		{
-			services.AddSwaggerGen(c =>
+			services.AddSwaggerGen(options =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Quiz App API", Version = "v1" });
-				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				options.SwaggerDoc("v1", new OpenApiInfo { Title = "Quiz App API", Version = "v1" });
+				options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 				{
 					Description = @"JWT Authorization header using the Bearer scheme: 'Bearer <TOKEN>'",
 					Name = "Authorization",
@@ -23,7 +20,7 @@ namespace QuizApp.Api.Extensions
 					Type = SecuritySchemeType.ApiKey,
 					Scheme = "Bearer"
 				});
-				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				options.AddSecurityRequirement(new OpenApiSecurityRequirement
 				{{
 					new OpenApiSecurityScheme
 					{
@@ -37,28 +34,18 @@ namespace QuizApp.Api.Extensions
 					new List<string>()
 				}});
 			});
-
 			return services;
 		}
 
 		public static IApplicationBuilder UseSwaggerWithConfig(this IApplicationBuilder app)
 		{
 			app.UseSwagger();
-			app.UseSwaggerUI(c =>
+			app.UseSwaggerUI(options =>
 			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quiz App API V1");
+				options.SwaggerEndpoint("/swagger/v1/swagger.json", "Quiz App API V1");
+				options.RoutePrefix = string.Empty;
 			});
-			app.Use(async (context, next) => await RedirectToSwagger(context, next));
-
 			return app;
-		}
-
-		private static async Task RedirectToSwagger(HttpContext context, Func<Task> next)
-		{
-			var url = context.Request.Path.Value;
-			if (url == "/")
-				context.Request.Path = "/swagger";
-			await next();
 		}
 	}
 }
