@@ -2,7 +2,7 @@
 
 namespace QuizApp.Application
 {
-	public class IdentityOptions
+	public class AuthOptions
 	{
 		public bool Enabled { get; set; }
 		public string Secret { get; set; }

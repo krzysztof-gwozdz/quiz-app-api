@@ -8,9 +8,9 @@ namespace QuizApp.Application.Services
 {
 	public class TokensService : ITokensService
 	{
-		private readonly IdentityOptions _options;
+		private readonly AuthOptions _options;
 
-		public TokensService(IdentityOptions options)
+		public TokensService(AuthOptions options)
 		{
 			_options = options;
 		}
