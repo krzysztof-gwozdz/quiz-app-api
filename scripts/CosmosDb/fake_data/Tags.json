@@ -1,30 +1,30 @@
 [
   {
-    "name": "C#",
+    "id": "C#",
     "description": "C# is a high level, statically typed, multi-paradigm programming language developed by Microsoft."
   },
   {
-    "name": "Html",
+    "id": "Html",
     "description": "HTML (HyperText Markup Language) is the main markup language for creating web pages."
   },
   {
-    "name": "CSS",
+    "id": "CSS",
     "description": "CSS (Cascading Style Sheets) is a representation style sheet language used for describing the look and formatting of HTML, XML and SVG."
   },
   {
-    "name": "HTTP",
+    "id": "HTTP",
     "description": "The Hypertext Transfer Protocol (HTTP) is an application protocol for distributed, collaborative, hypermedia information systems."
   },
   {
-    "name": "Javascript",
+    "id": "Javascript",
     "description": "JavaScript, often abbreviated as JS, is a programming language that conforms to the ECMAScript specification."
   },
   {
-    "name": "Test tag 1",
+    "id": "Test tag 1",
     "description": "Description of first tag."
   },
   {
-    "name": "Test tag 2",
+    "id": "Test tag 2",
     "description": "Very long description about second tag. orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
   }
 ]
