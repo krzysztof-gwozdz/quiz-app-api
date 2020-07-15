@@ -3,7 +3,7 @@ using System;
 
 namespace QuizApp.Infrastructure.CosmosDb.Documents
 {
-	public class UserDocument
+	internal class UserDocument
 	{
 		[JsonProperty("id")]
 		public Guid Id { get; set; }

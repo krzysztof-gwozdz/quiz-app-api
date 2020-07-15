@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public abstract class CosmosDbRepository<TDocument, TId> : ICosmosDbRepository<TDocument, TId>
+	internal abstract class CosmosDbRepository<TDocument, TId> : ICosmosDbRepository<TDocument, TId>
 	{
 		private readonly ICosmosDbClientFactory _cosmosDbClientFactory;
 

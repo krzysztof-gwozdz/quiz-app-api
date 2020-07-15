@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("Questions", "/id")]
-	public class CosmosQuestionsRepository : CosmosDbRepository<QuestionDocument, Guid>, IQuestionsRepository
+	internal class CosmosQuestionsRepository : CosmosDbRepository<QuestionDocument, Guid>, IQuestionsRepository
 	{
 		public CosmosQuestionsRepository(ICosmosDbClientFactory factory) : base(factory)
 		{

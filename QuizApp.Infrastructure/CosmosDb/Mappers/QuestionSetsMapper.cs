@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace QuizApp.Infrastructure.CosmosDb.Mappers
 {
-	public static class QuestionSetsMapper
+	internal static class QuestionSetsMapper
 	{
 		public static QuestionSetDocuments ToDocument(this QuestionSet questionSet) =>
 			new QuestionSetDocuments

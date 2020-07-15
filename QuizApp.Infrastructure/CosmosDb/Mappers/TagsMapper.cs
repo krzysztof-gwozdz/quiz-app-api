@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace QuizApp.Infrastructure.CosmosDb.Mappers
 {
-	public static class TagsMapper
+	internal static class TagsMapper
 	{
 		public static TagDocument ToDocument(this Tag tag) =>
 			new TagDocument

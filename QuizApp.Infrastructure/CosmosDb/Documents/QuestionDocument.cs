@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace QuizApp.Infrastructure.CosmosDb.Documents
 {
-	public class QuestionDocument
+	internal class QuestionDocument
 	{
 		[JsonProperty("id")]
 		public Guid Id { get; set; }

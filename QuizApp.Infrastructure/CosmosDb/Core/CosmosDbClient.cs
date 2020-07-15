@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public class CosmosDbClient : ICosmosDbClient
+	internal class CosmosDbClient : ICosmosDbClient
 	{
 		private readonly string _databaseName;
 		private readonly string _collectionName;

@@ -1,6 +1,6 @@
 ﻿namespace QuizApp.Infrastructure.CosmosDb
 {
-	public class CosmosDbOptions
+	internal class CosmosDbOptions
 	{
 		public ConnectionStringMode Mode { get; set; }
 		public ConnectionString Azure { get; set; }
@@ -10,13 +10,13 @@
 			Mode == ConnectionStringMode.Azure ? Azure : Emulator;
 	}
 
-	public enum ConnectionStringMode
+	internal enum ConnectionStringMode
 	{
 		Azure,
 		Emulator
 	}
 
-	public class ConnectionString
+	internal class ConnectionString
 	{
 		public string ServiceEndpoint { get; set; }
 		public string AuthKey { get; set; }

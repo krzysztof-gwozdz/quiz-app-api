@@ -2,7 +2,7 @@
 
 namespace QuizApp.Infrastructure.AzureBlob.Core
 {
-	public class AzureBlobRepositoryAttribute : Attribute
+	internal class AzureBlobRepositoryAttribute : Attribute
 	{
 		public string ContainerName { get; }
 

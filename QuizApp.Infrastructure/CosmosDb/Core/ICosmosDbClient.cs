@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public interface ICosmosDbClient
+	internal interface ICosmosDbClient
 	{
 		Task<Document> ReadDocumentAsync(string documentId, RequestOptions options = null, CancellationToken cancellationToken = default);
 

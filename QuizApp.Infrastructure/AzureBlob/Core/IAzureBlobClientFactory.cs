@@ -2,7 +2,7 @@
 
 namespace QuizApp.Infrastructure.AzureBlob.Core
 {
-	public interface IAzureBlobClientFactory
+	internal interface IAzureBlobClientFactory
 	{
 		BlobContainerClient GetBlobContainerClient(string containerName);
 	}

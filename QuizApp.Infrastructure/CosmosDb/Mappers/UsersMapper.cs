@@ -3,7 +3,7 @@ using QuizApp.Infrastructure.CosmosDb.Documents;
 
 namespace QuizApp.Infrastructure.CosmosDb.Mappers
 {
-	public static class UsersMapper
+	internal static class UsersMapper
 	{
 		public static UserDocument ToDocument(this User user) =>
 			new UserDocument

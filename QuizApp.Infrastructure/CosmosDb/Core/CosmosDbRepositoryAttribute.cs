@@ -3,7 +3,7 @@ using System;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public class CosmosDbRepositoryAttribute : Attribute
+	internal class CosmosDbRepositoryAttribute : Attribute
 	{
 		public ContainerProperties ContainerProperties { get; }
 

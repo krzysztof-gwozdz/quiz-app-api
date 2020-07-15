@@ -2,7 +2,7 @@
 
 namespace QuizApp.Infrastructure.AzureBlob.Exceptions
 {
-	public class UnableToFindAzureBlobContainerException : InfrastructureException
+	internal class UnableToFindAzureBlobContainerException : InfrastructureException
 	{
 		public override string Code => "unable_to_find_cosmos_db_container";
 

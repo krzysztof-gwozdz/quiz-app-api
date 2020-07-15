@@ -1,6 +1,6 @@
 ﻿namespace QuizApp.Infrastructure.AzureBlob.Core
 {
-	public interface IAzureBlobRepository
+	internal interface IAzureBlobRepository
 	{
 	}
 }

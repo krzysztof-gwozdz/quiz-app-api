@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public class CosmosDbClientFactory : ICosmosDbClientFactory
+	internal class CosmosDbClientFactory : ICosmosDbClientFactory
 	{
 		private readonly string _databaseName;
 		private readonly ContainerProperties[] _containerProperties;

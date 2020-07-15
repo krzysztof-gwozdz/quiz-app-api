@@ -2,7 +2,7 @@
 
 namespace QuizApp.Infrastructure.CosmosDb.Exceptions
 {
-	public class CosmosDbConfigurationException : InfrastructureException
+	internal class CosmosDbConfigurationException : InfrastructureException
 	{
 		public override string Code => "cosmos_db_configuration_exception";
 

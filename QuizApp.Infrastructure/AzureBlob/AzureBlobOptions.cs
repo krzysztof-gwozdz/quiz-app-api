@@ -1,6 +1,6 @@
 ﻿namespace QuizApp.Infrastructure.AzureBlob
 {
-	public class AzureBlobOptions
+	internal class AzureBlobOptions
 	{
 		public string ConnectionString { get; set; }
 	}

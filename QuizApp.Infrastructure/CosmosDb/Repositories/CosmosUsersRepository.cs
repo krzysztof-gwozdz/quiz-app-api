@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("Users", "/id")]
-	public class CosmosUsersRepository : CosmosDbRepository<UserDocument, string>, IUsersRepository
+	internal class CosmosUsersRepository : CosmosDbRepository<UserDocument, string>, IUsersRepository
 	{
 		public CosmosUsersRepository(ICosmosDbClientFactory factory) : base(factory)
 		{

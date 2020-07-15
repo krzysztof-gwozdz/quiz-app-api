@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.AzureBlob.Core
 {
-	public class AzureBlobClientFactory : IAzureBlobClientFactory
+	internal class AzureBlobClientFactory : IAzureBlobClientFactory
 	{
 		private readonly BlobServiceClient _blobServiceClient;
 		private readonly string[] _containerNames;

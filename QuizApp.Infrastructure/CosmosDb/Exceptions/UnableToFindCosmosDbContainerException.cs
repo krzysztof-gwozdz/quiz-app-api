@@ -2,7 +2,7 @@
 
 namespace QuizApp.Infrastructure.CosmosDb.Exceptions
 {
-	public class UnableToFindCosmosDbContainerException : InfrastructureException
+	internal class UnableToFindCosmosDbContainerException : InfrastructureException
 	{
 		public override string Code => "unable_to_find_cosmos_db_container";
 

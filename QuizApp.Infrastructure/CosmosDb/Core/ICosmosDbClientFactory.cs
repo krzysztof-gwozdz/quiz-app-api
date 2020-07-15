@@ -3,7 +3,7 @@ using System;
 
 namespace QuizApp.Infrastructure.CosmosDb.Core
 {
-	public interface ICosmosDbClientFactory
+	internal interface ICosmosDbClientFactory
 	{
 		DocumentClient DocumentClient { get; }
 		ICosmosDbClient GetClient(string collectionName);

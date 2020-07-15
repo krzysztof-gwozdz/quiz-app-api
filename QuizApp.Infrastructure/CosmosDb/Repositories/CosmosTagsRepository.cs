@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
 {
 	[CosmosDbRepository("Tags", "/id")]
-	public class CosmosTagsRepository : CosmosDbRepository<TagDocument, string>, ITagsRepository
+	internal class CosmosTagsRepository : CosmosDbRepository<TagDocument, string>, ITagsRepository
 	{
 		public CosmosTagsRepository(ICosmosDbClientFactory factory) : base(factory)
 		{

@@ -2,7 +2,7 @@
 
 namespace QuizApp.Infrastructure.AzureBlob.Exceptions
 {
-	public class AzureBlobConfigurationException : InfrastructureException
+	internal class AzureBlobConfigurationException : InfrastructureException
 	{
 		public override string Code => "azure_blob_configuration_exception";
 
