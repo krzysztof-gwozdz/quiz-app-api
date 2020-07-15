@@ -24,8 +24,7 @@ namespace QuizApp.Api.Controllers
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
 		public async Task<ActionResult<TagsDto>> Get()
 		{
-			var tags = await _tagsService.GetCollectionAsync();
-			return Ok(tags);
+			return Ok(await _tagsService.GetCollectionAsync());
 		}
 
 		[HttpGet("{name}")]
@@ -34,8 +33,7 @@ namespace QuizApp.Api.Controllers
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
 		public async Task<ActionResult<TagDto>> Get(string name)
 		{
-			var tag = await _tagsService.GetAsync(name);
-			return Ok(tag);
+			return Ok(await _tagsService.GetAsync(name));
 		}
 
 		[HttpPost("")]

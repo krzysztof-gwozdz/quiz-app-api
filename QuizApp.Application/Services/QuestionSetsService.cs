@@ -51,14 +51,14 @@ namespace QuizApp.Application.Services
 			return (await _questionSetImagesRepository.GetAsync(id)).AsDto();
 		}
 
-		public async Task<Guid> CreateAsync(CreateQuestionSetDto dto)
+		public async Task<Guid> CreateAsync(CreateQuestionSetDto createQuestionSetDto)
 		{
-			var existingQuestionSet = await _questionSetsRepository.GetByNameAsync(dto.Name);
+			var existingQuestionSet = await _questionSetsRepository.GetByNameAsync(createQuestionSetDto.Name);
 			if (existingQuestionSet is { })
 				throw new QuestionSetWithSelectedNameAlreadyExistsException(existingQuestionSet.Name);
 
 			var tags = new HashSet<string>();
-			foreach (var tag in dto.Tags)
+			foreach (var tag in createQuestionSetDto.Tags)
 			{
 				var existingTag = await _tagsRepository.GetByNameAsync(tag);
 				if (existingTag is null)
@@ -66,9 +66,9 @@ namespace QuizApp.Application.Services
 				tags.Add(tag);
 			}
 
-			var image = QuestionSetImage.Create(dto.Image?.OpenReadStream(), dto.Image?.ContentType);
-			var color = Color.Create(dto.Color);
-			var questionSet = QuestionSet.Create(dto.Name, tags, dto.Description, image.Id, color);
+			var image = QuestionSetImage.Create(createQuestionSetDto.Image?.OpenReadStream(), createQuestionSetDto.Image?.ContentType);
+			var color = Color.Create(createQuestionSetDto.Color);
+			var questionSet = QuestionSet.Create(createQuestionSetDto.Name, tags, createQuestionSetDto.Description, image.Id, color);
 			await _questionSetsRepository.AddAsync(questionSet);
 			await _questionSetImagesRepository.AddAsync(image);
 

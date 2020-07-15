@@ -30,12 +30,12 @@ namespace QuizApp.Application.Tests.Services
 		public async Task SignUpWithUniqueUsername_UserCreated()
 		{
 			//arrange
-			var dto = new SignUpDto(UserExample.ValidUsername, PasswordExample.ValidPassword.Value);
+			var signUpDto = new SignUpDto(UserExample.ValidUsername, PasswordExample.ValidPassword.Value);
 			_passwordService.GenerateSalt().Returns(UserExample.ValidSalt);
 			_passwordService.HashPassword(Arg.Any<string>(), Arg.Any<byte[]>()).Returns(UserExample.ValidPasswordHash);
 
 			//act 
-			await _identitiesService.SignUpAsync(dto);
+			await _identitiesService.SignUpAsync(signUpDto);
 
 			//assert
 		}
@@ -45,11 +45,11 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var username = UserExample.ValidUsername;
-			var dto = new SignUpDto(username, PasswordExample.ValidPassword.Value);
+			var signUpDto = new SignUpDto(username, PasswordExample.ValidPassword.Value);
 			_usersRepository.CheckIfExistsByUsernameAsync(username).Returns(true);
 
 			//act 
-			Func<Task> signUp = async () => await _identitiesService.SignUpAsync(dto);
+			Func<Task> signUp = async () => await _identitiesService.SignUpAsync(signUpDto);
 
 			//assert
 			signUp.Should().Throw<UserWithSelectedUsernameAlreadyExistsException>()
@@ -61,13 +61,13 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var user = UserExample.ValidUser;
-			var dto = new SignInDto(user.Username, PasswordExample.ValidPassword.Value);
+			var signIpDto = new SignInDto(user.Username, PasswordExample.ValidPassword.Value);
 			_passwordService.HashPassword(PasswordExample.ValidPassword.Value, Arg.Any<byte[]>()).Returns(UserExample.ValidPasswordHash);
 			_usersRepository.GetByUsernameAsync(user.Username).Returns(user);
 			_tokensService.Create(user.Username).Returns(Substitute.For<TokenDto>());
 
 			//act 
-			var token = await _identitiesService.SignInAsync(dto);
+			var token = await _identitiesService.SignInAsync(signIpDto);
 
 			//assert
 			token.Should().NotBeNull();
@@ -78,11 +78,11 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var user = UserExample.ValidUser;
-			var dto = new SignInDto(user.Username, PasswordExample.ValidPassword.Value);
+			var signIpDto = new SignInDto(user.Username, PasswordExample.ValidPassword.Value);
 			_passwordService.HashPassword(PasswordExample.ValidPassword.Value, Arg.Any<byte[]>()).Returns(UserExample.ValidPasswordHash);
 
 			//act 
-			Func<Task> signIn = async () => await _identitiesService.SignInAsync(dto);
+			Func<Task> signIn = async () => await _identitiesService.SignInAsync(signIpDto);
 
 			//assert
 			signIn.Should().Throw<UserNotFoundException>()
@@ -94,11 +94,11 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var user = UserExample.ValidUser;
-			var dto = new SignInDto(user.Username, "wrong password");
+			var signIpDto = new SignInDto(user.Username, "wrong password");
 			_usersRepository.GetByUsernameAsync(user.Username).Returns(user);
 
 			//act 
-			Func<Task> signIn = async () => await _identitiesService.SignInAsync(dto);
+			Func<Task> signIn = async () => await _identitiesService.SignInAsync(signIpDto);
 
 			//assert
 			signIn.Should().Throw<UserNotFoundException>()

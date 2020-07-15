@@ -6,12 +6,12 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 {
 	public static class QuizMapper
 	{
-		public static QuizDocument ToDocument(this Quiz document) =>
+		public static QuizDocument ToDocument(this Quiz quiz) =>
 			new QuizDocument
 			(
-				document.Id,
-				 document.QuestionSetId,
-				 document.Questions.Select(question =>
+				quiz.Id,
+				quiz.QuestionSetId,
+				quiz.Questions.Select(question =>
 					new QuizDocument.QuestionDocument
 					(
 						 question.Id,
@@ -31,23 +31,26 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 				).ToHashSet()
 			);
 
-		public static Quiz ToModel(this QuizDocument document) =>
-			new Quiz(
-				document.Id,
-				document.QuestionSetId,
-				document.Questions.Select(question =>
-					new Quiz.Question(
-						question.Id,
-						question.Text,
-						question.Answers.Select(answer =>
-							new Quiz.Question.Answer(
-								answer.Id,
-								answer.Text,
-								answer.IsCorrect)
-							).ToHashSet(),
-						question.Tags.ToHashSet(),
-						question.PlayerAnswerId,
-						question.PlayerRating)
+		public static Quiz ToModel(this QuizDocument quizDocument) =>
+			new Quiz
+			(
+				quizDocument.Id,
+				quizDocument.QuestionSetId,
+				quizDocument.Questions.Select(questionDocument =>
+					new Quiz.Question
+					(
+						questionDocument.Id,
+						questionDocument.Text,
+						questionDocument.Answers.Select(answerDocument =>
+							new Quiz.Question.Answer
+							(
+								answerDocument.Id,
+								answerDocument.Text,
+								answerDocument.IsCorrect
+							)).ToHashSet(),
+						questionDocument.Tags.ToHashSet(),
+						questionDocument.PlayerAnswerId,
+						questionDocument.PlayerRating)
 				).ToHashSet()
 			);
 	}

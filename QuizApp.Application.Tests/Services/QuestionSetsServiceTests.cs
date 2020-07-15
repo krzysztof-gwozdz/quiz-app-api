@@ -86,11 +86,11 @@ namespace QuizApp.Application.Tests.Services
 			image.Length.Returns(QuestionSetImageExample.ValidData.Length);
 			image.ContentType.Returns(QuestionSetImageExample.ValidContentType);
 			var color = QuestionSetExample.ValidColor;
-			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
+			var createQuestionSetDto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
 			_tagsRepository.GetByNameAsync(tags.First()).Returns(new Tag(name, description));
 
 			//act 
-			var questionSetId = await _questionSetsService.CreateAsync(dto);
+			var questionSetId = await _questionSetsService.CreateAsync(createQuestionSetDto);
 
 			//assert
 			questionSetId.Should().NotBeEmpty();
@@ -107,10 +107,10 @@ namespace QuizApp.Application.Tests.Services
 			var color = QuestionSetExample.ValidColor;
 			var questionSet = new QuestionSet(QuestionSetExample.ValidId, name, QuestionSetExample.ValidTags, description, QuestionSetExample.ValidImageId, color);
 			_questionSetsRepository.GetByNameAsync(name).Returns(questionSet);
-			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
+			var createQuestionSetDto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
 
 			//act 
-			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(dto);
+			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(createQuestionSetDto);
 
 			//assert
 			await createQuestionSet.Should().ThrowAsync<QuestionSetWithSelectedNameAlreadyExistsException>()
@@ -127,10 +127,10 @@ namespace QuizApp.Application.Tests.Services
 			var tags = new[] { tagName };
 			var image = Substitute.For<IFormFile>();
 			var color = QuestionSetExample.ValidColor;
-			var dto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
+			var createQuestionSetDto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
 
 			//act 
-			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(dto);
+			Func<Task> createQuestionSet = async () => await _questionSetsService.CreateAsync(createQuestionSetDto);
 
 			//assert
 			await createQuestionSet.Should().ThrowAsync<TagNotFoundException>()

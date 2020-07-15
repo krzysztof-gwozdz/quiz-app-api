@@ -32,7 +32,7 @@ namespace QuizApp.Application.Services
 			};
 
 			var securityToken = handler.CreateToken(tokenDescriptor);
-			var token = new TokenDto
+			return new TokenDto
 			(
 				 handler.WriteToken(securityToken),
 				 null,
@@ -41,7 +41,6 @@ namespace QuizApp.Application.Services
 				 securityToken.ValidFrom,
 				 securityToken.ValidTo
 			);
-			return token;
 		}
 	}
 }

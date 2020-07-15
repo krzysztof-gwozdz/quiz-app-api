@@ -18,24 +18,30 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 						answer.Id,
 						answer.Text,
 						answer.IsCorrect
-					)
-				).ToHashSet(),
+					)).ToHashSet(),
 				question.Tags.ToArray(),
 				question.CorrectAnswersCount,
 				question.AllAnswersCount
 			);
 
-		public static Question ToModel(this QuestionDocument document) =>
-			new Question(
-				document.Id,
-				document.Text,
-				document.Answers.Select(answer => new Question.Answer(answer.Id, answer.Text, answer.IsCorrect)).ToHashSet(),
-				document.Tags.ToHashSet(),
-				document.CorrectAnswersCount,
-				document.AllAnswersCount
+		public static Question ToModel(this QuestionDocument questionDocument) =>
+			new Question
+			(
+				questionDocument.Id,
+				questionDocument.Text,
+				questionDocument.Answers.Select(answerDocument =>
+					new Question.Answer
+					(
+						answerDocument.Id,
+						answerDocument.Text,
+						answerDocument.IsCorrect
+					)).ToHashSet(),
+				questionDocument.Tags.ToHashSet(),
+				questionDocument.CorrectAnswersCount,
+				questionDocument.AllAnswersCount
 			);
 
-		public static ISet<Question> ToModel(this ISet<QuestionDocument> documents) =>
-			new HashSet<Question>(documents.Select(ToModel));
+		public static ISet<Question> ToModel(this ISet<QuestionDocument> questionDocuments) =>
+			new HashSet<Question>(questionDocuments.Select(ToModel));
 	}
 }

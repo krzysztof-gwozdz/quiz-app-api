@@ -42,9 +42,9 @@ namespace QuizApp.Api.Controllers
 		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ErrorResponse))]
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
-		public async Task<ActionResult> Generate(QuizParametersDto quizParameters)
+		public async Task<ActionResult> Generate(QuizParametersDto quizParametersDto)
 		{
-			return Created((await _quizService.GenerateAsync(quizParameters)).ToString(), null);
+			return Created((await _quizService.GenerateAsync(quizParametersDto)).ToString(), null);
 		}
 
 		[HttpPut("{id:guid}")]
@@ -52,10 +52,10 @@ namespace QuizApp.Api.Controllers
 		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ErrorResponse))]
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
-		public async Task<ActionResult> Solve(Guid id, SolvedQuizDto solvedQuiz)
+		public async Task<ActionResult> Solve(Guid id, SolvedQuizDto solvedQuizDto)
 		{
-			solvedQuiz.QuizId = id;
-			await _quizService.SolveAsync(solvedQuiz);
+			solvedQuizDto.QuizId = id;
+			await _quizService.SolveAsync(solvedQuizDto);
 			return Ok();
 		}
 	}

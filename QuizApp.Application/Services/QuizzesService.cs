@@ -39,19 +39,19 @@ namespace QuizApp.Application.Services
 			return quiz.AsQuizSummaryDto();
 		}
 
-		public async Task<Guid> GenerateAsync(QuizParametersDto quizParameters)
+		public async Task<Guid> GenerateAsync(QuizParametersDto quizParametersDto)
 		{
-			var quiz = await _quizFactory.GetAsync(quizParameters.QuestionSetId, quizParameters.QuestionCount);
+			var quiz = await _quizFactory.GetAsync(quizParametersDto.QuestionSetId, quizParametersDto.QuestionCount);
 			await _quizzesRepository.AddAsync(quiz);
 			return quiz.Id;
 		}
 
-		public async Task SolveAsync(SolvedQuizDto solvedQuiz)
+		public async Task SolveAsync(SolvedQuizDto solvedQuizDto)
 		{
-			var quiz = await _quizzesRepository.GetByIdAsync(solvedQuiz.QuizId);
+			var quiz = await _quizzesRepository.GetByIdAsync(solvedQuizDto.QuizId);
 			if (quiz is null)
-				throw new QuizNotFoundException(solvedQuiz.QuizId);
-			var playerAnswers = solvedQuiz.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId, playerAnswer.Rating)).ToHashSet();
+				throw new QuizNotFoundException(solvedQuizDto.QuizId);
+			var playerAnswers = solvedQuizDto.PlayerAnswers.Select(playerAnswer => Quiz.PlayerAnswer.Create(playerAnswer.QuestionId, playerAnswer.AnswerId, playerAnswer.Rating)).ToHashSet();
 			quiz.Solve(playerAnswers);
 			await _quizzesRepository.Update(quiz);
 		}

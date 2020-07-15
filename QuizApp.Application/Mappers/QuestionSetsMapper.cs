@@ -7,21 +7,21 @@ namespace QuizApp.Application.Mappers
 {
 	public static class QuestionSetsMapper
 	{
-		public static QuestionSetDto AsDto(this QuestionSet model, int totalQuestions) =>
+		public static QuestionSetDto AsDto(this QuestionSet questionSet, int totalQuestions) =>
 			new QuestionSetDto
 			(
-				model.Id,
-				model.Name,
-				model.Description,
-				model.Tags.ToArray(),
-				model.Color.Value,
+				questionSet.Id,
+				questionSet.Name,
+				questionSet.Description,
+				questionSet.Tags.ToArray(),
+				questionSet.Color.Value,
 				totalQuestions
 			);
 
-		public static QuestionSetsDto AsDto(this IEnumerable<QuestionSet> model) =>
+		public static QuestionSetsDto AsDto(this IEnumerable<QuestionSet> questionSets) =>
 			new QuestionSetsDto
 			(
-				model.Select(questionSet => new QuestionSetsElementDto
+				questionSets.Select(questionSet => new QuestionSetsElementDto
 				(
 					questionSet.Id,
 					questionSet.Name,
@@ -31,7 +31,11 @@ namespace QuizApp.Application.Mappers
 				)).ToArray()
 			);
 
-		public static QuestionSetImageDto AsDto(this QuestionSetImage model) =>
-			new QuestionSetImageDto(model.Data, model.ContentType);
+		public static QuestionSetImageDto AsDto(this QuestionSetImage questionSetImage) =>
+			new QuestionSetImageDto
+			(
+				questionSetImage.Data,
+				questionSetImage.ContentType
+			);
 	}
 }

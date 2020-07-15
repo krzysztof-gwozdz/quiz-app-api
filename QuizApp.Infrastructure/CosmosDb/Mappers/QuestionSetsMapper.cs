@@ -7,29 +7,29 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 {
 	public static class QuestionSetsMapper
 	{
-		public static QuestionSetDocuments ToDocument(this QuestionSet model) =>
+		public static QuestionSetDocuments ToDocument(this QuestionSet questionSet) =>
 			new QuestionSetDocuments
 			(
-				model.Id,
-				model.Name,
-				model.Tags.ToArray(),
-				model.Description,
-				model.ImageId,
-				model.Color.Value
+				questionSet.Id,
+				questionSet.Name,
+				questionSet.Tags.ToArray(),
+				questionSet.Description,
+				questionSet.ImageId,
+				questionSet.Color.Value
 			);
 
-		public static QuestionSet ToModel(this QuestionSetDocuments document) =>
+		public static QuestionSet ToModel(this QuestionSetDocuments questionSetDocument) =>
 			new QuestionSet
 			(
-				document.Id,
-				document.Name,
-				document.Tags.ToHashSet(),
-				document.Description,
-				document.ImageId,
-				new Color(document.Color)
+				questionSetDocument.Id,
+				questionSetDocument.Name,
+				questionSetDocument.Tags.ToHashSet(),
+				questionSetDocument.Description,
+				questionSetDocument.ImageId,
+				new Color(questionSetDocument.Color)
 			);
 
-		public static ISet<QuestionSet> ToModel(this ISet<QuestionSetDocuments> documents) =>
-			new HashSet<QuestionSet>(documents.Select(ToModel));
+		public static ISet<QuestionSet> ToModel(this ISet<QuestionSetDocuments> questionSetDocuments) =>
+			new HashSet<QuestionSet>(questionSetDocuments.Select(ToModel));
 	}
 }

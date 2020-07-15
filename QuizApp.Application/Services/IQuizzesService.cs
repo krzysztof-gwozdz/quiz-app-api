@@ -8,7 +8,7 @@ namespace QuizApp.Application.Services
 	{
 		Task<QuizDto> GetAsync(Guid id);
 		Task<QuizSummaryDto> GetSummaryAsync(Guid id);
-		Task<Guid> GenerateAsync(QuizParametersDto quizParameters);
-		Task SolveAsync(SolvedQuizDto solvedQuiz);
+		Task<Guid> GenerateAsync(QuizParametersDto quizParametersDto);
+		Task SolveAsync(SolvedQuizDto solvedQuizDto);
 	}
 }

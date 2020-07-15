@@ -76,12 +76,12 @@ namespace QuizApp.Application.Tests.Services
 		public async Task CreateQuestionCorrectValues_QuestionCreated()
 		{
 			//arrange
-			var dto = CreateQuestionDtoExample.ValidDto;
-			_questionSetsRepository.ExistsAsync(dto.QuestionSetId).Returns(true);
-			_tagsRepository.GetByNameAsync(dto.Tags.First()).Returns(new Tag(dto.Tags.First(), string.Empty));
+			var createQuestionDto = CreateQuestionDtoExample.ValidDto;
+			_questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId).Returns(true);
+			_tagsRepository.GetByNameAsync(createQuestionDto.Tags.First()).Returns(new Tag(createQuestionDto.Tags.First(), string.Empty));
 
 			//act 
-			var questionId = await _questionsService.CreateAsync(dto);
+			var questionId = await _questionsService.CreateAsync(createQuestionDto);
 
 			//assert
 			questionId.Should().NotBeEmpty();
@@ -91,15 +91,15 @@ namespace QuizApp.Application.Tests.Services
 		public async Task CreateQuestionWithQuestionSetIdThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var dto = CreateQuestionDtoExample.ValidDto;
-			_questionSetsRepository.ExistsAsync(dto.QuestionSetId).Returns(false);
+			var createQuestionDto = CreateQuestionDtoExample.ValidDto;
+			_questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId).Returns(false);
 
 			//act 
-			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(dto);
+			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(createQuestionDto);
 
 			//assert
 			await createQuestion.Should().ThrowAsync<QuestionSetNotFoundException>()
-				.WithMessage($"Question set: {dto.QuestionSetId} not found.");
+				.WithMessage($"Question set: {createQuestionDto.QuestionSetId} not found.");
 		}
 
 		[Fact]
@@ -111,11 +111,11 @@ namespace QuizApp.Application.Tests.Services
 			var questionSetId = CreateQuestionDtoExample.ValidQuestionSetId;
 			var tagName = "Test tag";
 			var tags = new[] { tagName };
-			var dto = new CreateQuestionDto(text, answers, questionSetId, tags);
-			_questionSetsRepository.ExistsAsync(dto.QuestionSetId).Returns(true);
+			var createQuestionDto = new CreateQuestionDto(text, answers, questionSetId, tags);
+			_questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId).Returns(true);
 
 			//act 
-			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(dto);
+			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(createQuestionDto);
 
 			//assert
 			await createQuestion.Should().ThrowAsync<TagNotFoundException>()

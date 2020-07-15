@@ -72,10 +72,10 @@ namespace QuizApp.Application.Tests.Services
 			//arrange
 			var name = TagExample.ValidName;
 			var description = TagExample.ValidDescription;
-			var dto = new CreateTagDto(name, description);
+			var createTag = new CreateTagDto(name, description);
 
 			//act 
-			var tagId = await _tagsService.CreateAsync(dto);
+			var tagId = await _tagsService.CreateAsync(createTag);
 
 			//assert
 			tagId.Should().NotBeEmpty();
@@ -88,10 +88,10 @@ namespace QuizApp.Application.Tests.Services
 			var name = TagExample.ValidName;
 			var description = TagExample.ValidDescription;
 			_tagsRepository.GetByNameAsync(name).Returns(new Tag(name, description));
-			var dto = new CreateTagDto(name, description);
+			var createTag = new CreateTagDto(name, description);
 
 			//act 
-			Func<Task> createTags = async () => await _tagsService.CreateAsync(dto);
+			Func<Task> createTags = async () => await _tagsService.CreateAsync(createTag);
 
 			//assert
 			await createTags.Should().ThrowAsync<TagWithSelectedNameAlreadyExistsException>()

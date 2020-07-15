@@ -42,13 +42,13 @@ namespace QuizApp.Application.Services
 			return question.AsDto();
 		}
 
-		public async Task<Guid> CreateAsync(CreateQuestionDto dto)
+		public async Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto)
 		{
-			if (!await _questionSetsRepository.ExistsAsync(dto.QuestionSetId))
-				throw new QuestionSetNotFoundException(dto.QuestionSetId);
+			if (!await _questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId))
+				throw new QuestionSetNotFoundException(createQuestionDto.QuestionSetId);
 
 			var tags = new HashSet<string>();
-			foreach (var tag in dto.Tags)
+			foreach (var tag in createQuestionDto.Tags)
 			{
 				var existingTag = await _tagsRepository.GetByNameAsync(tag);
 				if (existingTag is null)
@@ -56,8 +56,8 @@ namespace QuizApp.Application.Services
 				tags.Add(tag);
 			}
 
-			var answers = dto.Answers.Select(answer => Question.Answer.Create(answer.Text, answer.IsCorrect)).ToHashSet();
-			var question = Question.Create(dto.Text, answers, tags);
+			var answers = createQuestionDto.Answers.Select(answer => Question.Answer.Create(answer.Text, answer.IsCorrect)).ToHashSet();
+			var question = Question.Create(createQuestionDto.Text, answers, tags);
 			await _questionsRepository.AddAsync(question);
 			return question.Id;
 		}

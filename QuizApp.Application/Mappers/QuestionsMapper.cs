@@ -7,22 +7,22 @@ namespace QuizApp.Application.Mappers
 {
 	public static class QuestionsMapper
 	{
-		public static QuestionDto AsDto(this Question model) =>
+		public static QuestionDto AsDto(this Question question) =>
 			new QuestionDto
 			(
-				model.Id,
-				model.Text,
-				model.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
-				model.Tags.ToArray(),
-				model.CorrectAnswersCount,
-				model.AllAnswersCount,
-				model.RatioOfCorrectAnswers
+				question.Id,
+				question.Text,
+				question.Answers.Select(answer => new AnswerDto(answer.Id, answer.Text, answer.IsCorrect)).ToArray(),
+				question.Tags.ToArray(),
+				question.CorrectAnswersCount,
+				question.AllAnswersCount,
+				question.RatioOfCorrectAnswers
 			);
 
-		public static QuestionsDto AsDto(this IEnumerable<Question> model) =>
+		public static QuestionsDto AsDto(this IEnumerable<Question> questions) =>
 			new QuestionsDto
 			(
-				model.Select(question => new QuestionsElementDto
+				questions.Select(question => new QuestionsElementDto
 				(
 					question.Id,
 					question.Text,
