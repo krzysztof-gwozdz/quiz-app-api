@@ -13,16 +13,13 @@ namespace QuizApp.Application.Services
 	public class QuestionsService : IQuestionsService
 	{
 		private readonly IQuestionsRepository _questionsRepository;
-		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly ITagsRepository _tagsRepository;
 
 		public QuestionsService(
 			IQuestionsRepository questionsRepository,
-			IQuestionSetsRepository questionSetsRepository,
 			ITagsRepository tagsRepository)
 		{
 			_questionsRepository = questionsRepository;
-			_questionSetsRepository = questionSetsRepository;
 			_tagsRepository = tagsRepository;
 		}
 
@@ -44,9 +41,6 @@ namespace QuizApp.Application.Services
 
 		public async Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto)
 		{
-			if (!await _questionSetsRepository.ExistsAsync(createQuestionDto.QuestionSetId))
-				throw new QuestionSetNotFoundException(createQuestionDto.QuestionSetId);
-
 			var tags = new HashSet<string>();
 			foreach (var tag in createQuestionDto.Tags)
 			{

@@ -17,9 +17,6 @@ namespace QuizApp.Application.Tests.Examples
 				CreateAnswerDtoExample.ValidInCorrectAnswerDto
 			};
 
-		public static Guid ValidQuestionSetId =>
-			Guid.NewGuid();
-
 		public static string[] ValidTags =>
 			new[] { Guid.NewGuid().ToString() };
 
@@ -28,7 +25,6 @@ namespace QuizApp.Application.Tests.Examples
 			(
 				ValidText,
 				ValidAnswers,
-				ValidQuestionSetId,
 				ValidTags
 			);
 	}

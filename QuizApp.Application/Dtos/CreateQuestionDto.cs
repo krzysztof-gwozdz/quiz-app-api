@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace QuizApp.Application.Dtos
 {
@@ -7,7 +6,6 @@ namespace QuizApp.Application.Dtos
 	{
 		public string Text { get; set; }
 		public CreateAnswerDto[] Answers { get; set; }
-		public Guid QuestionSetId { get; set; }
 
 		private string[] _tags;
 		public string[] Tags
@@ -20,11 +18,10 @@ namespace QuizApp.Application.Dtos
 		{
 		}
 
-		public CreateQuestionDto(string text, CreateAnswerDto[] answers, Guid questionSetId, string[] tags)
+		public CreateQuestionDto(string text, CreateAnswerDto[] answers, string[] tags)
 		{
 			Text = text;
 			Answers = answers;
-			QuestionSetId = questionSetId;
 			Tags = tags;
 		}
 	}
