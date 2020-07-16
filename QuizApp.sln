@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizApp.Core.Tests", "QuizA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizApp.Application.Tests", "QuizApp.Application.Tests\QuizApp.Application.Tests.csproj", "{178EE8AF-4D4A-4834-9A8D-C17532996890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApp.Shared", "QuizApp.Shared\QuizApp.Shared.csproj", "{28178ECA-5FBC-4BBE-99CE-D29AF09AC980}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizApp.Shared", "QuizApp.Shared\QuizApp.Shared.csproj", "{28178ECA-5FBC-4BBE-99CE-D29AF09AC980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
