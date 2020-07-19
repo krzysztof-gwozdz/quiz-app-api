@@ -4,6 +4,7 @@ using QuizApp.Infrastructure.CosmosDb.Core;
 using QuizApp.Infrastructure.CosmosDb.Documents;
 using QuizApp.Infrastructure.CosmosDb.Mappers;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizApp.Infrastructure.CosmosDb.Repositories
@@ -19,7 +20,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 			(await GetDocumentsAsync())?.ToModel();
 
 		public async Task<Tag> GetByNameAsync(string name) =>
-			(await GetDocumentByIdAsync(name))?.ToModel();
+			(await GetDocumentsAsync(x => x.Name == name))?.FirstOrDefault()?.ToModel();
 
 		public async Task AddAsync(Tag tag) =>
 			await AddDocumentAsync(tag.ToDocument());

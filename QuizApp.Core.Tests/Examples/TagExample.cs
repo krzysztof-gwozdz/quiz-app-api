@@ -5,6 +5,9 @@ namespace QuizApp.Core.Tests.Examples
 {
 	public static class TagExample
 	{
+		public static Guid ValidId =>
+			Guid.NewGuid();
+
 		public static string ValidName =>
 			Guid.NewGuid().ToString();
 
@@ -12,6 +15,6 @@ namespace QuizApp.Core.Tests.Examples
 			Guid.NewGuid().ToString();
 
 		public static Tag ValidTag =>
-			new Tag(ValidName, ValidDescription);
+			new Tag(ValidId, ValidName, ValidDescription);
 	}
 }

@@ -85,9 +85,10 @@ namespace QuizApp.Application.Tests.Services
 		public async Task CreateTagsWithNameOfAnotherTags_ThrowException()
 		{
 			//arrange
+			var id = TagExample.ValidId;
 			var name = TagExample.ValidName;
 			var description = TagExample.ValidDescription;
-			_tagsRepository.GetByNameAsync(name).Returns(new Tag(name, description));
+			_tagsRepository.GetByNameAsync(name).Returns(new Tag(id, name, description));
 			var createTag = new CreateTagDto(name, description);
 
 			//act 

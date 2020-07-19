@@ -78,16 +78,17 @@ namespace QuizApp.Application.Tests.Services
 		public async Task CreateQuestionSetWithUniqueName_QuestionSetCreated()
 		{
 			//arrange
+			var tag = TagExample.ValidTag;
 			var name = QuestionSetExample.ValidName;
 			var description = QuestionSetExample.ValidDescription;
-			var tags = QuestionSetExample.ValidTags.ToArray();
+			var tags = new[] { tag.Name };
 			var image = Substitute.For<IFormFile>();
 			image.OpenReadStream().Returns(QuestionSetImageExample.ValidData);
 			image.Length.Returns(QuestionSetImageExample.ValidData.Length);
 			image.ContentType.Returns(QuestionSetImageExample.ValidContentType);
 			var color = QuestionSetExample.ValidColor;
 			var createQuestionSetDto = new CreateQuestionSetDto(name, description, tags, image, color.Value);
-			_tagsRepository.GetByNameAsync(tags.First()).Returns(new Tag(name, description));
+			_tagsRepository.GetByNameAsync(tags.First()).Returns(tag);
 
 			//act 
 			var questionSetId = await _questionSetsService.CreateAsync(createQuestionSetDto);

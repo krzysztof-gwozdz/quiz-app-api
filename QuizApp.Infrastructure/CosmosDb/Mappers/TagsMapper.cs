@@ -10,6 +10,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 		public static TagDocument ToDocument(this Tag tag) =>
 			new TagDocument
 			(
+				tag.Id,
 				tag.Name,
 				tag.Description
 				);
@@ -17,6 +18,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 		public static Tag ToModel(this TagDocument tagDocument) =>
 			new Tag
 			(
+				tagDocument.Id,
 				tagDocument.Name,
 				tagDocument.Description
 			);

@@ -1,30 +1,37 @@
 [
   {
-    "id": "C#",
+    "id": "110e146e-36d3-49fc-97ca-f46be0d5a5ad",
+    "name": "C#",
     "description": "C# is a high level, statically typed, multi-paradigm programming language developed by Microsoft."
   },
   {
-    "id": "Html",
+    "id": "85cf350a-d3dc-4695-898f-17ddb12239ec",
+    "name": "Html",
     "description": "HTML (HyperText Markup Language) is the main markup language for creating web pages."
   },
   {
-    "id": "CSS",
+    "id": "23cc5d98-3392-4f43-bbd8-31d312a8a7fd",
+    "name": "CSS",
     "description": "CSS (Cascading Style Sheets) is a representation style sheet language used for describing the look and formatting of HTML, XML and SVG."
   },
   {
-    "id": "HTTP",
+    "id": "ff08f2f9-87b8-4151-9ed7-400daa5b1ead",
+    "name": "HTTP",
     "description": "The Hypertext Transfer Protocol (HTTP) is an application protocol for distributed, collaborative, hypermedia information systems."
   },
   {
-    "id": "Javascript",
+    "id": "52d2123b-e1cd-40b8-ad72-61f17a3fe206",
+    "name": "Javascript",
     "description": "JavaScript, often abbreviated as JS, is a programming language that conforms to the ECMAScript specification."
   },
   {
-    "id": "Test tag 1",
+    "id": "56c3dea6-27b8-46d4-a64e-4ac11acd38f8",
+    "name": "Test tag 1",
     "description": "Description of first tag."
   },
   {
-    "id": "Test tag 2",
+    "id": "7498cbb0-2a92-49e4-8d63-7892581fb456",
+    "name": "Test tag 2",
     "description": "Very long description about second tag. orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
   }
 ]

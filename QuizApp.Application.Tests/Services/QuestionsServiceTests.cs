@@ -75,7 +75,7 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var createQuestionDto = CreateQuestionDtoExample.ValidDto;
-			_tagsRepository.GetByNameAsync(createQuestionDto.Tags.First()).Returns(new Tag(createQuestionDto.Tags.First(), string.Empty));
+			_tagsRepository.GetByNameAsync(createQuestionDto.Tags.First()).Returns(new Tag(TagExample.ValidId, createQuestionDto.Tags.First(), string.Empty));
 
 			//act 
 			var questionId = await _questionsService.CreateAsync(createQuestionDto);
