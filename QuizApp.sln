@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizApp.Application.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizApp.Shared", "QuizApp.Shared\QuizApp.Shared.csproj", "{28178ECA-5FBC-4BBE-99CE-D29AF09AC980}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApp.Importer", "QuizApp.Importer\QuizApp.Importer.csproj", "{FDDDEDEB-4E85-46D1-83BB-66E74218342E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{28178ECA-5FBC-4BBE-99CE-D29AF09AC980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28178ECA-5FBC-4BBE-99CE-D29AF09AC980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28178ECA-5FBC-4BBE-99CE-D29AF09AC980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDDEDEB-4E85-46D1-83BB-66E74218342E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDDEDEB-4E85-46D1-83BB-66E74218342E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDDEDEB-4E85-46D1-83BB-66E74218342E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDDEDEB-4E85-46D1-83BB-66E74218342E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
