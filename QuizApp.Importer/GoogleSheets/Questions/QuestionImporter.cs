@@ -1,6 +1,5 @@
 ﻿using QuizApp.Importer.Dtos;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace QuizApp.Importer.GoogleSheets.Questions
@@ -11,43 +10,7 @@ namespace QuizApp.Importer.GoogleSheets.Questions
 		{
 		}
 
-		protected override QuestionRow[] GetRows(Stream googleSheet)
-		{
-			using (var reader = new StreamReader(googleSheet))
-			{
-				var questionRows = new List<QuestionRow>();
-				ReadHeaders(reader);
-				while (!reader.EndOfStream)
-				{
-					var line = reader.ReadLine();
-
-					var values = line.Split(',');
-					var isCompleteCell = values[(int)QuestionColumns.IsComplete];
-					var isComplete = isCompleteCell == "✔️";
-					var isValidCell = values[(int)QuestionColumns.IsValid];
-					var isValid = isValidCell == "yes";
-
-					questionRows.Add(new QuestionRow(
-						isComplete,
-						isValid,
-						values[(int)QuestionColumns.Tag1],
-						values[(int)QuestionColumns.Tag2],
-						values[(int)QuestionColumns.Tag3],
-						values[(int)QuestionColumns.Question],
-						values[(int)QuestionColumns.Answer1],
-						values[(int)QuestionColumns.Answer2],
-						values[(int)QuestionColumns.Answer3],
-						values[(int)QuestionColumns.Answer4]
-						));
-				}
-				return questionRows.ToArray();
-			}
-		}
-
-		protected override QuestionRow[] Filter(QuestionRow[] rows)
-		{
-			return rows.Where(row => row.IsComplete && row.IsValid).ToArray();
-		}
+		protected override QuestionRow[] Filter(QuestionRow[] rows) => rows.Where(row => row.IsComplete == "✔️" && row.IsValid == "yes").ToArray();
 
 		protected override QuestionDto[] MapResults(QuestionRow[] rows)
 		{
@@ -70,7 +33,5 @@ namespace QuizApp.Importer.GoogleSheets.Questions
 			}
 			return questions.ToArray();
 		}
-		private string ReadHeaders(StreamReader reader)
-			=> reader.ReadLine();
 	}
 }

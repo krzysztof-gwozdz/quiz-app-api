@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using CsvHelper;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -49,7 +52,12 @@ namespace QuizApp.Importer.GoogleSheets
 			}
 		}
 
-		protected abstract RowType[] GetRows(Stream googleSheet);
+		protected virtual RowType[] GetRows(Stream googleSheet)
+		{
+			using (var streamReader = new StreamReader(googleSheet))
+			using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+				return csvReader.GetRecords<RowType>().ToArray();
+		}
 
 		protected virtual RowType[] Filter(RowType[] rows)
 			=> rows;

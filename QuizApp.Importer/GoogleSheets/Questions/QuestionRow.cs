@@ -1,31 +1,37 @@
-﻿namespace QuizApp.Importer.GoogleSheets.Questions
+﻿using CsvHelper.Configuration.Attributes;
+
+namespace QuizApp.Importer.GoogleSheets.Questions
 {
 	internal class QuestionRow
 	{
-		public bool IsComplete { get; set; }
-		public bool IsValid { get; set; }
+		[Index(0)]
+		public string IsComplete { get; set; }
+
+		[Index(1)]
+		public string IsValid { get; set; }
+
+		[Index(2)]
 		public string Tag1 { get; set; }
+
+		[Index(3)]
 		public string Tag2 { get; set; }
+
+		[Index(4)]
 		public string Tag3 { get; set; }
+
+		[Index(5)]
 		public string Question { get; set; }
+
+		[Index(6)]
 		public string Answer1 { get; set; }
+
+		[Index(7)]
 		public string Answer2 { get; set; }
+
+		[Index(8)]
 		public string Answer3 { get; set; }
+
+		[Index(9)]
 		public string Answer4 { get; set; }
-
-
-		public QuestionRow(bool isComplete, bool isValid, string tag1, string tag2, string tag3, string question, string answer1, string answer2, string answer3, string answer4)
-		{
-			IsComplete = isComplete;
-			IsValid = isValid;
-			Tag1 = tag1;
-			Tag2 = tag2;
-			Tag3 = tag3;
-			Question = question;
-			Answer1 = answer1;
-			Answer2 = answer2;
-			Answer3 = answer3;
-			Answer4 = answer4;
-		}
 	}
 }
