@@ -10,10 +10,14 @@ namespace QuizApp.Application.Services
 	public class TagsService : ITagsService
 	{
 		private readonly ITagsRepository _tagsRepository;
+		private readonly IQuestionsRepository _questionsRepository;
 
-		public TagsService(ITagsRepository tagsRepository)
+		public TagsService(
+			ITagsRepository tagsRepository,
+			IQuestionsRepository questionsRepository)
 		{
 			_tagsRepository = tagsRepository;
+			_questionsRepository = questionsRepository;
 		}
 
 		public async Task<TagsDto> GetCollectionAsync()
@@ -28,7 +32,8 @@ namespace QuizApp.Application.Services
 			if (tag is null)
 				throw new TagNotFoundException(name);
 
-			return tag.AsDto();
+			var totalQuestions = await _questionsRepository.CountByTagAsync(name);
+			return tag.AsDto(totalQuestions);
 		}
 
 		public async Task<string> CreateAsync(CreateTagDto dto)

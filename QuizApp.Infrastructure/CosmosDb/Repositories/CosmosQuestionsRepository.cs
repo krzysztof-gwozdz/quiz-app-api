@@ -29,6 +29,9 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 		public async Task<ISet<Question>> GetAllByTagsAsync(ISet<string> tags) =>
 			(await GetDocumentsAsync(question => question.Tags.Any(tag => tags.Contains(tag))))?.ToModel();
 
+		public async Task<int> CountByTagAsync(string tag) =>
+			await CountDocumentsAsync(question => question.Tags.Contains(tag));
+
 		public async Task<int> CountByTagsAsync(ISet<string> tags) =>
 			await CountDocumentsAsync(question => question.Tags.Any(tag => tags.Contains(tag)));
 

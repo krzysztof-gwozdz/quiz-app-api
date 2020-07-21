@@ -11,6 +11,7 @@ namespace QuizApp.Core.Repositories
 		Task<Question> GetByIdAsync(Guid id);
 		Task<bool> ExistsAsync(Guid id);
 		Task<ISet<Question>> GetAllByTagsAsync(ISet<string> tags);
+		Task<int> CountByTagAsync(string tag);
 		Task<int> CountByTagsAsync(ISet<string> tags);
 		Task AddAsync(Question question);
 		Task RemoveAsync(Guid id);
