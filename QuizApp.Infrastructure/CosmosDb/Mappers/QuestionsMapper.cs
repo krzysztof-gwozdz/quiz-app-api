@@ -20,6 +20,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 						answer.IsCorrect
 					)).ToHashSet(),
 				question.Tags.ToArray(),
+				question.Status,
 				question.CorrectAnswersCount,
 				question.AllAnswersCount
 			);
@@ -37,6 +38,7 @@ namespace QuizApp.Infrastructure.CosmosDb.Mappers
 						answerDocument.IsCorrect
 					)).ToHashSet(),
 				questionDocument.Tags.ToHashSet(),
+				questionDocument.Status,
 				questionDocument.CorrectAnswersCount,
 				questionDocument.AllAnswersCount
 			);

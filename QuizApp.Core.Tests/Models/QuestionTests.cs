@@ -20,11 +20,12 @@ namespace QuizApp.Core.Tests.Models
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var tags = QuestionExample.ValidTags;
+			var status = QuestionExample.ValidStatus;
 			var correctAnswersCount = 10;
 			var allAnswersCount = 20;
 
 			//act
-			var question = new Question(id, text, answers, tags, correctAnswersCount, allAnswersCount);
+			var question = new Question(id, text, answers, tags, status, correctAnswersCount, allAnswersCount);
 
 			//assert
 			question.CorrectAnswersCount.Should().Be(correctAnswersCount);
@@ -45,9 +46,10 @@ namespace QuizApp.Core.Tests.Models
 			var text = QuestionExample.ValidText;
 			var answers = QuestionExample.Answer.GetValidAnswers(4);
 			var tags = QuestionExample.ValidTags;
+			var status = QuestionExample.ValidStatus;
 
 			//act
-			var question = new Question(id, text, answers, tags, correctAnswersCount, allAnswersCount);
+			var question = new Question(id, text, answers, tags, status,correctAnswersCount, allAnswersCount);
 
 			//assert
 			question.RatioOfCorrectAnswers.Should().Be(ratioOfCorrectAnswers);
@@ -69,6 +71,7 @@ namespace QuizApp.Core.Tests.Models
 			question.Text.Should().Be(text);
 			question.Answers.Should().BeEquivalentTo(answers);
 			question.Tags.Should().BeEquivalentTo(tags);
+			question.Status.Should().BeEquivalentTo(Question.Statuses.New);
 			question.AllAnswersCount.Should().Be(0);
 			question.CorrectAnswersCount.Should().Be(0);
 		}

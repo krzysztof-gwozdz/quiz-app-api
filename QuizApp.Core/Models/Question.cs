@@ -7,35 +7,39 @@ namespace QuizApp.Core.Models
 {
 	public class Question
 	{
+		public enum Statuses { New = 0 }
+
 		private const int MinNumberOfAnswers = 2;
 
 		public Guid Id { get; }
 		public string Text { get; set; }
 		public ISet<Answer> Answers { get; set; }
 		public ISet<string> Tags { get; set; }
+		public Statuses Status { get; set; }
 		public int CorrectAnswersCount { get; }
 		public int AllAnswersCount { get; }
 		public double RatioOfCorrectAnswers => AllAnswersCount > 0 ? (double)CorrectAnswersCount / AllAnswersCount : 1;
 
-		public Question(Guid id, string text, ISet<Answer> answers, ISet<string> tags, int correctAnswersCount, int allAnswersCount)
+		public Question(Guid id, string text, ISet<Answer> answers, ISet<string> tags, Statuses status, int correctAnswersCount, int allAnswersCount)
 		{
 			Id = id;
 			Text = text;
 			Answers = answers;
 			Tags = tags;
+			Status = status;
 			CorrectAnswersCount = correctAnswersCount;
 			AllAnswersCount = allAnswersCount;
 		}
 
-		public Question(string text, ISet<Answer> answers, ISet<string> tags, int correctAnswersCount, int allAnswersCount)
-			: this(Guid.NewGuid(), text, answers, tags, correctAnswersCount, allAnswersCount)
+		public Question(string text, ISet<Answer> answers, ISet<string> tags, Statuses status, int correctAnswersCount, int allAnswersCount)
+			: this(Guid.NewGuid(), text, answers, tags, status, correctAnswersCount, allAnswersCount)
 		{
 		}
 
 		public static Question Create(string text, ISet<Answer> answers, ISet<string> tags)
 		{
 			Validate(text, answers, tags);
-			return new Question(text, answers.ToHashSet(), tags, 0, 0);
+			return new Question(text, answers.ToHashSet(), tags, Statuses.New, 0, 0);
 		}
 
 		public void Edit(string text, ISet<Answer> answers, ISet<string> tags)
