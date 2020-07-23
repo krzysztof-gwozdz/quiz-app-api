@@ -15,12 +15,14 @@ namespace QuizApp.Application.Tests.Services
 	public class TagsServiceTests
 	{
 		private readonly ITagsRepository _tagsRepository;
+		private readonly IQuestionsRepository _questionsRepository;
 		private readonly TagsService _tagsService;
 
 		public TagsServiceTests()
 		{
 			_tagsRepository = Substitute.For<ITagsRepository>();
-			_tagsService = new TagsService(_tagsRepository);
+			_questionsRepository = Substitute.For<IQuestionsRepository>();
+			_tagsService = new TagsService(_tagsRepository, _questionsRepository);
 		}
 
 		[Fact]
@@ -42,13 +44,17 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var existingTag = TagExample.ValidTag;
+			var questionCount = 1;
 			_tagsRepository.GetByNameAsync(existingTag.Name).Returns(existingTag);
+			_questionsRepository.CountByTagAsync(existingTag.Name).Returns(questionCount);
 
 			//act 
 			var tag = await _tagsService.GetAsync(existingTag.Name);
 
 			//assert
 			tag.Name.Should().Be(existingTag.Name);
+			tag.Description.Should().Be(existingTag.Description);
+			tag.TotalQuestions.Should().Be(questionCount);
 		}
 
 		[Fact]
