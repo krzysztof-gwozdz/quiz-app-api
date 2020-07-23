@@ -47,7 +47,7 @@ namespace QuizApp.Api.Controllers
 			return Created((await _quizService.GenerateAsync(quizParametersDto)).ToString(), null);
 		}
 
-		[HttpPut("{id:guid}")]
+		[HttpPatch("{id:guid}")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
 		[ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ErrorResponse))]
