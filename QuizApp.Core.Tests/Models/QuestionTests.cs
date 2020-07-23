@@ -224,6 +224,205 @@ namespace QuizApp.Core.Tests.Models
 				.WithMessage($"Question tag collection can not be empty.");
 		}
 
+		[Fact]
+		public void EditQuestionWithCorrectValues_QuestionEdited()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			question.Edit(text, answers, tags);
+
+			//assert
+			question.Text.Should().Be(text);
+			question.Answers.Should().BeEquivalentTo(answers);
+			question.Tags.Should().BeEquivalentTo(tags);
+		}
+
+		[Fact]
+		public void EditQuestionWhereOneIsNewOneShouldBeRemovedOneChangedIsCorrectOneChangedTextOneAnswerHasNotChanged_QuestionEdited()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var oldAnswers = question.Answers.ToArray();
+			var answers = new[]
+			{
+				QuestionExample.Answer.ValidCorrectAnswer, // New 
+				// Removed
+				new Question.Answer(oldAnswers[0].Id, oldAnswers[0].Text, false), // Changed IsCorrect
+				new Question.Answer(oldAnswers[1].Id, QuestionExample.Answer.ValidText, oldAnswers[1].IsCorrect), // Changed Text
+				oldAnswers[2] // Not changed
+			};
+
+			//act
+			question.Edit(question.Text, answers.ToHashSet(), question.Tags);
+
+			//assert
+			question.Answers.Should().BeEquivalentTo(answers);
+		}
+
+		[Theory]
+		[InlineData(null)]
+		[InlineData("")]
+		[InlineData(" ")]
+		public void EditQuestionWithEmptyText_ThrowException(string text)
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<EmptyQuestionTextException>()
+				.WithMessage("Question text can not be empty.");
+		}
+
+		[Fact]
+		public void EditQuestionWithoutAnswers_ThrowException()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = (ISet<Question.Answer>)null;
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
+				.WithMessage("Number of answers in question invalid: 0.");
+		}
+
+		[Theory]
+		[InlineData(0)]
+		[InlineData(1)]
+		public void EditQuestionWithLessThanMinNumberOfAnswers_ThrowException(int answerCount)
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = Enumerable.Range(0, answerCount).Select(x => QuestionExample.Answer.ValidInCorrectAnswer);
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers.ToHashSet(), tags);
+
+			//assert
+			editQuestion.Should().Throw<InvalidNumberOfAnswersInQuestionException>()
+				.WithMessage($"Number of answers in question invalid: {answerCount}.");
+		}
+
+		[Fact]
+		public void EditQuestionWithDuplicatedAnswers_ThrowException()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var duplicatedAnswerText = Guid.NewGuid().ToString();
+			var answers = new[]
+			{
+				QuestionExample.Answer.ValidCorrectAnswer,
+				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText, false),
+				new Question.Answer(Guid.NewGuid(), duplicatedAnswerText, false),
+				QuestionExample.Answer.ValidInCorrectAnswer,
+			}.ToHashSet();
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<QuestionContainsDuplicatedAnswersException>()
+				.WithMessage($"Question contains duplicated answers: {duplicatedAnswerText}.");
+		}
+
+		[Fact]
+		public void EditQuestionWithoutCorrectAnswers_ThrowException()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = new[]
+			{
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer
+			}.ToHashSet();
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
+				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 0");
+		}
+
+		[Fact]
+		public void EditQuestionWithMoreThanOneCorrectAnswer_ThrowException()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = new[]
+			{
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidInCorrectAnswer,
+				QuestionExample.Answer.ValidCorrectAnswer,
+				QuestionExample.Answer.ValidCorrectAnswer
+			}.ToHashSet();
+			var tags = QuestionExample.ValidTags;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<NotExactlyOneAnswerIsCorrectException>()
+				.WithMessage("Not exactly one answer is correct exception. Correct answer count: 2");
+		}
+
+		[Fact]
+		public void EditQuestionWithTagsCollectionThatDoNotExist_ThrowException()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = (ISet<string>)null;
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<EmptyQuestionTagsException>()
+				.WithMessage($"Question tag collection can not be empty.");
+		}
+
+		[Fact]
+		public void EditQuestionWithEmptyTagCollection_ThrowException()
+		{
+			//arrange
+			var question = QuestionExample.GetValidQuestion(4);
+			var text = QuestionExample.ValidText;
+			var answers = QuestionExample.Answer.GetValidAnswers(4);
+			var tags = new HashSet<string>();
+
+			//act
+			Action editQuestion = () => question.Edit(text, answers, tags);
+
+			//assert
+			editQuestion.Should().Throw<EmptyQuestionTagsException>()
+				.WithMessage($"Question tag collection can not be empty.");
+		}
+
 		public class AnswerTests
 		{
 			[Fact]
@@ -256,6 +455,40 @@ namespace QuizApp.Core.Tests.Models
 
 				//assert
 				createAnswer.Should().Throw<EmptyAnswerTextException>()
+					.WithMessage("Answer text can not be empty.");
+			}
+
+			[Fact]
+			public void EditAnswerWithCorrectValues_AnswerEdited()
+			{
+				//arrange
+				var text = QuestionExample.Answer.ValidText;
+				var isCorrect = false;
+				var answer = QuestionExample.Answer.ValidCorrectAnswer;
+
+				//act
+				answer.Edit(text, isCorrect);
+
+				//assert
+				answer.Text.Should().Be(text);
+				answer.IsCorrect.Should().BeFalse();
+			}
+
+			[Theory]
+			[InlineData(null)]
+			[InlineData("")]
+			[InlineData(" ")]
+			public void EditAnswerWithEmptyText_ThrowException(string text)
+			{
+				//arrange
+				var answer = QuestionExample.Answer.ValidCorrectAnswer;
+				var isCorrect = true;
+
+				//act
+				Action editAnswer = () => answer.Edit(text, isCorrect);
+
+				//assert
+				editAnswer.Should().Throw<EmptyAnswerTextException>()
 					.WithMessage("Answer text can not be empty.");
 			}
 		}

@@ -14,6 +14,7 @@ namespace QuizApp.Core.Repositories
 		Task<int> CountByTagAsync(string tag);
 		Task<int> CountByTagsAsync(ISet<string> tags);
 		Task AddAsync(Question question);
+		Task UpdateAsync(Question question);
 		Task RemoveAsync(Guid id);
 	}
 }

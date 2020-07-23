@@ -47,6 +47,18 @@ namespace QuizApp.Api.Controllers
 			return Created((await _questionsService.CreateAsync(createQuestionDto)).ToString(), null);
 		}
 
+		[HttpPut("{id:guid}")]
+		[ProducesResponseType((int)HttpStatusCode.OK)]
+		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]
+		[ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(ErrorResponse))]
+		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
+		public async Task<ActionResult> Edit(Guid id, EditQuestionDto editQuestionDto)
+		{
+			editQuestionDto.Id = id;
+			await _questionsService.EditAsync(editQuestionDto);
+			return Ok();
+		}
+
 		[HttpDelete("{id:guid}")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ErrorResponse))]

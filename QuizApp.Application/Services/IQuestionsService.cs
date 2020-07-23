@@ -9,6 +9,7 @@ namespace QuizApp.Application.Services
 		Task<QuestionsDto> GetCollectionAsync();
 		Task<QuestionDto> GetAsync(Guid id);
 		Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto);
+		Task EditAsync(EditQuestionDto editQuestionDto);
 		Task RemoveAsync(Guid id);
 	}
 }

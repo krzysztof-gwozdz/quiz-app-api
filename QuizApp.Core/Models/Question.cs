@@ -10,9 +10,9 @@ namespace QuizApp.Core.Models
 		private const int MinNumberOfAnswers = 2;
 
 		public Guid Id { get; }
-		public string Text { get; }
-		public ISet<Answer> Answers { get; }
-		public ISet<string> Tags { get; }
+		public string Text { get; set; }
+		public ISet<Answer> Answers { get; set; }
+		public ISet<string> Tags { get; set; }
 		public int CorrectAnswersCount { get; }
 		public int AllAnswersCount { get; }
 		public double RatioOfCorrectAnswers => AllAnswersCount > 0 ? (double)CorrectAnswersCount / AllAnswersCount : 1;
@@ -34,6 +34,20 @@ namespace QuizApp.Core.Models
 
 		public static Question Create(string text, ISet<Answer> answers, ISet<string> tags)
 		{
+			Validate(text, answers, tags);
+			return new Question(text, answers.ToHashSet(), tags, 0, 0);
+		}
+
+		public void Edit(string text, ISet<Answer> answers, ISet<string> tags)
+		{
+			Validate(text, answers, tags);
+			Text = text;
+			UpdateAnswers(answers);
+			Tags = tags;
+		}
+
+		private static void Validate(string text, ISet<Answer> answers, ISet<string> tags)
+		{
 			if (string.IsNullOrWhiteSpace(text))
 				throw new EmptyQuestionTextException();
 
@@ -50,15 +64,32 @@ namespace QuizApp.Core.Models
 
 			if (tags is null || !tags.Any())
 				throw new EmptyQuestionTagsException();
+		}
 
-			return new Question(text, answers.ToHashSet(), tags, 0, 0);
+		private void UpdateAnswers(ISet<Answer> newAnswers)
+		{
+			foreach (var answer in Answers.ToArray())
+			{
+				var newAnswer = newAnswers.FirstOrDefault(x => x.Id == answer.Id);
+				if (newAnswer is null)
+					Answers.Remove(answer);
+				else
+				{
+					answer.Edit(newAnswer.Text, newAnswer.IsCorrect);
+					newAnswers.Remove(newAnswer);
+				}
+			}
+			foreach (var newAnswer in newAnswers)
+			{
+				Answers.Add(newAnswer);
+			}
 		}
 
 		public class Answer
 		{
 			public Guid Id { get; }
-			public string Text { get; }
-			public bool IsCorrect { get; }
+			public string Text { get; set; }
+			public bool IsCorrect { get; set; }
 
 			public Answer(Guid id, string text, bool isCorrect)
 			{
@@ -74,10 +105,21 @@ namespace QuizApp.Core.Models
 
 			public static Answer Create(string text, bool isCorrect)
 			{
+				Validate(text);
+				return new Answer(text, isCorrect);
+			}
+
+			public void Edit(string text, bool isCorrect)
+			{
+				Validate(text);
+				Text = text;
+				IsCorrect = isCorrect;
+			}
+
+			private static void Validate(string text)
+			{
 				if (string.IsNullOrWhiteSpace(text))
 					throw new EmptyAnswerTextException();
-
-				return new Answer(text, isCorrect);
 			}
 		}
 	}

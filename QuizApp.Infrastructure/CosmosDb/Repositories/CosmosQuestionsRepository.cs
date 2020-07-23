@@ -38,6 +38,9 @@ namespace QuizApp.Infrastructure.CosmosDb.Repositories
 		public async Task AddAsync(Question question) =>
 			await AddDocumentAsync(question.ToDocument());
 
+		public async Task UpdateAsync(Question question) =>
+				await UpdateDocumentAsync(question.Id, question.ToDocument());
+
 		public async Task RemoveAsync(Guid id)
 			=> await DeleteDocumentAsync(id);
 	}

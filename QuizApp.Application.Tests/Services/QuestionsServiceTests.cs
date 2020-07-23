@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using QuizApp.Application.Dtos;
 using QuizApp.Application.Services;
 using QuizApp.Application.Tests.Examples;
 using QuizApp.Core.Exceptions;
@@ -88,18 +87,58 @@ namespace QuizApp.Application.Tests.Services
 		public async Task CreateQuestionWithTagThatDoesNotExist_ThrowException()
 		{
 			//arrange
-			var text = CreateQuestionDtoExample.ValidText;
-			var answers = CreateQuestionDtoExample.ValidAnswers;
-			var tagName = "Test tag";
-			var tags = new[] { tagName };
-			var createQuestionDto = new CreateQuestionDto(text, answers, tags);
+			var createQuestionDto = CreateQuestionDtoExample.ValidDto;
 
 			//act 
 			Func<Task> createQuestion = async () => await _questionsService.CreateAsync(createQuestionDto);
 
 			//assert
 			await createQuestion.Should().ThrowAsync<TagNotFoundException>()
-				.WithMessage($"Tag: {tagName} not found.");
+				.WithMessage($"Tag: {createQuestionDto.Tags.First()} not found.");
+		}
+
+		[Fact]
+		public async Task EditQuestionCorrectValues_QuestionEdited()
+		{
+			//arrange
+			var existingQuestion = QuestionExample.GetValidQuestion(4);
+			var editQuestionDto = EditQuestionDtoExample.GetValidDto(existingQuestion.Id);
+			_questionsRepository.GetByIdAsync(existingQuestion.Id).Returns(existingQuestion);
+			_tagsRepository.GetByNameAsync(editQuestionDto.Tags.First()).Returns(new Tag(TagExample.ValidId, editQuestionDto.Tags.First(), string.Empty));
+
+			//act 
+			await _questionsService.EditAsync(editQuestionDto);
+
+			//assert
+		}
+		[Fact]
+		public async Task EditQuestionThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var editQuestionDto = EditQuestionDtoExample.ValidDto;
+
+			//act 
+			Func<Task> editQuestion = async () => await _questionsService.EditAsync(editQuestionDto);
+
+			//assert
+			await editQuestion.Should().ThrowAsync<QuestionNotFoundException>()
+				.WithMessage($"Question: {editQuestionDto.Id} not found.");
+		}
+
+		[Fact]
+		public async Task EditQuestionWithTagThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var existingQuestion = QuestionExample.GetValidQuestion(4);
+			var editQuestionDto = EditQuestionDtoExample.GetValidDto(existingQuestion.Id);
+			_questionsRepository.GetByIdAsync(editQuestionDto.Id).Returns(existingQuestion);
+
+			//act 
+			Func<Task> editQuestion = async () => await _questionsService.EditAsync(editQuestionDto);
+
+			//assert
+			await editQuestion.Should().ThrowAsync<TagNotFoundException>()
+				.WithMessage($"Tag: {editQuestionDto.Tags.First()} not found.");
 		}
 
 		[Fact]

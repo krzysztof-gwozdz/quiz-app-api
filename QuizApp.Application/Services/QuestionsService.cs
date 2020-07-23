@@ -32,7 +32,6 @@ namespace QuizApp.Application.Services
 		public async Task<QuestionDto> GetAsync(Guid id)
 		{
 			var question = await _questionsRepository.GetByIdAsync(id);
-
 			if (question is null)
 				throw new QuestionNotFoundException(id);
 
@@ -54,6 +53,26 @@ namespace QuizApp.Application.Services
 			var question = Question.Create(createQuestionDto.Text, answers, tags);
 			await _questionsRepository.AddAsync(question);
 			return question.Id;
+		}
+
+		public async Task EditAsync(EditQuestionDto editQuestionDto)
+		{
+			var question = await _questionsRepository.GetByIdAsync(editQuestionDto.Id);
+			if (question is null)
+				throw new QuestionNotFoundException(editQuestionDto.Id);
+
+			var tags = new HashSet<string>();
+			foreach (var tag in editQuestionDto.Tags)
+			{
+				var existingTag = await _tagsRepository.GetByNameAsync(tag);
+				if (existingTag is null)
+					throw new TagNotFoundException(tag);
+				tags.Add(tag);
+			}
+
+			var answers = editQuestionDto.Answers.Select(answer => Question.Answer.Create(answer.Text, answer.IsCorrect)).ToHashSet();
+			question.Edit(editQuestionDto.Text, answers, tags);
+			await _questionsRepository.UpdateAsync(question);
 		}
 
 		public async Task RemoveAsync(Guid id)
