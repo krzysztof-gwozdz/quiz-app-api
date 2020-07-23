@@ -1,18 +1,10 @@
-﻿using System.Linq;
-
-namespace QuizApp.Application.Dtos
+﻿namespace QuizApp.Application.Dtos
 {
 	public class CreateQuestionDto
 	{
 		public string Text { get; set; }
 		public CreateAnswerDto[] Answers { get; set; }
-
-		private string[] _tags;
-		public string[] Tags
-		{
-			get => _tags;
-			set => _tags = value?.First().Split(',');
-		}
+		public string[] Tags { get; set; }
 
 		public CreateQuestionDto()
 		{
