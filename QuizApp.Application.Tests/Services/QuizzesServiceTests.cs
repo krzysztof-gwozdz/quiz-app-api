@@ -17,13 +17,15 @@ namespace QuizApp.Application.Tests.Services
 	{
 		private readonly IQuizzesRepository _quizzesRepository;
 		private readonly IQuizFactory _questionsFactory;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
 		private readonly QuizzesService _quizzesService;
 
 		public QuizzesServiceTests()
 		{
 			_quizzesRepository = Substitute.For<IQuizzesRepository>();
 			_questionsFactory = Substitute.For<IQuizFactory>();
-			_quizzesService = new QuizzesService(_quizzesRepository, _questionsFactory);
+			_questionSetsRepository = Substitute.For<IQuestionSetsRepository>();
+			_quizzesService = new QuizzesService(_quizzesRepository, _questionsFactory, _questionSetsRepository);
 		}
 
 		[Fact]
@@ -31,7 +33,9 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
+			var questionSet = QuestionSetExample.ValidQuestionSet;
 			_quizzesRepository.GetByIdAsync(existingQuiz.Id).Returns(existingQuiz);
+			_questionSetsRepository.GetByIdAsync(existingQuiz.QuestionSetId).Returns(questionSet);
 
 			//act 
 			var quiz = await _quizzesService.GetAsync(existingQuiz.Id);
@@ -39,6 +43,7 @@ namespace QuizApp.Application.Tests.Services
 			//assert
 			quiz.Id.Should().Be(existingQuiz.Id);
 			quiz.QuestionSetId.Should().Be(existingQuiz.QuestionSetId);
+			quiz.QuestionSetName.Should().Be(questionSet.Name);
 			quiz.Questions.Should().HaveCount(existingQuiz.Questions.Count);
 		}
 
@@ -55,6 +60,22 @@ namespace QuizApp.Application.Tests.Services
 			//assert
 			await getQuiz.Should().ThrowAsync<QuizNotFoundException>()
 				.WithMessage($"Quiz: {quizId} not found.");
+		}
+
+		[Fact]
+		public async Task GetQuizReletedToQuizSetThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var quiz = QuizExample.GetValidQuiz(4, 4);
+			_quizzesRepository.GetByIdAsync(quiz.Id).Returns(quiz);
+			_questionSetsRepository.GetByIdAsync(quiz.QuestionSetId).Returns((QuestionSet)null);
+
+			//act 
+			Func<Task> getQuiz = async () => await _quizzesService.GetAsync(quiz.Id);
+
+			//assert
+			await getQuiz.Should().ThrowAsync<QuestionSetNotFoundException>()
+				.WithMessage($"Question set: {quiz.QuestionSetId} not found.");
 		}
 
 		[Fact]
@@ -98,7 +119,9 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var existingQuiz = QuizExample.GetValidQuiz(4, 4);
+			var questionSet = QuestionSetExample.ValidQuestionSet;
 			_quizzesRepository.GetByIdAsync(existingQuiz.Id).Returns(existingQuiz);
+			_questionSetsRepository.GetByIdAsync(existingQuiz.QuestionSetId).Returns(questionSet);
 
 			//act 
 			var quizSummary = await _quizzesService.GetSummaryAsync(existingQuiz.Id);
@@ -121,6 +144,22 @@ namespace QuizApp.Application.Tests.Services
 			//assert
 			await getQuizSummary.Should().ThrowAsync<QuizNotFoundException>()
 				.WithMessage($"Quiz: {quizId} not found.");
+		}
+
+		[Fact]
+		public async Task GetQuizSummaryReletedToQuizSetThatDoesNotExist_ThrowException()
+		{
+			//arrange
+			var quiz = QuizExample.GetValidQuiz(4, 4);
+			_quizzesRepository.GetByIdAsync(quiz.Id).Returns(quiz);
+			_questionSetsRepository.GetByIdAsync(quiz.QuestionSetId).Returns((QuestionSet)null);
+
+			//act 
+			Func<Task> getQuiz = async () => await _quizzesService.GetAsync(quiz.Id);
+
+			//assert
+			await getQuiz.Should().ThrowAsync<QuestionSetNotFoundException>()
+				.WithMessage($"Question set: {quiz.QuestionSetId} not found.");
 		}
 	}
 }

@@ -6,10 +6,11 @@ namespace QuizApp.Application.Mappers
 {
 	public static class QuizzesMapper
 	{
-		public static QuizDto AsQuizDto(this Quiz quiz) => new QuizDto
+		public static QuizDto AsQuizDto(this Quiz quiz, string questionSetName) => new QuizDto
 		(
 			quiz.Id,
 			quiz.QuestionSetId,
+			questionSetName,
 			quiz.Questions.Select(question =>
 				new QuizQuestionDto
 				(
@@ -21,12 +22,14 @@ namespace QuizApp.Application.Mappers
 			).ToArray()
 		);
 
-		public static QuizSummaryDto AsQuizSummaryDto(this Quiz quiz) => new QuizSummaryDto
+		public static QuizSummaryDto AsQuizSummaryDto(this Quiz quiz, string questionSetName) => new QuizSummaryDto
 		(
-			 quiz.Id,
-			 quiz.CorrectAnswers,
-			 quiz.TotalQuestions,
-			 quiz.Questions.Select(question =>
+			quiz.Id,
+			quiz.QuestionSetId,
+			questionSetName,
+			quiz.CorrectAnswers,
+			quiz.TotalQuestions,
+			quiz.Questions.Select(question =>
 				new QuestionSummaryDto
 				(
 					question.Id,

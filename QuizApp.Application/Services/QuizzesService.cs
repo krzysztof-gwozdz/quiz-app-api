@@ -14,13 +14,16 @@ namespace QuizApp.Application.Services
 	{
 		private readonly IQuizzesRepository _quizzesRepository;
 		private readonly IQuizFactory _quizFactory;
+		private readonly IQuestionSetsRepository _questionSetsRepository;
 
 		public QuizzesService(
 			IQuizzesRepository quizzesRepository,
-			IQuizFactory questionsFactory)
+			IQuizFactory questionsFactory,
+			IQuestionSetsRepository questionSetsRepository)
 		{
 			_quizzesRepository = quizzesRepository;
 			_quizFactory = questionsFactory;
+			_questionSetsRepository = questionSetsRepository;
 		}
 
 		public async Task<QuizDto> GetAsync(Guid id)
@@ -28,7 +31,12 @@ namespace QuizApp.Application.Services
 			var quiz = await _quizzesRepository.GetByIdAsync(id);
 			if (quiz is null)
 				throw new QuizNotFoundException(id);
-			return quiz.AsQuizDto();
+
+			var questionSet = await _questionSetsRepository.GetByIdAsync(quiz.QuestionSetId);
+			if (questionSet is null)
+				throw new QuestionSetNotFoundException(quiz.QuestionSetId);
+
+			return quiz.AsQuizDto(questionSet.Name);
 		}
 
 		public async Task<QuizSummaryDto> GetSummaryAsync(Guid id)
@@ -36,7 +44,12 @@ namespace QuizApp.Application.Services
 			var quiz = await _quizzesRepository.GetByIdAsync(id);
 			if (quiz is null)
 				throw new QuizNotFoundException(id);
-			return quiz.AsQuizSummaryDto();
+
+			var questionSet = await _questionSetsRepository.GetByIdAsync(quiz.QuestionSetId);
+			if (questionSet is null)
+				throw new QuestionSetNotFoundException(quiz.QuestionSetId);
+
+			return quiz.AsQuizSummaryDto(questionSet.Name);
 		}
 
 		public async Task<Guid> GenerateAsync(QuizParametersDto quizParametersDto)
