@@ -22,9 +22,9 @@ namespace QuizApp.Api.Controllers
 		[HttpGet("")]
 		[ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(QuestionsDto))]
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(ErrorResponse))]
-		public async Task<ActionResult<QuestionsDto>> Get()
+		public async Task<ActionResult<QuestionsDto>> Get([FromQuery] GetQuestionsDto getQuestionsDto)
 		{
-			var questions = await _questionsService.GetCollectionAsync();
+			var questions = await _questionsService.GetCollectionAsync(getQuestionsDto);
 			return Ok(questions);
 		}
 

@@ -31,10 +31,11 @@ namespace QuizApp.Application.Tests.Services
 		{
 			//arrange
 			var questionsCollection = QuestionExample.GetValidQuestions(3, 4);
-			_questionsRepository.GetAllAsync().Returns(questionsCollection);
+			var getQuestionsDto = GetQuestionsDtoExample.ValidDto;
+			_questionsRepository.GetAsync(getQuestionsDto.PageSize.Value, getQuestionsDto.PageNumber.Value).Returns(questionsCollection);
 
 			//act 
-			var questions = await _questionsService.GetCollectionAsync();
+			var questions = await _questionsService.GetCollectionAsync(getQuestionsDto);
 
 			//assert
 			questions.Collection.Should().HaveCount(questionsCollection.Count);

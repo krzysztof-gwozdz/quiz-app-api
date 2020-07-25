@@ -49,14 +49,18 @@ namespace QuizApp.Infrastructure.CosmosDb.Core
 		protected async Task<ISet<TDocument>> GetDocumentsAsync() =>
 			await GetDocumentsAsync((x) => true);
 
-		protected async Task<ISet<TDocument>> GetDocumentsAsync(Expression<Func<TDocument, bool>> predicate)
+		protected async Task<ISet<TDocument>> GetDocumentsAsync(Expression<Func<TDocument, bool>> predicate, int? pageSize = default, int? pageNumber = default)
 		{
 			try
 			{
-				var documentQuery = DocumentClient
+				var query = DocumentClient
 					.CreateDocumentQuery<TDocument>(DocumentUri, new FeedOptions { EnableCrossPartitionQuery = true })
-					.Where(predicate)
-					.AsDocumentQuery();
+					.Where(predicate);
+
+				if (pageSize.HasValue && pageNumber.HasValue)
+					query = query.Skip(pageSize.Value * pageNumber.Value).Take(pageNumber.Value);
+
+				var documentQuery = query.AsDocumentQuery();
 
 				var documents = new HashSet<TDocument>();
 				while (documentQuery.HasMoreResults)

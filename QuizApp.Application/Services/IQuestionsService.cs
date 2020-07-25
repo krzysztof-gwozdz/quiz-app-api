@@ -6,7 +6,7 @@ namespace QuizApp.Application.Services
 {
 	public interface IQuestionsService : IService
 	{
-		Task<QuestionsDto> GetCollectionAsync();
+		Task<QuestionsDto> GetCollectionAsync(GetQuestionsDto getQuestionsDto);
 		Task<QuestionDto> GetAsync(Guid id);
 		Task<Guid> CreateAsync(CreateQuestionDto createQuestionDto);
 		Task EditAsync(EditQuestionDto editQuestionDto);
